@@ -1,0 +1,76 @@
+---
+title: "Concept maps! (parts 1 and 2)"
+author: "Mark Hagemann"
+date: "August 17, 2014"
+output: html_document
+---
+
+*The following contains notes from the first two parts what turned into a fruitful search for something I simply* wanted *to exist. I'm still following this string, but I think I've stumbled onto something very useful. More updates will follow.*
+
+I've been having a hard time lately getting everything on my daily task list accomplished. Not that I've become any less efficient recently, but rather I've been somewhat better about explicitly listing the things I want to accomplish in any given day. This, combined with a recent birthday prompting a life-assessment as I exit my mid-20s, has got me thinking a lot about how to spend my time and energy and how to track my efforts and aspirations. The picture that emerged in my mind after ruminating over this was something that wikipedia informs me is called a [concept map](http://en.wikipedia.org/wiki/Concept_map). Wikipedia also sows a [list of software](http://en.wikipedia.org/wiki/List_of_concept_mapping_and_mind_mapping_software) that will generate these things, but as is my nature I'd rather do it in R if possible. 
+
+To find out what R functionality exists for concept mapping I turned to [rdocumentation.org](http://www.rdocumentation.org/), which I was very excited to learn about after its mention on [rbloggers](http://www.r-bloggers.com/) this week. Anyway, my search led me to a package called **CoMaTo**, and that's about as far as I've gotten as of typing this sentence. Let's see what this baby can do!
+
+```{r loadCoMaTo, eval = F}
+install.packages("comato"); library(comato)
+```
+
+Some notes as I load this mother:
+- Oh good, it's on CRAN. It seems like that should be something they tell you on rdocumentation.org...
+- Looks like it came out of a 2014 PhD thesis. Pretty new!
+- Ah, yes it was first published in March of this year.
+- Eh, no vignettes. Only the description, "Provides methods for the import/export and automated analysis of concept maps."
+
+Here is the example code from the rdocumentation result:
+```{r exploreComato, eval = F} 
+library('comato');
+
+## Not run: 
+# Assuming that concept map data is stored in TGF files in the folder "~/maps".
+maps = read.folder.tgf("~/maps")[[1]]
+
+#  Create a Pathfinder network from the aggregated map data
+pf = pathfinder(maps, threshold=10)   
+
+#  Use cluster analysis on the graph similarity matrix of the aggregated data
+clusting = clustering(maps, method="PAM")  
+
+#  Plot the first map of the set of concept maps
+plot(maps$maps[[1]]) 
+
+#  Analyze several basic graph measures of the first concept map
+analyze.graph.measures(maps$maps[[1]])  
+
+## End(Not run)
+```
+
+Well for starters there's a `read.folder.tgf` call, which apparently imports data from TGF files, whatever they are. Let's find out. Oh, [trivial graph format](http://en.wikipedia.org/wiki/Trivial_Graph_Format). Of course. It seems like there's more prerequisites to using this package than I figured on. 
+
+OK, that's as far as I care to follow that thread. I'll begrudgingly abandon R for now. 
+
+Some brief notes as I look at other examples:
+- [coggle], a web app seems to be pretty popular. Not what I'm looking for.
+- [Tikz], part of LaTeX, looks nice. 
+
+Perhaps it would be useful to describe my vision for what I want. I'm picturing a map with nodes and connections for the various things I do in my life and their connections. This would serve a few functions. It would keep track of the things I do (even those I haven't done for a while, like speak Russian), and separately track the things I aspire to do, then somehow compare the two maps and recommend actions based on their dissimilarity. It should let me add or remove priority to/from my list of aspirations, and sync with some separate daily record of activity to track my progress. Each node should be able to store attributes such as (taking the Russian example) fluency, literacy, books read, important conversations. 
+
+Right now the nebulousness of my idea and the complexity of my search is becoming overwhelming. I'm going to stop and do something else for a while, hopefully to revisit in a few days. If only I had some way to decide what to do next...
+
+
+## Part 2: revisiting a few days (weeks) later
+
+I'm back chasing this ill-defined conceptual rabbit. Now I'm looking at the following pieces of software:
+- [FreeMind](http://freemind.sourceforge.net/wiki/index.php/Main_Page)
+ - There is an [android viewer/editor](https://play.google.com/store/apps/details?id=com.ylamaki.android.mindmap&hl=en)
+- [XMind](http://www.xmind.net/)
+ - topped a [Lifehacker poll](http://lifehacker.com/five-best-mind-mapping-tools-476534555) that I found.
+- Freeplane
+ - Has a GTD (Getting Things Done) [add-on](http://sourceforge.net/projects/freeplanegtd/?source=typ_redirect) that I've also installed.
+ - I've found an [android viewer](https://play.google.com/store/apps/details?id=ch.benediktkoeppel.code.droidplane&hl=en), but no editing capabilities
+
+I'm also finding a handful of Android apps that purport to do the same thing. 
+
+Also, [this is neat.](http://www.identitywoman.net/wp-content/uploads/2011/07/PersonalDataMM.jpg)
+
+What I'm really looking for is an intuitive way to store and visually display attributes for each node. For example, color or size by some attribute. I'm going to take some time and try these various programs out, but that will have to happen another day. 
+

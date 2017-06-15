@@ -1,0 +1,418 @@
+---
+title: "Flint sentinel tests -- animated!"
+author: "Mark Hagemann"
+date: "June 11, 2017"
+output: 
+  html_document:
+    toc: true
+    toc_maxdepth: 3
+---
+
+```{r, echo=FALSE, message = FALSE, warning = FALSE}
+library(knitr)
+library(leaflet)
+library(htmltools)
+library(readxl)
+library(ggplot2)
+library(gganimate)
+library(tweenr)
+
+library(dplyr)
+
+opts_chunk$set(echo = TRUE, eval = TRUE, message = FALSE, warning = FALSE)
+```
+
+### Motivation
+
+The [tweenr](https://github.com/thomasp85/tweenr#readme) R package looks really cool! I want 1) to try it, 2) to revisit some old interests that never made it to the blog, and 3) to keep one foot in the water sector, despite some uncertainty as to its part in my professional future. 
+
+Early in 2016 I was playing around with Flint, Michigan lead data and wanted to see what trends I could pick out spatially. Not much came of that other than some slick looking maps, but here's that proto-post anyway:
+
+### Flint maps (from winter 2016)
+
+Here's a quick mapping of lead and copper data in Flint, Michigan, using data from [the State's webpage](http://michigan.gov/flintwater). For now, this is only the 2000 sample points with the highest lead concentration. (I'll add the rest soon.)
+
+Lead: 
+
+```{r, eval = TRUE}
+
+cat(getwd())
+cat(file.exists("data/flint_top2000.csv"))
+flint2 <- read.csv("data/flint_top2000.csv") # This I pre-cleaned externally.
+
+palBin <- colorBin(palette = "YlOrRd", domain = flint2$lead.ppb,
+                   bins = quantile(flint2$lead.ppb, 0:9 / 9))
+
+leadmap <- flint2 %>%
+  filter(lat > 42, lat < 44, lon > -84, lon < -83) %>%
+  leaflet() %>%
+  addTiles()
+
+marks = c(4, 10, 100, 1000, 6290)
+
+leadmap %>%
+  addCircleMarkers(lng = ~lon, lat = ~lat, radius = ~log(lead.ppb + 1),
+                   # color = ~ifelse(lead.ppb >= 15, "maroon", "red"),
+                   stroke = TRUE, color = "gray20", weight = 1,
+                   fillColor = ~palBin(lead.ppb), fillOpacity = 0.6,
+                   popup = ~sprintf("Sample: %s | Date: %s | Address: %s %s | Lead (ppb): %s",
+                                    Sample.Number, Date.Submitted, Street..,
+                                    Street.Name, lead.ppb)) %>%
+  addLegend(pal = palBin, values = ~lead.ppb, title = "Lead (ppb)")
+```
+
+Here's the same for copper: 
+
+```{r, eval = TRUE}
+
+bns = unique(quantile(flint2$copper.ppb, 0:9 / 9))
+palBin2 <- colorBin(palette = "YlOrRd", domain = flint2$copper.ppb, 
+                   bins = bns)
+
+coppermap <- flint2 %>% 
+  filter(lat > 42, lat < 44, lon > -84, lon < -83) %>% 
+  leaflet() %>% 
+  addTiles() 
+
+coppermap %>% 
+  addCircleMarkers(lng = ~lon, lat = ~lat, radius = ~log(copper.ppb + 1), 
+                   # color = ~ifelse(copper.ppb >= 15, "maroon", "red"), 
+                   stroke = TRUE, color = "gray20", weight = 1,
+                   fillColor = ~palBin2(copper.ppb), fillOpacity = 0.6,
+                   popup = ~sprintf("Sample: %s | Date: %s | Address: %s %s | Copper (ppb): %s", 
+                                    Sample.Number, Date.Submitted, Street.., 
+                                    Street.Name, copper.ppb)) %>% 
+  addLegend(pal = palBin2, values = ~copper.ppb, title = "Copper (ppb)")
+```
+
+### Sentinel tests
+
+Since I made those maps the Michigan.gov website has made lots more data available. Some of it in the form of "Sentinel testing" results, in which the same sampling location is monitored routinely for Lead and Copper. After 5 rounds of Sentinel monitoring between February and May 2016, the project was extended under a smaller number of sites. To date 8 rounds of the "extended" sentinel data are available, in addition to the 5 origin sentinel rounds
+
+If you're not interested in the data wrangling bit of this and just want to see the movies, feel free to [skip ahead](#Animations)
+
+Here I read in the data, which I obtained as excel files from the Michigan [government website](http://www.michigan.gov/flintwater/0,6092,7-345-76292_76294_76297---,00.html). 
+
+
+```{r}
+
+files <- list.files("data/flint_sentinel/", full.names = TRUE)
+
+allSentinel <- lapply(files, read_excel)
+allNames <- Reduce(union, lapply(allSentinel, names)) %>% 
+  sort()
+
+# Check for differences in column names
+
+foo <- markstats::bind_rows2(allSentinel)
+```
+
+Let's clean up the names, as they are not consistent across the different files.
+
+```{r}
+
+repstr <- function(str, from, to) {
+  out <- str
+  for (i in 1:length(from)) {
+    pat <- from[i]
+    rpl <- to[i]
+    out <- gsub(pat, rpl, x = out)
+  }
+  out
+}
+
+bads <- c("result.cu", "result.copper.ppb", "result.pb", "result.lead.ppb",
+          "sstatus", "sentinel.group.number", "sentinel.round",
+          "sampno", "subdate")
+goods <- c("copper.ppb", "copper.ppb", "lead.ppb", "lead.ppb",
+           "round", "round", "round",
+           "number", "date.submitted")
+
+nameFun <- function(dfnames) {
+  out0 <- tolower(dfnames)
+  out1 <- repstr(str = out0, 
+                 from = c("\\_", " ", "\\(", "\\)", "analyte\\.",
+                          "sample\\.", "ttt",
+                          "\\.$"),
+                 to = c("\\.", "\\.", "", "", "",
+                        "", "tt",
+                        ""))
+  out <- plyr::mapvalues(out1, from = bads, to = goods, warn_missing = FALSE)
+}
+
+# allNames
+unique(nameFun(allNames))
+  
+```
+
+```{r}
+data <- lapply(allSentinel, function(x) setNames(x, nameFun(names(x)))) %>% 
+  markstats::bind_rows2()
+```
+
+
+Better clean this up a bit and simplify data
+
+```{r}
+rds1 <- c("X1", paste0("ES", 2:8)) # renaming the sentinel rounds
+rds2 <- 6:13
+dat2 <- data %>% 
+  # glimpse() %>% 
+  transmute(date = date.submitted,
+            lead.ppb,
+            copper.ppb,
+            address,
+            zip.code,
+            site.code,
+            service.line.material,
+            round = plyr::mapvalues(round, from = rds1, to = rds2),
+            round = as.numeric(round),
+            pblow = lead.ppb < 1,
+            culow = copper.ppb < 50,
+            lead.ppb = ifelse(pblow, 1, lead.ppb),
+            copper.ppb = ifelse(culow, 50, copper.ppb))
+  
+  
+```
+
+Now try again. 
+
+```{r}
+
+xlims = c(0.3, 10000)
+ylims = c(10, 10000)
+
+dat2 %>% 
+  filter(date < "2016-03-01") %>% 
+  ggplot(aes(x = lead.ppb, y = copper.ppb, size = lead.ppb,
+             color = pblow, fill = culow)) + 
+  geom_point(shape = 21, stroke = 2) +
+  scale_x_log10(limits = xlims) + 
+  scale_y_log10(limits = ylims) +
+  scale_size_continuous(trans = "sqrt")
+
+dat2 %>% 
+  filter(date > "2017-04-01") %>% 
+  ggplot(aes(x = lead.ppb, y = copper.ppb, size = lead.ppb,
+             color = pblow, fill = culow)) + 
+  geom_point(shape = 21, stroke = 2) +
+  scale_x_log10(limits = xlims) + 
+  scale_y_log10(limits = ylims) +
+  scale_size_continuous(trans = "sqrt")
+```
+
+Now let's try animating them! This will use the tweenr package, available on GitHub.
+
+```{r, eval = FALSE}
+devtools::install_github("thomasp85/tweenr")
+```
+
+### Animations
+
+To start, let's take only the sites with all 13 rounds represented. This cuts the number of sites down by a factor of 10.
+
+```{r}
+dat3 <- dat2 %>% 
+  transmute(lead.ppb, copper.ppb,
+            site.code, round) %>% 
+  group_by(site.code, round) %>% 
+  summarize(lead.ppb = median(lead.ppb),
+            copper.ppb = median(copper.ppb)) %>% 
+  group_by(site.code) %>% 
+  mutate(n = n()) %>% 
+  ungroup() %>% 
+  arrange(round, site.code)
+```
+
+Now to try out `tweenr`. First I need my data as a list of data.frames, each one representing a "state" of my data. Natural to use the rounds.
+
+```{r}
+dat4 <- dat3 %>% 
+  filter(n == 13)
+
+tdat <- dat4 %>% 
+  transmute(x = lead.ppb, y = copper.ppb, color = "black", alpha = 0.5) %>% 
+  split(f = dat4$round) %>% 
+  tween_states(tweenlength = 2, statelength = 1, 
+                             ease = "linear", nframes = 240)
+```
+
+With some copy-pasta from tweenr readme:
+
+```{r, eval = FALSE}
+library(gganimate)
+# Animate with gganimate
+p <- ggplot(data=tdat, aes(x=x, y=y)) + 
+    # geom_text(aes(label = label, frame = .frame), data=tweenlogo, size = 13) + 
+    geom_point(aes(frame = .frame)) + 
+    # scale_colour_identity() + 
+    # scale_alpha(range = c(0, 1), guide = 'none') +
+    # scale_size(range = c(4, 60), guide = 'none') + 
+    # expand_limits(x=c(-0.36, 1.36), y=c(-0.36, 1.36)) +
+    scale_x_log10(limits = xlims) +
+    scale_y_log10(limits = ylims) +
+    theme_bw()
+animation::ani.options(interval = 1/15)
+gganimate(p, "flint.gif", title_frame = F, ani.width = 400, 
+           ani.height = 400)
+```
+
+
+![](/img/flint.gif)
+
+
+That's really cool! Size looks too small. And needs some transparency. And more points. Probably some annotation. I'll do the first 2 of these then call it a night.
+
+```{r, eval = FALSE}
+
+sites3 <- unique(dat3$site.code)
+rounds3 <- unique(dat3$round)
+
+mergedf <- data.frame(site.code = rep(sites3, length(rounds3)),
+                      round = rep(rounds3, each = length(sites3)))
+
+dat5 <- left_join(mergedf, dat3, by = c("site.code", "round")) %>% 
+  transmute(x = lead.ppb, y = copper.ppb, round) %>% 
+  split(f = mergedf$round) 
+
+sapply(dat5, nrow)
+
+
+tdat2 <- tween_states(dat5, tweenlength = 2, statelength = 1, 
+                             ease = "linear", nframes = 240)
+```
+
+Here goes:
+
+```{r, eval = FALSE}
+
+xlims = c(0.3, 10000)
+ylims = c(10, 20000)
+
+p <- ggplot(data=tdat2, aes(x=x, y=y)) + 
+    # geom_text(aes(label = label, frame = .frame), data=tweenlogo, size = 13) + 
+    geom_point(aes(frame = .frame), size = 3, alpha = 0.6) + 
+    # scale_colour_identity() + 
+    # scale_alpha(range = c(0, 1), guide = 'none') +
+    # scale_size(range = c(4, 60), guide = 'none') + 
+    # expand_limits(x=c(-0.36, 1.36), y=c(-0.36, 1.36)) +
+    scale_x_log10(limits = xlims) +
+    scale_y_log10(limits = ylims) +
+    theme_bw()
+animation::ani.options(interval = 1/15)
+gganimate(p, "flint_all.gif", title_frame = F, ani.width = 400, 
+           ani.height = 400)
+```
+
+![](/img/flint_all.gif)
+
+Still cool, but missing data means that points disappear and reappear all willy-nilly, and the reult looks less smooth than I'd like. Next I'll try to interpolate missing points (and to ID these by color)
+
+```{r, eval = FALSE}
+dat6 <- left_join(mergedf, dat3, by = c("site.code", "round")) %>% 
+  group_by(site.code) %>% 
+  arrange(round) %>% 
+  mutate(isMissing = is.na(lead.ppb) | is.na(copper.ppb),
+         lead.ppb = zoo::na.approx(lead.ppb, na.rm = FALSE),
+         copper.ppb = zoo::na.approx(copper.ppb, na.rm = FALSE)) %>% 
+  ungroup() %>% 
+  glimpse() %>% 
+  select(lead.ppb, copper.ppb, isMissing) %>% 
+  split(f = mergedf$round) 
+
+# Yeah, changing the naming convention to match dat number
+tdat6 <- tween_states(dat6, tweenlength = 2, statelength = 1, 
+                             ease = "linear", nframes = 240)
+
+xlims = c(0.3, 10000)
+ylims = c(10, 20000)
+
+p <- ggplot(data=tdat6, aes(x=lead.ppb, y=copper.ppb)) + 
+    # geom_text(aes(label = label, frame = .frame), data=tweenlogo, size = 13) + 
+    geom_point(aes(frame = .frame, color = isMissing), size = 3, alpha = 0.6) + 
+    # scale_colour_identity() + 
+    # scale_alpha(range = c(0, 1), guide = 'none') +
+    # scale_size(range = c(4, 60), guide = 'none') + 
+    # expand_limits(x=c(-0.36, 1.36), y=c(-0.36, 1.36)) +
+    scale_x_log10(limits = xlims) +
+    scale_y_log10(limits = ylims) +
+    theme_bw()
+animation::ani.options(interval = 1/15)
+gganimate(p, "flint_all_interp.gif", title_frame = FALSE, ani.width = 400, 
+           ani.height = 400)
+  
+```
+
+![](/img/flint_all_interp.gif)
+
+Looks better! Now change the color scale and legend. Also try adding in dates.
+
+```{r, eval = FALSE}
+
+datefmt <- "%d %b %Y"
+
+dates <- dat2 %>% 
+  group_by(round) %>% 
+  summarize(date = as.Date(median(date))) %>% 
+  mutate(datestr = format(date, datefmt))
+
+dat7 <- left_join(mergedf, dat3, by = c("site.code", "round")) %>% 
+  left_join(dates, by = "round") %>% 
+  group_by(site.code) %>% 
+  arrange(round) %>% 
+  mutate(isMissing = is.na(lead.ppb) | is.na(copper.ppb),
+         lead.ppb = zoo::na.approx(lead.ppb, na.rm = FALSE),
+         copper.ppb = zoo::na.approx(copper.ppb, na.rm = FALSE),
+         # label = datestr,
+         label = date, # tweenr likes dealing with dates and not strings (wants to convert those to character)
+         color = ifelse(isMissing, "#bbbbbb", "#555555")) %>% 
+  ungroup() %>% 
+  select(lead.ppb, copper.ppb, isMissing, label) %>% 
+  split(f = mergedf$round) 
+
+# Yeah, changing the naming convention to match dat number
+tdat7 <- tween_states(dat7, tweenlength = 2, statelength = 1, 
+                             ease = "linear", nframes = 240)
+
+xlims = c(0.3, 10000)
+ylims = c(10, 20000)
+
+ggplot(dat7[[10]], aes(x = lead.ppb, y = copper.ppb)) +
+  geom_point(aes(color = isMissing)) + 
+  geom_text(aes(x = 2, y = 10500, label = format(label, datefmt)), family = "NimbusMon",
+            fontface = "plain", size = 7) +
+  scale_x_log10(limits = xlims, breaks = c(1, 10, 100, 1000, 10000)) +
+  scale_y_log10(limits = ylims, breaks = c(10, 100, 1000, 10000)) +
+  scale_color_manual(values = c("#555555", "#bb5555")) +
+  theme_bw() +
+  annotation_logticks() +
+  theme(legend.position = "none")
+
+```
+
+And the final (for now) animation:
+
+```{r, eval = FALSE}
+p <- ggplot(data=tdat7, aes(x=lead.ppb, y=copper.ppb)) + 
+    # geom_text(aes(label = label, frame = .frame), data=tweenlogo, size = 13) + 
+    geom_point(aes(frame = .frame, color = isMissing), size = 3, alpha = 0.6) + 
+    geom_text(aes(frame = .frame, x = 2, y = 10500, 
+                  label = format(label, datefmt)), family = "NimbusMon",
+            fontface = "plain", size = 7) +
+  scale_color_manual(values = c("#555555", "#bb5555")) +
+  theme_bw() +
+  theme(legend.position = "none") +
+  scale_x_log10(limits = xlims, breaks = c(1, 10, 100, 1000, 10000)) +
+  scale_y_log10(limits = ylims, breaks = c(10, 100, 1000, 10000)) +
+  annotation_logticks()
+  
+animation::ani.options(interval = 1/15)
+gganimate(p, "flint_all_annot.gif", title_frame = FALSE, ani.width = 400, 
+           ani.height = 400)
+```
+
+![](/img/flint_all_annot.gif)
+
+Now that looks darn good. Of course I'm tempted to keep going with this, but I need to move on. 
+
+

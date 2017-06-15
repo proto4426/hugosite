@@ -1,0 +1,81 @@
+---
+title: "Reflections on AGU 2014"
+author: "Mark Hagemann"
+date: "December 20, 2014"
+output: html_document
+---
+
+It is Saturday morning, the first morning in a week that I'm not groggily shuffling off to the Moscone convention center in San Francisco to fill my mind with geosciencey knowledge. The past week was my first time attending the American Geophysical Union fall meeting--after wanting to go since I was an undergrad in geology. This year's meeting continued the tradtion of exceeding the previous year's attendance; 24 thousand of us descended upon the city this year. This post is my attempt to distill all that academic hubbub into some key morsels. 
+
+### 1.
+This is cliche, but **next time more planning ahead.** 24000 people--most of them presenting--made for a frantic experience.
+
+### 2.
+[Software Carpentry](http://software-carpentry.org/) is doing important work, educating researchers on good computing practices. I'd come across them once before, but now I'm convinced this is something my department could use. They run 2-day seminars that serve as a sort of data analysis bootcamp for things like version control, shell scripting, and code testing. 
+
+### 3.
+[Bryan Lawrence](http://www.met.reading.ac.uk/users/users/1678)'s Leptauch lecture was eye-opening, not least for showing me how much I have to learn to really get a grip on the state of environmental data use and management. Among other things, I learned about:
+
+  * Data storage is quickly going to be a limiting factor for massive analyses like GCM studies. Moore's law continues it's exponential trajectory (though mostly due to increasing the number of cores per user), and the concurrent cheapening of data storage has been [shallowing out](http://bd7a65e2cb448908f934-86a50c88e47af9e1fb58ce0672b5a500.r32.cf3.rackcdn.com/uploads/assets/7c/3f/547c3f871f986a0862000001/cost-per-gigabyte-large.png). This may put a cap on the resolution of our global climate models--or at least the scope of the questions we ask of them. 
+
+  * [CMIP6](http://www.wcrp-climate.org/wgcm-cmip/wgcm-cmip6) will come out sometime in the next year (?). It will be massive, to the point of being cumbersome. 
+
+  * The following things were mentioned--with enough emphasis that they're probably important:
+    * [CHARMe](http://charme.org.uk/)
+    * [ISO standard 19156](http://www.iso.org/iso/catalogue_detail.htm?csnumber=32574)
+    * [CEDA](http://www.ceda.ac.uk/), which as I understand is one of Dr. Lawrence's affiliations.
+    * [This paper](http://rsta.royalsocietypublishing.org/content/roypta/367/1890/1003.full.pdf) on data services for massive environmental datasets. 
+
+  * Apparently, metadata is important. I suspected as much. 
+
+### 4.
+A lot of interesting posters on applying information theory to (hydrologic) modeling. Something I've been peripherally interested in, and now I've got some resources to brush up more formally. [Steve Weijs](http://people.epfl.ch/steven.weijs/publications?lang=en&cvlang=en) is apparently a good place to start (maybe [this paper](http://www.iemss.org/sites/iemss2014/papers/iemss2014_submission_166.pdf)?. I also spoke briefly with [Grey Nearing](http://science.gsfc.nasa.gov/sed/index.cfm?fuseAction=people.jumpBio&iphonebookid=48455), whose WRR paper on the topic I encountered just before departing for the conference.
+
+### 5. 
+A philosopher from the University of Maryland (whose name I can't seem to find right now) gave a confusing talk on the use of tuning data for model validation. He used a vocabulary mostly unfamiliar to me, coming to the expected conclusion that *no, tuning data should not be used for validation*. Still, I've been convinced for a while that properly relating *models* to *reality* (data) requires some amount of philosophy. 
+
+  * [Werndl and Steele](http://eprints.lse.ac.uk/44236/) were mentioned a lot (albeit critically). 
+  * Apparently, climate models are [epistemically opaque](http://en.wikipedia.org/wiki/Transparency_(philosophy\)), and therefore their confirmation requires *use-novel* data.
+
+### 6.
+Possibly my favorite session of the week was on open-source software in hydrology. Some highlights:
+
+  * Ed Clark presented on [IWRSS](http://www.hec.usace.army.mil/misc/IWRSS/) (pronounced like *iris*), an initiative promoting collaboration in water resources science. (using a ["system of systems"](http://en.wikipedia.org/wiki/System_of_systems) approach)
+
+  * Jordan Read talked about several R packages put out by the USGS for working with that and other agencies' data. Jordan is at [CIDA](http://cida.usgs.gov/) in Middleton, WI, which seems to do pretty cool stuff. I've been using their [dataRetrieval](https://github.com/USGS-R/dataRetrieval) quite a bit recently (hah, it was the topic of one of my first [blog posts](http://markhagemann.wordpress.com/2014/04/) back when I was still using Wordpress), and I sometimes daydream about getting a job there after grad school. 
+ 
+    * Oh, he also showed [this neat visualization](http://cida.usgs.gov/ca_drought/) on the California drought. 
+
+  * Two talks about subsurface hydrology. Norihiro Watanabe talked about [OpenGeoSys](http://www.opengeosys.org/), and Vicky Freedman talked about [Akuna](http://akuna.labworks.org/download.html). 
+
+  * [Aron Ahmadia](http://aron.ahmadia.net/) talked about Software Carpentry. This made enough of an impression on me that I already gave it its own paragraph (see above).
+
+  * Gennadii Donchyts presented on some *cool stuff* about flood forecasting. Really great visualizations, and according to him, a quick and simple model-building tool, [Deltares](http://www.deltares.nl/en)
+
+  * Min Ragan-Kelley showed some stuff about IPython and [Jupyter](http://jupyter.org/). I was beyond reluctant to give this much attention (being as I am an R devotee and therefore anti-Python). But I have to say Jupyter looks very intriguing. It looks a lot like RMarkdown is to R, but with more interactive functionality (like editing code from within the output). I'm making a note to give it some attention when I have time.
+
+  * Matthew Farthing from ERDC also talked about IPython. He articulated the problem of trying to build simple interfaces to highly complex models. I hadn't thought about this before, and I've thought about it a lot since. He also talked about [Kitware](http://www.kitware.com/).
+
+### 7.
+I saw a lot of people reporting good things about optical sensors for DOM (fDOM) and nitrate. I talked to Brent Aulenbach and Jim Shanley--there's still a lot we don't know about DOC dynamics and its relation to hydrology. I suspect widespread fDOM sensors will shed a lot of light on this in the near future. I wonder how long until the open-source community cracks the [S::Can](http://www.s-can.at/) algorithm and makes this stuff as cheap as it ought to be.
+
+### 8. 
+On a similar note, James Kirchner gave a talk about the kind of time frequency required for water-quality sampling. Not surprisingly, this is catchment- and solute-dependent. He's been a champion high-frequency water-quality monitoring for years, and has used it to tease out some rather [profound insights](http://www.pnas.org/content/110/30/12213.abstract) into stream chemistry dynamics. This talk focused more on the times and places in which sampling contributes the most information about the system, pointing out that the large time-correlation of high-frequency samples (especially during baseflow conditions) strips each observation of most of its information. Rather, high-frequency sampling has more value in specific times (i.e. storm conditions) and places (catchments with observed high-frequency chemical fluctuations). 
+
+### 9.
+Another theme: getting data from myriad sources to play nice. Some mention of using [brokering](http://en.wikipedia.org/wiki/Information_broker) services such as [EarthCube](http://earthcube.org/) and [GEOSS](http://www.eurogeoss-broker.eu/). This was the first time I'd heard of such a thing, and I'm still confused as to if/how it differs from multi-agency databases like [WQP](http://www.waterqualitydata.us/). My interest is strictly in using these services--I guess I don't particularly care how they're structured. Some other resources I heard mentioned:
+
+  * [Earth Data Search](https://search.earthdata.nasa.gov/) -- currently in beta.
+  * [JMARS](http://jmars.asu.edu/) -- not just for Mars! Also [Davinci](http://davinci.asu.edu/index.php?title=Main_Page)
+  * [Giovanni](http://disc.sci.gsfc.nasa.gov/giovanni) -- for satellite remote-sensing data, courtesy of NASA. Also [Worldview](https://earthdata.nasa.gov/labs/worldview/).
+
+### Postscript
+There you have it--a not-at-all-exhaustive list of cool stuff I learned about at AGU 2014. Other things I did in San Francisco:
+
+- Meet up with old friends (and get all nostalgic about my days actually doing geology)
+- run up Telegraph Hill
+- Bike across the Golden Gate Bridge to the Muir Woods
+
+{% img left /images/goldenGateBikeride.jpg 'me and bridge' 'bike-ride selfie with Golden Gate bridge in background' %}
+
+

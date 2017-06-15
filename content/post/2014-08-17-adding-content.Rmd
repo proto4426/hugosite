@@ -1,0 +1,10 @@
+---
+layout: post
+title: "Adding Content"
+date: 2014-08-17 21:06:50 -0400
+comments: true
+categories: 
+- Meta
+---
+
+<p>Real briefly: I'm finally comfortable enough with the inner workings of Octopress to start putting some content on this blog. A lot of my first moves are going to be notes from various courses and tutorials that I've written in markdown (rather RMarkdown), mainly so that I can keep track of them in a place that's not my messy hard drive. These are just notes, so they are not in the least well-written or even sensible, necessarily. This will also serve as a test for organizing content with Octopress. Of course, I'll be putting more interesting stuff on later, but since I don't currently have anyone <em>reading</em> this blog I'm not as concerned with that for the time being.</p>

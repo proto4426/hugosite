@@ -1,0 +1,27 @@
+---
+title: "EditR"
+author: "Mark Hagemann"
+date: "November 9, 2015"
+output: html_document
+---
+
+
+
+<p>I’ve been writing a lot using both RMarkdown and Markdown lately. In the past I would typically default to RMarkdown because that’s the default in RStudio, but more recently I’ve been writing some pretty math-heavy documents and wanted something that could render them in real-time. This led me to <a href="http://pad.haroopress.com/">Haroopad</a>, which has mostly worked really well (with the exception of crashing so hard once that it actually deleted a previously saved version of the document I was working on), but alas, it doesn’t recognize the chunks of code I put in my Rmarkdown docs.</p>
+<p>Enter <a href="https://github.com/swarm-lab/editR">editR</a>, which purports to bring real-time rendering to Rmarkdown documents. I’m about to give it a try.</p>
+<div id="installing" class="section level2">
+<h2>Installing</h2>
+<pre class="r"><code>devtools::install_github(&quot;trestletech/shinyAce&quot;)
+devtools::install_github(&quot;swarm-lab/editR&quot;)
+
+install.packages(c(&quot;shiny&quot;, &quot;shinyFiles&quot;, &quot;shinyBS&quot;, &quot;rmarkdown&quot;, &quot;knitr&quot;))
+
+library(editR)</code></pre>
+<p>Now that that’s installed and attached, I’m just supposed to call <code>editR()</code> on a .Rmd file. Here goes with my <a href="http://www.markhagemann.com/blog/2015/03/27/Yes-this-year-has-been-cold-(around-here)./">cold winter stats</a> post from last spring.</p>
+<pre class="r"><code>editR(file = &quot;coldWinterStats.Rmd&quot;)</code></pre>
+<p>And it works! This opened a browser tab with two vertically delimited panes:</p>
+<p>{% img /images/editR.png ‘editR screenshot’ %}</p>
+<p>On the left is the editor pane, where text and code can be edited in-situ, and on the right is the rendered document–plots, tables and all. Like any shiny application, this wholly occupies the current R session while editR is open.</p>
+<p>That’s all the exploring I’ll do for now. Bottom line: this appears to work, but it’s still in beta and should probably not be relied upon too heavily. I wonder if this will ever be implemented in RStudio.</p>
+<p><em>edit (some time later):</em> After playing around with editR for a little while, I find it likes to crash wayyy to often for me to consider it useful. Yihui Xie’s <a href="https://github.com/yihui/servr">servr</a> can apparently do real-time rendering as well. I can’t speak to its functionality, but I may try it in the future.</p>
+</div>

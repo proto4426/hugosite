@@ -1,0 +1,31 @@
+---
+title: "Shiny app for visualizing prior distributions"
+author: "Mark Hagemann"
+date: "November 8, 2014"
+output: html_document
+---
+
+
+
+<p>A friend of mine is collaborating on a project using a Bayesian hierarchical model. One of the parameters in her model is error precision (inverse variance), which she’s giving a gamma-distributed prior. The other day she came to me with a question about the distribution, and how it could be interpreted. This struck me as less than intuitive, so I thought I’d make a simple interactive application to show how the prior parameters would translate into the precision distribtuion, as well as something more intuitive like standard deviation.</p>
+<p>Here’s what I came up with:</p>
+<div id="gamma-density-for-precisions" class="section level2">
+<h2>Gamma density for precisions</h2>
+<iframe src="http://markwh.shinyapps.io/gammaPriorsApp/" width="100%" height="600">
+</iframe>
+</div>
+<div id="insights" class="section level2">
+<h2>Insights</h2>
+<p>Before making these plots I recognized that selecting prior parameters that pushed precisions nearer to zero would lead to larger standard deviations, but I had no idea how that would look in terms of distribution. I was surprised by how hard it was to push the standard deviations far from zero (I was afraid they might blow up).</p>
+</div>
+<div id="standard-deviation-density" class="section level2">
+<h2>Standard deviation density</h2>
+<p>Just to show my math a little more clearly, here is how I obtained the standard deviation density:</p>
+<p>Let <span class="math inline">\(X_1\)</span> be precision, <span class="math inline">\(X_2\)</span> be standard deviation. Then</p>
+<p><span class="math display">\[ X_2 = g(X_1) = \frac{1}{\sqrt{X_1}} \]</span></p>
+<p><span class="math display">\[ X_1 = g^{-1}(X_2) = \frac{1}{X_2^2} \]</span></p>
+<p><span class="math display">\[ f_{X_2}(x) = f_{X_1}(g^{-1}(x)) * \big| \frac{d}{d x} g^{-1}(x) \big| \]</span></p>
+<p>In this case, this works out to be:</p>
+<p><span class="math display">\[ f_{X_2}(x) = f_{X_1}(x^{-2}) * \frac{2}{x^3} \]</span></p>
+<p>So if we get <span class="math inline">\(f_{X_1}(x)\)</span> via <code>dgamma(x1, shape = input$shape, rate = input$rate)</code>, we can get <span class="math inline">\(f_{X_2}(x)\)</span> via <code>dgamma(x2^-2, shape = input$shape, rate = input$rate) * 2 * x2^-3)</code>.</p>
+</div>

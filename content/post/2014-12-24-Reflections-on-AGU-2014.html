@@ -1,0 +1,89 @@
+---
+title: "Reflections on AGU 2014"
+author: "Mark Hagemann"
+date: "December 20, 2014"
+output: html_document
+---
+
+
+
+<p>It is Saturday morning, the first morning in a week that I’m not groggily shuffling off to the Moscone convention center in San Francisco to fill my mind with geosciencey knowledge. The past week was my first time attending the American Geophysical Union fall meeting–after wanting to go since I was an undergrad in geology. This year’s meeting continued the tradtion of exceeding the previous year’s attendance; 24 thousand of us descended upon the city this year. This post is my attempt to distill all that academic hubbub into some key morsels.</p>
+<div id="section" class="section level3">
+<h3>1.</h3>
+<p>This is cliche, but <strong>next time more planning ahead.</strong> 24000 people–most of them presenting–made for a frantic experience.</p>
+</div>
+<div id="section-1" class="section level3">
+<h3>2.</h3>
+<p><a href="http://software-carpentry.org/">Software Carpentry</a> is doing important work, educating researchers on good computing practices. I’d come across them once before, but now I’m convinced this is something my department could use. They run 2-day seminars that serve as a sort of data analysis bootcamp for things like version control, shell scripting, and code testing.</p>
+</div>
+<div id="section-2" class="section level3">
+<h3>3.</h3>
+<p><a href="http://www.met.reading.ac.uk/users/users/1678">Bryan Lawrence</a>’s Leptauch lecture was eye-opening, not least for showing me how much I have to learn to really get a grip on the state of environmental data use and management. Among other things, I learned about:</p>
+<ul>
+<li><p>Data storage is quickly going to be a limiting factor for massive analyses like GCM studies. Moore’s law continues it’s exponential trajectory (though mostly due to increasing the number of cores per user), and the concurrent cheapening of data storage has been <a href="http://bd7a65e2cb448908f934-86a50c88e47af9e1fb58ce0672b5a500.r32.cf3.rackcdn.com/uploads/assets/7c/3f/547c3f871f986a0862000001/cost-per-gigabyte-large.png">shallowing out</a>. This may put a cap on the resolution of our global climate models–or at least the scope of the questions we ask of them.</p></li>
+<li><p><a href="http://www.wcrp-climate.org/wgcm-cmip/wgcm-cmip6">CMIP6</a> will come out sometime in the next year (?). It will be massive, to the point of being cumbersome.</p></li>
+<li>The following things were mentioned–with enough emphasis that they’re probably important:
+<ul>
+<li><a href="http://charme.org.uk/">CHARMe</a></li>
+<li><a href="http://www.iso.org/iso/catalogue_detail.htm?csnumber=32574">ISO standard 19156</a></li>
+<li><a href="http://www.ceda.ac.uk/">CEDA</a>, which as I understand is one of Dr. Lawrence’s affiliations.</li>
+<li><a href="http://rsta.royalsocietypublishing.org/content/roypta/367/1890/1003.full.pdf">This paper</a> on data services for massive environmental datasets.</li>
+</ul></li>
+<li><p>Apparently, metadata is important. I suspected as much.</p></li>
+</ul>
+</div>
+<div id="section-3" class="section level3">
+<h3>4.</h3>
+<p>A lot of interesting posters on applying information theory to (hydrologic) modeling. Something I’ve been peripherally interested in, and now I’ve got some resources to brush up more formally. <a href="http://people.epfl.ch/steven.weijs/publications?lang=en&amp;cvlang=en">Steve Weijs</a> is apparently a good place to start (maybe <a href="http://www.iemss.org/sites/iemss2014/papers/iemss2014_submission_166.pdf">this paper</a>?. I also spoke briefly with <a href="http://science.gsfc.nasa.gov/sed/index.cfm?fuseAction=people.jumpBio&amp;iphonebookid=48455">Grey Nearing</a>, whose WRR paper on the topic I encountered just before departing for the conference.</p>
+</div>
+<div id="section-4" class="section level3">
+<h3>5.</h3>
+<p>A philosopher from the University of Maryland (whose name I can’t seem to find right now) gave a confusing talk on the use of tuning data for model validation. He used a vocabulary mostly unfamiliar to me, coming to the expected conclusion that <em>no, tuning data should not be used for validation</em>. Still, I’ve been convinced for a while that properly relating <em>models</em> to <em>reality</em> (data) requires some amount of philosophy.</p>
+<ul>
+<li><a href="http://eprints.lse.ac.uk/44236/">Werndl and Steele</a> were mentioned a lot (albeit critically).</li>
+<li>Apparently, climate models are [epistemically opaque](<a href="http://en.wikipedia.org/wiki/Transparency_(philosophy\)" class="uri">http://en.wikipedia.org/wiki/Transparency_(philosophy\)</a>), and therefore their confirmation requires <em>use-novel</em> data.</li>
+</ul>
+</div>
+<div id="section-5" class="section level3">
+<h3>6.</h3>
+<p>Possibly my favorite session of the week was on open-source software in hydrology. Some highlights:</p>
+<ul>
+<li><p>Ed Clark presented on <a href="http://www.hec.usace.army.mil/misc/IWRSS/">IWRSS</a> (pronounced like <em>iris</em>), an initiative promoting collaboration in water resources science. (using a <a href="http://en.wikipedia.org/wiki/System_of_systems">“system of systems”</a> approach)</p></li>
+<li><p>Jordan Read talked about several R packages put out by the USGS for working with that and other agencies’ data. Jordan is at <a href="http://cida.usgs.gov/">CIDA</a> in Middleton, WI, which seems to do pretty cool stuff. I’ve been using their <a href="https://github.com/USGS-R/dataRetrieval">dataRetrieval</a> quite a bit recently (hah, it was the topic of one of my first <a href="http://markhagemann.wordpress.com/2014/04/">blog posts</a> back when I was still using Wordpress), and I sometimes daydream about getting a job there after grad school.</p>
+<ul>
+<li>Oh, he also showed <a href="http://cida.usgs.gov/ca_drought/">this neat visualization</a> on the California drought.</li>
+</ul></li>
+<li><p>Two talks about subsurface hydrology. Norihiro Watanabe talked about <a href="http://www.opengeosys.org/">OpenGeoSys</a>, and Vicky Freedman talked about <a href="http://akuna.labworks.org/download.html">Akuna</a>.</p></li>
+<li><p><a href="http://aron.ahmadia.net/">Aron Ahmadia</a> talked about Software Carpentry. This made enough of an impression on me that I already gave it its own paragraph (see above).</p></li>
+<li><p>Gennadii Donchyts presented on some <em>cool stuff</em> about flood forecasting. Really great visualizations, and according to him, a quick and simple model-building tool, <a href="http://www.deltares.nl/en">Deltares</a></p></li>
+<li><p>Min Ragan-Kelley showed some stuff about IPython and <a href="http://jupyter.org/">Jupyter</a>. I was beyond reluctant to give this much attention (being as I am an R devotee and therefore anti-Python). But I have to say Jupyter looks very intriguing. It looks a lot like RMarkdown is to R, but with more interactive functionality (like editing code from within the output). I’m making a note to give it some attention when I have time.</p></li>
+<li><p>Matthew Farthing from ERDC also talked about IPython. He articulated the problem of trying to build simple interfaces to highly complex models. I hadn’t thought about this before, and I’ve thought about it a lot since. He also talked about <a href="http://www.kitware.com/">Kitware</a>.</p></li>
+</ul>
+</div>
+<div id="section-6" class="section level3">
+<h3>7.</h3>
+<p>I saw a lot of people reporting good things about optical sensors for DOM (fDOM) and nitrate. I talked to Brent Aulenbach and Jim Shanley–there’s still a lot we don’t know about DOC dynamics and its relation to hydrology. I suspect widespread fDOM sensors will shed a lot of light on this in the near future. I wonder how long until the open-source community cracks the <a href="http://www.s-can.at/">S::Can</a> algorithm and makes this stuff as cheap as it ought to be.</p>
+</div>
+<div id="section-7" class="section level3">
+<h3>8.</h3>
+<p>On a similar note, James Kirchner gave a talk about the kind of time frequency required for water-quality sampling. Not surprisingly, this is catchment- and solute-dependent. He’s been a champion high-frequency water-quality monitoring for years, and has used it to tease out some rather <a href="http://www.pnas.org/content/110/30/12213.abstract">profound insights</a> into stream chemistry dynamics. This talk focused more on the times and places in which sampling contributes the most information about the system, pointing out that the large time-correlation of high-frequency samples (especially during baseflow conditions) strips each observation of most of its information. Rather, high-frequency sampling has more value in specific times (i.e. storm conditions) and places (catchments with observed high-frequency chemical fluctuations).</p>
+</div>
+<div id="section-8" class="section level3">
+<h3>9.</h3>
+<p>Another theme: getting data from myriad sources to play nice. Some mention of using <a href="http://en.wikipedia.org/wiki/Information_broker">brokering</a> services such as <a href="http://earthcube.org/">EarthCube</a> and <a href="http://www.eurogeoss-broker.eu/">GEOSS</a>. This was the first time I’d heard of such a thing, and I’m still confused as to if/how it differs from multi-agency databases like <a href="http://www.waterqualitydata.us/">WQP</a>. My interest is strictly in using these services–I guess I don’t particularly care how they’re structured. Some other resources I heard mentioned:</p>
+<ul>
+<li><a href="https://search.earthdata.nasa.gov/">Earth Data Search</a> – currently in beta.</li>
+<li><a href="http://jmars.asu.edu/">JMARS</a> – not just for Mars! Also <a href="http://davinci.asu.edu/index.php?title=Main_Page">Davinci</a></li>
+<li><a href="http://disc.sci.gsfc.nasa.gov/giovanni">Giovanni</a> – for satellite remote-sensing data, courtesy of NASA. Also <a href="https://earthdata.nasa.gov/labs/worldview/">Worldview</a>.</li>
+</ul>
+</div>
+<div id="postscript" class="section level3">
+<h3>Postscript</h3>
+<p>There you have it–a not-at-all-exhaustive list of cool stuff I learned about at AGU 2014. Other things I did in San Francisco:</p>
+<ul>
+<li>Meet up with old friends (and get all nostalgic about my days actually doing geology)</li>
+<li>run up Telegraph Hill</li>
+<li>Bike across the Golden Gate Bridge to the Muir Woods</li>
+</ul>
+<p>{% img left /images/goldenGateBikeride.jpg ‘me and bridge’ ‘bike-ride selfie with Golden Gate bridge in background’ %}</p>
+</div>

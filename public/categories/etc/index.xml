@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Etc on A Hugo website</title>
+    <link>/categories/etc/</link>
+    <description>Recent content in Etc on A Hugo website</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Sat, 16 Jan 2016 00:00:00 +0000</lastBuildDate>
+    
+	<atom:link href="/categories/etc/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Brighter days ahead</title>
+      <link>/2016/01/16/brighter-days-ahead/</link>
+      <pubDate>Sat, 16 Jan 2016 00:00:00 +0000</pubDate>
+      
+      <guid>/2016/01/16/brighter-days-ahead/</guid>
+      <description>&amp;lt;!DOCTYPE html&amp;gt;
+
+
+    code{white-space: pre;}  pre:not([class]) { background-color: white; }  if (window.hljs &amp;amp;&amp;amp; document.readyState &amp;amp;&amp;amp; document.readyState === &amp;ldquo;complete&amp;rdquo;) { window.setTimeout(function() { hljs.initHighlighting(); }, 0); } 
+
+
+.main-container { max-width: 940px; margin-left: auto; margin-right: auto; } code { color: inherit; background-color: rgba(0, 0, 0, 0.04); } img { max-width:100%; height: auto; }  I’ve been daydreaming in the dark about longer daylight hours, so I drew some pictures to cheer myself up.</description>
+    </item>
+    
+  </channel>
+</rss>

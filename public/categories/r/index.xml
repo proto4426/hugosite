@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>R on Mark Hagemann</title>
+    <link>/categories/r/</link>
+    <description>Recent content in R on Mark Hagemann</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Sun, 07 Sep 2014 13:59:21 -0400</lastBuildDate>
+    
+	<atom:link href="/categories/r/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>R function to make Octopress posts</title>
+      <link>/2014/09/07/r-function-to-make-octopress-posts/</link>
+      <pubDate>Sun, 07 Sep 2014 13:59:21 -0400</pubDate>
+      
+      <guid>/2014/09/07/r-function-to-make-octopress-posts/</guid>
+      <description>pre .operator, pre .paren { color: rgb(104, 118, 135) } pre .literal { color: #990073 } pre .number { color: #099; } pre .comment { color: #998; font-style: italic } pre .keyword { color: #900; font-weight: bold } pre .identifier { color: rgb(0, 0, 0); } pre .string { color: #d14; }  var hljs=new function(){function m(p){return p.replace(/&amp;/gm,&#34;&amp;amp;&#34;).replace(/&#34;}while(y.length||w.length){var v=u().splice(0,1)[0];z+=m(x.substr(q,v.offset-q));q=v.offset;if(v.event==&#34;start&#34;){z+=t(v.node);s.push(v.node)}else{if(v.event==&#34;stop&#34;){var p,r=s.length;do{r--;p=s[r];z+=(&#34;&#34;)}while(p!=v.node);s.splice(r,1);while(r&#39;+M[0]+&#34;&#34;}else{r+=M[0]}O=P.lR.lastIndex;M=P.lR.exec(L)}return r+L.substr(O,L.length-O)}function J(L,M){if(M.sL&amp;&amp;e[M.sL]){var r=d(M.sL,L);x+=r.keyword_count;return r.value}else{return F(L,M)}}function I(M,r){var L=M.</description>
+    </item>
+    
+  </channel>
+</rss>

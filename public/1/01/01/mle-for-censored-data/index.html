@@ -1,0 +1,719 @@
+
+
+  
+    
+  
+
+
+  
+
+
+
+
+
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+    
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="generator" content="Hugo 0.22.1">
+    <meta name="theme" content="Tranquilpeak 0.3.1-BETA">
+    <title>MLE for Censored Data</title>
+    <meta name="author" content="">
+    <meta name="keywords" content="">
+
+    <link rel="icon" href="../../../../favicon.png">
+    
+
+    
+    <meta name="description" content="Suppose you want to know something about a random variable that is only measurable when its value is above a certain threshold. For example, you have a dataset of the concentration of nitrate in a river (measured monthly for the last 100 months), but the analytical instrument has a detection limit below which it stops working. Such data are called censored in the statistical community. How can you do inference on such data?">
+    <meta property="og:description" content="Suppose you want to know something about a random variable that is only measurable when its value is above a certain threshold. For example, you have a dataset of the concentration of nitrate in a river (measured monthly for the last 100 months), but the analytical instrument has a detection limit below which it stops working. Such data are called censored in the statistical community. How can you do inference on such data?">
+    <meta property="og:type" content="blog">
+    <meta property="og:title" content="MLE for Censored Data">
+    <meta property="og:url" content="/1/01/01/mle-for-censored-data/">
+    <meta property="og:site_name" content="Mark Hagemann">
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:title" content="Mark Hagemann">
+    <meta name="twitter:description" content="Suppose you want to know something about a random variable that is only measurable when its value is above a certain threshold. For example, you have a dataset of the concentration of nitrate in a river (measured monthly for the last 100 months), but the analytical instrument has a detection limit below which it stops working. Such data are called censored in the statistical community. How can you do inference on such data?">
+    
+    
+
+    
+    
+
+    
+
+    
+    
+    
+
+    
+
+    
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.4/jquery.fancybox.css" />
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.4/helpers/jquery.fancybox-thumbs.min.css" />
+    
+    
+    <link rel="stylesheet" href="../../../../css/style-u6mk0ojoywresbx8iepslrmmhl4stuhrsxuwhkpwrkrx7mryjcaimasnk4pi.min.css" />
+    
+    
+
+    
+      
+    
+    
+  </head>
+
+  <body>
+    <div id="blog">
+      <header id="header" data-behavior="">
+  <i id="btn-open-sidebar" class="fa fa-lg fa-bars"></i>
+  <div class="header-title">
+    <a class="header-title-link" href="../../../../">Mark Hagemann</a>
+  </div>
+  
+</header>
+
+      <nav id="sidebar" data-behavior="">
+  <div class="sidebar-container">
+    
+    <ul class="sidebar-buttons">
+      
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="../../../../about/">
+    
+      
+      
+      <span class="sidebar-button-desc">About</span>
+    </a>
+  </li>
+
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="https://github.com/markwh">
+    
+      
+      
+      <span class="sidebar-button-desc">GitHub</span>
+    </a>
+  </li>
+
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="https://twitter.com/markwhagemann">
+    
+      
+      
+      <span class="sidebar-button-desc">Twitter</span>
+    </a>
+  </li>
+
+    </ul>
+    <ul class="sidebar-buttons">
+      
+    </ul>
+    <ul class="sidebar-buttons">
+      
+    </ul>
+  </div>
+</nav>
+
+      
+
+      <div id="main" data-behavior=""
+        class="
+               hasCoverMetaIn
+               ">
+        <article class="post" itemscope itemType="http://schema.org/BlogPosting">
+          
+          
+            <div class="post-header main-content-wrap text-left">
+  
+    <h1 class="post-title" itemprop="headline">
+      MLE for Censored Data
+    </h1>
+  
+  <div class="postShorten-meta post-meta">
+  
+    <time itemprop="datePublished" datetime="0001-01-01T00:00:00Z">
+      
+   1, 1
+
+    </time>
+  
+  
+
+</div>
+
+</div>
+          
+          <div class="post-content markdown" itemprop="articleBody">
+            <div class="main-content-wrap">
+              <p>Suppose you want to know something about a random variable that is only measurable when its value is above a certain threshold. For example, you have a dataset of the concentration of nitrate in a river (measured monthly for the last 100 months), but the analytical instrument has a detection limit below which it stops working. Such data are called <em>censored</em> in the statistical community. How can you do inference on such data? One approach might be to throw out all of the BDL (Below Detection Limit) data and do your inference on the remains of the dataset. A second approach might be to assign some arbitrary value to the BDLs, for example 1/2 the limit, and proceed using this modified dataset. Both of these approaches, particularly the omission of BDLs, are not recommended, and can severely bias your results. (See Dennis Helsel’s myriad papers/book on the subject for reasons why.)</p>
+<p>A third approach, much preferred when the data can be assumed to follow a parametric distribution, is to use maximum likelihood estimation. Consider a set of observations of a random variable <span class="math inline">\(Y\)</span> with pdf <span class="math inline">\(f(y|\mathbf{\theta})\)</span> and cdf <span class="math inline">\(F(y|\mathbf{\theta})\)</span>. In the usual, non-censored case, maximum likelihood would maximize (with respect to the parameters <span class="math inline">\(\mathbf{\theta}\)</span>) the function</p>
+<p><span class="math display">\[
+L(\mathbf{\theta}) = \prod_{i = 1}^n f(y_i | \mathbf{\theta})
+\]</span></p>
+<p>A simple modification can be made for censored data of this kind. The modified likelihood function is</p>
+<p><span class="math display">\[
+L(\theta) = \prod_{i \text{ uncensored}} f(y_i | \theta) \times \prod_{j \text { censored}} F(y_j^* | \theta)
+\]</span></p>
+<p>where <span class="math inline">\(y_j^*\)</span> is the censoring threshold for observation <span class="math inline">\(j\)</span>. If <span class="math inline">\(y_j^* = y^*\)</span> for all censored values (meaning there is only one censoring threshold), then this becomes</p>
+<p><span class="math display">\[
+L(\theta) = \prod_{i \text{ uncensored}} f(y_i | \theta) \times  [F(y^* | \theta)]^{n_c}
+\]</span></p>
+<p>where <span class="math inline">\(n_c\)</span> is the number of censored data.</p>
+<p>Let’s see an example. I’ll simulate 100 concentration data from a lognormal(0, 1) distribution and censor everything below <span class="math inline">\(exp(-1) = 0.368\)</span>.</p>
+<pre class="r"><code>set.seed(23)
+ysim = exp(rnorm(100))
+centhresh = exp(-1)</code></pre>
+<p>Here’s the function for calculating the log likelihood.</p>
+<pre class="r"><code>llik = function(mu, sigsq, data, threshold) {
+  ldat = log(data)
+  cen = data &lt; threshold
+#   trm1 = - sum(!cen) / 2 * log(sigsq * 2 * pi)
+#   trm2 = - 1 / (2 * sigsq) * sum((ldat[!cen] - mu)^2)
+#   trm3 = sum(cen) * log(pnorm((log(threshold) - mu) / sqrt(sigsq)))
+#   ll = trm1 + trm2 + trm3
+#   ll
+  lls1 = dnorm(ldat[!cen], mean = mu, sd = sqrt(sigsq), log = TRUE)
+  lls2 = sum(cen) * pnorm(log(threshold), mean = mu, sd = sqrt(sigsq), log.p = TRUE)
+  ll = sum(c(lls1, lls2))
+  ll
+}</code></pre>
+<p>Have a look at the resulting log likelihood functions for <span class="math inline">\(\mu\)</span> and <span class="math inline">\(\sigma^2\)</span></p>
+<pre class="r"><code>mus = seq(-1, 1, length.out = 1000)
+sigsqs = seq(0.1, 3, length.out = 1000)
+
+mull = sapply(mus, llik, sigsq = 1, data = ysim, threshold = centhresh)
+plot(mus, mull, type = &quot;l&quot;)</code></pre>
+<p><img src="../../../../post/2016-01-03-Maximum-Likelihood-Estimation-using-censored-data_files/figure-html/unnamed-chunk-3-1.png" width="672" /></p>
+<pre class="r"><code>s2ll = sapply(sigsqs, llik, mu = 0, data = ysim, threshold = centhresh)
+plot(sigsqs, s2ll, type = &quot;l&quot;)</code></pre>
+<p><img src="../../../../post/2016-01-03-Maximum-Likelihood-Estimation-using-censored-data_files/figure-html/unnamed-chunk-3-2.png" width="672" /></p>
+<pre class="r"><code>(muhat1 = mus[which.max(mull)])</code></pre>
+<pre><code>## [1] 0.06306306</code></pre>
+<pre class="r"><code>(s2hat1 = sigsqs[which.max(s2ll)])</code></pre>
+<pre><code>## [1] 0.907007</code></pre>
+<p>Unfortunately, these are not easy to maximize analytically, but as you can see they are both convex (rather, the <em>negative</em> log likelihood is convex) and therefore simple to maximize numerically.</p>
+<p>You might be curious as to what the log likelihood functions would look like if I had simply tossed out the sensored data. Let’s find out!</p>
+<pre class="r"><code>mull = sapply(mus, llik, sigsq = 1, data = ysim[ysim &gt; centhresh], 
+              threshold = centhresh)
+plot(mus, mull, type = &quot;l&quot;)</code></pre>
+<p><img src="../../../../post/2016-01-03-Maximum-Likelihood-Estimation-using-censored-data_files/figure-html/unnamed-chunk-4-1.png" width="672" /></p>
+<pre class="r"><code>s2ll = sapply(sigsqs, llik, mu = 0, data = ysim[ysim &gt; centhresh], 
+              threshold = centhresh)
+plot(sigsqs, s2ll, type = &quot;l&quot;)</code></pre>
+<p><img src="../../../../post/2016-01-03-Maximum-Likelihood-Estimation-using-censored-data_files/figure-html/unnamed-chunk-4-2.png" width="672" /></p>
+<pre class="r"><code>(muhat2 = mus[which.max(mull)])</code></pre>
+<pre><code>## [1] 0.3413413</code></pre>
+<pre class="r"><code>(s2hat2 = sigsqs[which.max(s2ll)])</code></pre>
+<pre><code>## [1] 0.6428428</code></pre>
+<p>The maxima in this case are much farther than the true values I imposed. What about the “half the detection limit” imputation? How would that look?</p>
+<pre class="r"><code>ysim2 = ysim
+ysim2[ysim &lt; centhresh] = centhresh / 2
+
+mull = sapply(mus, llik, sigsq = 1, data = ysim2, 
+              threshold = 0.01)
+plot(mus, mull, type = &quot;l&quot;)</code></pre>
+<p><img src="../../../../post/2016-01-03-Maximum-Likelihood-Estimation-using-censored-data_files/figure-html/unnamed-chunk-5-1.png" width="672" /></p>
+<pre class="r"><code>s2ll = sapply(sigsqs, llik, mu = 0, data = ysim2, 
+              threshold = 0.01)
+plot(sigsqs, s2ll, type = &quot;l&quot;)</code></pre>
+<p><img src="../../../../post/2016-01-03-Maximum-Likelihood-Estimation-using-censored-data_files/figure-html/unnamed-chunk-5-2.png" width="672" /></p>
+<pre class="r"><code>(muhat3 = mus[which.max(mull)])</code></pre>
+<pre><code>## [1] 0.03503504</code></pre>
+<pre class="r"><code>(s2hat3 = sigsqs[which.max(s2ll)])</code></pre>
+<pre><code>## [1] 0.9766767</code></pre>
+<p>Hmm. In this case the imputation actually got closer to reality. But I suspect this is a fluke of this dataset. I’m not going to do all the simulations to show this in general, but I think I can come up with a case where my version works better.</p>
+<p>Instead of using <span class="math inline">\(\sigma^2 = 1\)</span>, I’ll use something smaller, say 0.04, and a larger threshold, <span class="math inline">\(exp(0) = 1\)</span>.</p>
+<pre class="r"><code>set.seed(221)
+ysim = exp(rnorm(10000, 0, 0.2))
+centhresh = exp(0)</code></pre>
+<p>Here’s the log likelihood using the censored MLE method:</p>
+<pre class="r"><code>mus = seq(-1, 1, length.out = 1000)
+sigsqs = seq(0.01, 0.5, length.out = 1000)
+
+mull = sapply(mus, llik, sigsq = 0.04, data = ysim, threshold = centhresh)
+plot(mus, mull, type = &quot;l&quot;)</code></pre>
+<p><img src="../../../../post/2016-01-03-Maximum-Likelihood-Estimation-using-censored-data_files/figure-html/unnamed-chunk-7-1.png" width="672" /></p>
+<pre class="r"><code>s2ll = sapply(sigsqs, llik, mu = 0, data = ysim, threshold = centhresh)
+plot(sigsqs, s2ll, type = &quot;l&quot;)</code></pre>
+<p><img src="../../../../post/2016-01-03-Maximum-Likelihood-Estimation-using-censored-data_files/figure-html/unnamed-chunk-7-2.png" width="672" /></p>
+<pre class="r"><code>(muhat1 = mus[which.max(mull)])</code></pre>
+<pre><code>## [1] -0.001001001</code></pre>
+<pre class="r"><code>(s2hat1 = sigsqs[which.max(s2ll)])</code></pre>
+<pre><code>## [1] 0.04139139</code></pre>
+<p>And here’s the imputation method:</p>
+<pre class="r"><code>ysim2 = ysim
+ysim2[ysim &lt; centhresh] = centhresh / 2
+
+mull = sapply(mus, llik, sigsq = 0.04, data = ysim2, 
+              threshold = 0.01)
+plot(mus, mull, type = &quot;l&quot;)</code></pre>
+<p><img src="../../../../post/2016-01-03-Maximum-Likelihood-Estimation-using-censored-data_files/figure-html/unnamed-chunk-8-1.png" width="672" /></p>
+<pre class="r"><code>s2ll = sapply(sigsqs, llik, mu = 0, data = ysim2, 
+              threshold = 0.01)
+plot(sigsqs, s2ll, type = &quot;l&quot;)</code></pre>
+<p><img src="../../../../post/2016-01-03-Maximum-Likelihood-Estimation-using-censored-data_files/figure-html/unnamed-chunk-8-2.png" width="672" /></p>
+<pre class="r"><code>(muhat3 = mus[which.max(mull)])</code></pre>
+<pre><code>## [1] -0.2712713</code></pre>
+<pre class="r"><code>(s2hat3 = sigsqs[which.max(s2ll)])</code></pre>
+<pre><code>## [1] 0.2630931</code></pre>
+<p>Looking at the estimates side-by-side:</p>
+<pre class="r"><code>knitr::kable(data.frame(method = c(&quot;censMLE&quot;, &quot;halfBDL&quot;), 
+                        muhat = c(muhat1, muhat3), s2hat = c(s2hat1, s2hat3)))</code></pre>
+<table>
+<thead>
+<tr class="header">
+<th align="left">method</th>
+<th align="right">muhat</th>
+<th align="right">s2hat</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">censMLE</td>
+<td align="right">-0.0010010</td>
+<td align="right">0.0413914</td>
+</tr>
+<tr class="even">
+<td align="left">halfBDL</td>
+<td align="right">-0.2712713</td>
+<td align="right">0.2630931</td>
+</tr>
+</tbody>
+</table>
+<p>So here using 1/2 the detection limit for nondetects <em>really</em> biased the results. Meanwhile, the likelihood method was spot on.</p>
+<p>A couple of caveats before signing off. First, this worked so well precisely because the distribution of the data was known. If you don’t know what distribution your data come from, maximum likelihood ceases to be meaningful. Second, note that I didn’t properly maximize the likelihood (with respect to the full parameter space) in the above simulations–that would have required a more sophisticated numerical computation, e.g. gradient descent. Here I used <code>which.max</code> to get the argument that maximized the function for a range of parameter values.</p>
+
+              
+            </div>
+          </div>
+          <div id="post-footer" class="post-footer main-content-wrap">
+            
+              
+            
+            <div class="post-actions-wrap">
+  <nav>
+    <ul class="post-actions post-action-nav">
+      
+        <li class="post-action">
+          
+            <a class="post-action-btn btn btn--default tooltip--top" href="../../../../1/01/01/library-books/" data-tooltip="Library books">
+          
+            <i class="fa fa-angle-left"></i>
+            <span class="hide-xs hide-sm text-small icon-ml"></span>
+          </a>
+        </li>
+        <li class="post-action">
+          
+            <a class="post-action-btn btn btn--default tooltip--top" href="../../../../1/01/01/odsc2015/" data-tooltip="ODSC2015">
+          
+            <span class="hide-xs hide-sm text-small icon-mr"></span>
+            <i class="fa fa-angle-right"></i>
+          </a>
+        </li>
+      
+    </ul>
+  </nav>
+  <ul class="post-actions post-action-share">
+    
+      <li class="post-action hide-lg hide-md hide-sm">
+        <a class="post-action-btn btn btn--default btn-open-shareoptions" href="#btn-open-shareoptions">
+          <i class="fa fa-share-alt"></i>
+        </a>
+      </li>
+      <li class="post-action hide-xs">
+        <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=%2f1%2f01%2f01%2fmle-for-censored-data%2f">
+          <i class="fa fa-google-plus"></i>
+        </a>
+      </li>
+      <li class="post-action hide-xs">
+        <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=%2f1%2f01%2f01%2fmle-for-censored-data%2f">
+          <i class="fa fa-facebook-official"></i>
+        </a>
+      </li>
+      <li class="post-action hide-xs">
+        <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=%2f1%2f01%2f01%2fmle-for-censored-data%2f">
+          <i class="fa fa-twitter"></i>
+        </a>
+      </li>
+    
+    
+    <li class="post-action">
+      
+        <a class="post-action-btn btn btn--default" href="#">
+      
+        <i class="fa fa-list"></i>
+      </a>
+    </li>
+  </ul>
+</div>
+
+
+            
+              
+            
+          </div>
+        </article>
+        <footer id="footer" class="main-content-wrap">
+  <span class="copyrights">
+    &copy; 2017 Mark Hagemann. 
+  </span>
+</footer>
+
+      </div>
+      <div id="bottom-bar" class="post-bottom-bar" data-behavior="">
+        <div class="post-actions-wrap">
+  <nav>
+    <ul class="post-actions post-action-nav">
+      
+        <li class="post-action">
+          
+            <a class="post-action-btn btn btn--default tooltip--top" href="../../../../1/01/01/library-books/" data-tooltip="Library books">
+          
+            <i class="fa fa-angle-left"></i>
+            <span class="hide-xs hide-sm text-small icon-ml"></span>
+          </a>
+        </li>
+        <li class="post-action">
+          
+            <a class="post-action-btn btn btn--default tooltip--top" href="../../../../1/01/01/odsc2015/" data-tooltip="ODSC2015">
+          
+            <span class="hide-xs hide-sm text-small icon-mr"></span>
+            <i class="fa fa-angle-right"></i>
+          </a>
+        </li>
+      
+    </ul>
+  </nav>
+  <ul class="post-actions post-action-share">
+    
+      <li class="post-action hide-lg hide-md hide-sm">
+        <a class="post-action-btn btn btn--default btn-open-shareoptions" href="#btn-open-shareoptions">
+          <i class="fa fa-share-alt"></i>
+        </a>
+      </li>
+      <li class="post-action hide-xs">
+        <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=%2f1%2f01%2f01%2fmle-for-censored-data%2f">
+          <i class="fa fa-google-plus"></i>
+        </a>
+      </li>
+      <li class="post-action hide-xs">
+        <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=%2f1%2f01%2f01%2fmle-for-censored-data%2f">
+          <i class="fa fa-facebook-official"></i>
+        </a>
+      </li>
+      <li class="post-action hide-xs">
+        <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=%2f1%2f01%2f01%2fmle-for-censored-data%2f">
+          <i class="fa fa-twitter"></i>
+        </a>
+      </li>
+    
+    
+    <li class="post-action">
+      
+        <a class="post-action-btn btn btn--default" href="#">
+      
+        <i class="fa fa-list"></i>
+      </a>
+    </li>
+  </ul>
+</div>
+
+
+      </div>
+      <div id="share-options-bar" class="share-options-bar" data-behavior="">
+  <ul class="share-options">
+    <li class="share-option">
+      <a class="share-option-btn" target="new" href="https://plus.google.com/share?url=%2f1%2f01%2f01%2fmle-for-censored-data%2f">
+        <i class="fa fa-google-plus"></i><span></span>
+      </a>
+    </li>
+    <li class="share-option">
+      <a class="share-option-btn" target="new" href="https://www.facebook.com/sharer/sharer.php?u=%2f1%2f01%2f01%2fmle-for-censored-data%2f">
+        <i class="fa fa-facebook-official"></i><span></span>
+      </a>
+    </li>
+    <li class="share-option">
+      <a class="share-option-btn" target="new" href="https://twitter.com/intent/tweet?text=%2f1%2f01%2f01%2fmle-for-censored-data%2f">
+        <i class="fa fa-twitter"></i><span></span>
+      </a>
+    </li>
+  </ul>
+</div>
+<div id="share-options-mask" class="share-options-mask"></div>
+    </div>
+    
+    <div id="about">
+  <div id="about-card">
+    <div id="about-btn-close">
+      <i class="fa fa-remove"></i>
+    </div>
+    
+    <h4 id="about-card-name"></h4>
+    
+    
+    
+  </div>
+</div>
+
+    <div id="algolia-search-modal" class="modal-container">
+  <div class="modal">
+    <div class="modal-header">
+      <span class="close-button"><i class="fa fa-close"></i></span>
+      <a href="https://algolia.com" target="_blank" class="searchby-algolia text-color-light link-unstyled">
+        <span class="searchby-algolia-text text-color-light text-small">by</span>
+        <img class="searchby-algolia-logo" src="https://www.algolia.com/static_assets/images/press/downloads/algolia-light.svg">
+      </a>
+      <i class="search-icon fa fa-search"></i>
+      <form id="algolia-search-form">
+        <input type="text" id="algolia-search-input" name="search"
+          class="form-control input--large search-input" placeholder="" />
+      </form>
+    </div>
+    <div class="modal-body">
+      <div class="no-result text-color-light text-center"></div>
+      <div class="results">
+        
+        
+          <div class="media">
+            
+            <div class="media-body">
+              <a class="link-unstyled" href="../../../../2016/12/30/a-plain-markdown-post/">
+                <h3 class="media-heading">A Plain Markdown Post</h3>
+              </a>
+              <span class="media-meta">
+                <span class="media-date text-small">
+                  Dec 12, 2016
+                </span>
+              </span>
+              <div class="media-content hide-xs font-merryweather">This is a post written in plain Markdown (*.md) instead of R Markdown (*.Rmd). The major differences are:
+You cannot run any R code in a plain Markdown document, whereas in an R Markdown document, you can embed R code chunks (```{r}); A plain Markdown post is rendered through Blackfriday, and an R Markdown document is compiled by rmarkdown and Pandoc.  There are many differences in syntax between Blackfriday’s Markdown and Pandoc’s Markdown.</div>
+            </div>
+            <div style="clear:both;"></div>
+            <hr>
+          </div>
+        
+          <div class="media">
+            
+            <div class="media-body">
+              <a class="link-unstyled" href="../../../../2015/01/01/lorem-ipsum/">
+                <h3 class="media-heading">Lorem Ipsum</h3>
+              </a>
+              <span class="media-meta">
+                <span class="media-date text-small">
+                  Jan 1, 2015
+                </span>
+              </span>
+              <div class="media-content hide-xs font-merryweather">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</div>
+            </div>
+            <div style="clear:both;"></div>
+            <hr>
+          </div>
+        
+          <div class="media">
+            
+            <div class="media-body">
+              <a class="link-unstyled" href="../../../../2014/09/07/r-function-to-make-octopress-posts/">
+                <h3 class="media-heading">R function to make Octopress posts</h3>
+              </a>
+              <span class="media-meta">
+                <span class="media-date text-small">
+                  Sep 9, 2014
+                </span>
+              </span>
+              <div class="media-content hide-xs font-merryweather">pre .operator, pre .paren { color: rgb(104, 118, 135) } pre .literal { color: #990073 } pre .number { color: #099; } pre .comment { color: #998; font-style: italic } pre .keyword { color: #900; font-weight: bold } pre .identifier { color: rgb(0, 0, 0); } pre .string { color: #d14; }  var hljs=new function(){function m(p){return p.replace(/&/gm,"&amp;").replace(/"}while(y.length||w.length){var v=u().splice(0,1)[0];z+=m(x.substr(q,v.offset-q));q=v.offset;if(v.event=="start"){z+=t(v.node);s.push(v.node)}else{if(v.event=="stop"){var p,r=s.length;do{r--;p=s[r];z+=("")}while(p!=v.node);s.splice(r,1);while(r'+M[0]+""}else{r+=M[0]}O=P.lR.lastIndex;M=P.lR.exec(L)}return r+L.substr(O,L.length-O)}function J(L,M){if(M.sL&&e[M.sL]){var r=d(M.sL,L);x+=r.keyword_count;return r.value}else{return F(L,M)}}function I(M,r){var L=M.</div>
+            </div>
+            <div style="clear:both;"></div>
+            <hr>
+          </div>
+        
+          <div class="media">
+            
+            <div class="media-body">
+              <a class="link-unstyled" href="../../../../2014/08/17/adding-content/">
+                <h3 class="media-heading">Adding Content</h3>
+              </a>
+              <span class="media-meta">
+                <span class="media-date text-small">
+                  Aug 8, 2014
+                </span>
+              </span>
+              <div class="media-content hide-xs font-merryweather">Real briefly: I’m finally comfortable enough with the inner workings of Octopress to start putting some content on this blog. A lot of my first moves are going to be notes from various courses and tutorials that I’ve written in markdown (rather RMarkdown), mainly so that I can keep track of them in a place that’s not my messy hard drive. These are just notes, so they are not in the least well-written or even sensible, necessarily.</div>
+            </div>
+            <div style="clear:both;"></div>
+            <hr>
+          </div>
+        
+          <div class="media">
+            
+            <div class="media-body">
+              <a class="link-unstyled" href="../../../../1/01/01/">
+                <h3 class="media-heading"></h3>
+              </a>
+              <span class="media-meta">
+                <span class="media-date text-small">
+                  Jan 1, 0001
+                </span>
+              </span>
+              <div class="media-content hide-xs font-merryweather">First post with Octopress! I’ve just managed to set up an Octopress blogging platform, after becoming frustrated with wordpress.com’s limitations. I only learned about Octopress a couple of days ago, and I spent an awful lot of the intervening time wrestling with my macbook’s unix shell trying to get it set up on my very own website.
+Octopress is apparently an incarnation of Jekyll, which itself purports to be “a blogging platform for hackers.</div>
+            </div>
+            <div style="clear:both;"></div>
+            <hr>
+          </div>
+        
+          <div class="media">
+            
+            <div class="media-body">
+              <a class="link-unstyled" href="../../../../1/01/01/">
+                <h3 class="media-heading"></h3>
+              </a>
+              <span class="media-meta">
+                <span class="media-date text-small">
+                  Jan 1, 0001
+                </span>
+              </span>
+              <div class="media-content hide-xs font-merryweather">Tonight I’m trying out the DiagrammeR R package, one of the html widgets javascript bindings for R. I happen to be trying to make a copule flowcharts for research right now, and I figure this is a good way to procrastinate while feeling like I’m learning something.
+install.packages(&quot;DiagrammeR&quot;) library(DiagrammeR) What’s inside?
+ls(&quot;package:DiagrammeR&quot;) ## [1] &quot;%&gt;%&quot; &quot;add_balanced_tree&quot; ## [3] &quot;add_cycle&quot; &quot;add_edge&quot; ## [5] &quot;add_edge_df&quot; &quot;add_edges_from_table&quot; ## [7] &quot;add_edges_w_string&quot; &quot;add_full_graph&quot; ## [9] &quot;add_global_graph_attrs&quot; &quot;add_n_nodes&quot; ## [11] &quot;add_n_nodes_ws&quot; &quot;add_node&quot; ## [13] &quot;add_node_df&quot; &quot;add_nodes_from_df_cols&quot; ## [15] &quot;add_nodes_from_table&quot; &quot;add_path&quot; ## [17] &quot;add_prism&quot; &quot;add_star&quot; ## [19] &quot;add_to_series&quot; &quot;cache_edge_attrs&quot; ## [21] &quot;cache_edge_attrs_ws&quot; &quot;cache_edge_count_ws&quot; ## [23] &quot;cache_node_attrs&quot; &quot;cache_node_attrs_ws&quot; ## [25] &quot;cache_node_count_ws&quot; &quot;clear_global_graph_attrs&quot; ## [27] &quot;clear_selection&quot; &quot;colorize_edge_attrs&quot; ## [29] &quot;colorize_node_attrs&quot; &quot;combine_edfs&quot; ## [31] &quot;combine_graphs&quot; &quot;combine_ndfs&quot; ## [33] &quot;copy_edge_attrs&quot; &quot;copy_node_attrs&quot; ## [35] &quot;create_complement_graph&quot; &quot;create_edge_df&quot; ## [37] &quot;create_graph&quot; &quot;create_node_df&quot; ## [39] &quot;create_random_graph&quot; &quot;create_series&quot; ## [41] &quot;create_subgraph_ws&quot; &quot;delete_edge&quot; ## [43] &quot;delete_edges_ws&quot; &quot;delete_global_graph_attrs&quot; ## [45] &quot;delete_node&quot; &quot;delete_nodes_ws&quot; ## [47] &quot;DiagrammeR&quot; &quot;DiagrammeROutput&quot; ## [49] &quot;do_bfs&quot; &quot;do_dfs&quot; ## [51] &quot;drop_edge_attrs&quot; &quot;drop_node_attrs&quot; ## [53] &quot;edge_count&quot; &quot;edge_info&quot; ## [55] &quot;edge_present&quot; &quot;edge_rel&quot; ## [57] &quot;export_csv&quot; &quot;export_graph&quot; ## [59] &quot;from_adj_matrix&quot; &quot;from_igraph&quot; ## [61] &quot;generate_dot&quot; &quot;get_all_connected_nodes&quot; ## [63] &quot;get_articulation_points&quot; &quot;get_betweenness&quot; ## [65] &quot;get_bridging&quot; &quot;get_cache&quot; ## [67] &quot;get_closeness&quot; &quot;get_cmty_edge_btwns&quot; ## [69] &quot;get_cmty_fast_greedy&quot; &quot;get_cmty_l_eigenvec&quot; ## [71] &quot;get_cmty_louvain&quot; &quot;get_cmty_walktrap&quot; ## [73] &quot;get_common_nbrs&quot; &quot;get_constraint&quot; ## [75] &quot;get_degree_distribution&quot; &quot;get_degree_histogram&quot; ## [77] &quot;get_dice_similarity&quot; &quot;get_eccentricity&quot; ## [79] &quot;get_edge_attrs&quot; &quot;get_edge_df&quot; ## [81] &quot;get_edge_ids&quot; &quot;get_edges&quot; ## [83] &quot;get_global_graph_attrs&quot; &quot;get_graph_diameter&quot; ## [85] &quot;get_graph_from_series&quot; &quot;get_graph_name&quot; ## [87] &quot;get_graph_time&quot; &quot;get_jaccard_similarity&quot; ## [89] &quot;get_min_spanning_tree&quot; &quot;get_nbrs&quot; ## [91] &quot;get_node_attrs&quot; &quot;get_node_df&quot; ## [93] &quot;get_node_ids&quot; &quot;get_non_nbrs&quot; ## [95] &quot;get_paths&quot; &quot;get_periphery&quot; ## [97] &quot;get_predecessors&quot; &quot;get_s_connected_cmpts&quot; ## [99] &quot;get_selection&quot; &quot;get_similar_nbrs&quot; ## [101] &quot;get_successors&quot; &quot;get_w_connected_cmpts&quot; ## [103] &quot;graph_count&quot; &quot;graph_info&quot; ## [105] &quot;grViz&quot; &quot;grVizOutput&quot; ## [107] &quot;image_icon&quot; &quot;import_graph&quot; ## [109] &quot;invert_selection&quot; &quot;is_graph_connected&quot; ## [111] &quot;is_graph_directed&quot; &quot;is_graph_empty&quot; ## [113] &quot;join_edge_attrs&quot; &quot;join_node_attrs&quot; ## [115] &quot;layout_nodes_w_string&quot; &quot;mermaid&quot; ## [117] &quot;mk_cond&quot; &quot;mutate_edge_attrs&quot; ## [119] &quot;mutate_node_attrs&quot; &quot;node_count&quot; ## [121] &quot;node_info&quot; &quot;node_present&quot; ## [123] &quot;node_type&quot; &quot;nudge_node_positions_ws&quot; ## [125] &quot;recode_edge_attrs&quot; &quot;recode_node_attrs&quot; ## [127] &quot;remove_from_series&quot; &quot;rename_edge_attrs&quot; ## [129] &quot;rename_node_attrs&quot; &quot;renderDiagrammeR&quot; ## [131] &quot;render_graph&quot; &quot;render_graph_from_series&quot; ## [133] &quot;renderGrViz&quot; &quot;replace_in_spec&quot; ## [135] &quot;rescale_edge_attrs&quot; &quot;rescale_node_attrs&quot; ## [137] &quot;rev_edge_dir&quot; &quot;rev_edge_dir_ws&quot; ## [139] &quot;select_edges&quot; &quot;select_edges_by_edge_id&quot; ## [141] &quot;select_edges_by_node_id&quot; &quot;select_last_edge&quot; ## [143] &quot;select_last_node&quot; &quot;select_nodes&quot; ## [145] &quot;select_nodes_by_degree&quot; &quot;select_nodes_by_id&quot; ## [147] &quot;select_nodes_in_neighborhood&quot; &quot;select_rev_edges_ws&quot; ## [149] &quot;series_info&quot; &quot;set_cache&quot; ## [151] &quot;set_edge_attrs&quot; &quot;set_edge_attrs_ws&quot; ## [153] &quot;set_global_graph_attrs&quot; &quot;set_graph_name&quot; ## [155] &quot;set_graph_time&quot; &quot;set_graph_undirected&quot; ## [157] &quot;set_node_attrs&quot; &quot;set_node_attrs_ws&quot; ## [159] &quot;set_node_attr_to_display&quot; &quot;set_node_position&quot; ## [161] &quot;subset_series&quot; &quot;to_igraph&quot; ## [163] &quot;trav_both&quot; &quot;trav_both_edge&quot; ## [165] &quot;trav_in&quot; &quot;trav_in_edge&quot; ## [167] &quot;trav_in_node&quot; &quot;trav_out&quot; ## [169] &quot;trav_out_edge&quot; &quot;trav_out_node&quot; ## [171] &quot;trigger_script&quot; &quot;visnetwork&quot; ## [173] &quot;vivagraph&quot; &quot;x11_hex&quot; Following the video on the website</div>
+            </div>
+            <div style="clear:both;"></div>
+            <hr>
+          </div>
+        
+          <div class="media">
+            
+            <div class="media-body">
+              <a class="link-unstyled" href="../../../../1/01/01/">
+                <h3 class="media-heading"></h3>
+              </a>
+              <span class="media-meta">
+                <span class="media-date text-small">
+                  Jan 1, 0001
+                </span>
+              </span>
+              <div class="media-content hide-xs font-merryweather">I’ve been daydreaming in the dark about longer daylight hours, so I drew some pictures to cheer myself up.
+Here’s one of day length (sunrise to sunset) for the next 2 months (here in Amherst, MA, that is):
+Ahh, things are ramping up. And more quicly every day.
+Now here’s a picture of the sunrise and sunset times:
+Yes, daylight savings is less than 2 months away!
+I also drew some pictures with a wider field of view.</div>
+            </div>
+            <div style="clear:both;"></div>
+            <hr>
+          </div>
+        
+          <div class="media">
+            
+            <div class="media-body">
+              <a class="link-unstyled" href="../../../../1/01/01/api-packages/">
+                <h3 class="media-heading">API packages</h3>
+              </a>
+              <span class="media-meta">
+                <span class="media-date text-small">
+                  Jan 1, 0001
+                </span>
+              </span>
+              <div class="media-content hide-xs font-merryweather">I’m taking a break from helping DataFest participants untangle their R code to work on clearing my backlog of unfinished blog posts. One thing I’ve been meaning to talk about is a series of R packages I’ve written, in various stages of development. This is something I’ve done before, but still new enough to be excited about a working product.
+All these packages are built to access data from US Federal agency APIs.</div>
+            </div>
+            <div style="clear:both;"></div>
+            <hr>
+          </div>
+        
+          <div class="media">
+            
+            <div class="media-body">
+              <a class="link-unstyled" href="../../../../1/01/01/breaking-the-silence/">
+                <h3 class="media-heading">Breaking the Silence</h3>
+              </a>
+              <span class="media-meta">
+                <span class="media-date text-small">
+                  Jan 1, 0001
+                </span>
+              </span>
+              <div class="media-content hide-xs font-merryweather">Haven’t updated this blog in a while. Time to start doing that again.
+Also, I changed the theme. The last one wasn’t doing it for me. I like this one. It’s called “mnml”</div>
+            </div>
+            <div style="clear:both;"></div>
+            <hr>
+          </div>
+        
+          <div class="media">
+            
+            <div class="media-body">
+              <a class="link-unstyled" href="../../../../1/01/01/concept-maps-parts-1-and-2/">
+                <h3 class="media-heading">Concept maps! (parts 1 and 2)</h3>
+              </a>
+              <span class="media-meta">
+                <span class="media-date text-small">
+                  Jan 1, 0001
+                </span>
+              </span>
+              <div class="media-content hide-xs font-merryweather">The following contains notes from the first two parts what turned into a fruitful search for something I simply wanted to exist. I’m still following this string, but I think I’ve stumbled onto something very useful. More updates will follow.
+I’ve been having a hard time lately getting everything on my daily task list accomplished. Not that I’ve become any less efficient recently, but rather I’ve been somewhat better about explicitly listing the things I want to accomplish in any given day.</div>
+            </div>
+            <div style="clear:both;"></div>
+            <hr>
+          </div>
+        
+      </div>
+    </div>
+    <div class="modal-footer">
+      <p class="results-count text-medium"
+         data-message-zero=""
+         data-message-one=""
+         data-message-other="">
+         23 posts found
+      </p>
+    </div>
+  </div>
+</div>
+    
+
+    
+<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.8.0/highlight.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.4/jquery.fancybox.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.4/helpers/jquery.fancybox-thumbs.min.js"></script>
+
+
+<script src="../../../../js/script-wl33z0n6ocaypepiqrazthtivfrliqijej4rq8ek8gvrv1awftmgjuv8k4zc.min.js"></script>
+
+<script>
+$(document).ready(function() {
+  hljs.configure({ classPrefix: '', useBR: false });
+  $('pre.code-highlight').each(function(i, block) {
+    var code = "";
+    hljs.highlightAuto(block.innerText).value.split(/\r\n|\r|\n/).forEach(function(line) {
+      code += "<span class=\"line\">" + line + "</span><br>";
+    });
+    if (code.length > 0) {
+      block.innerHTML = code;  
+    }
+  });
+  $('pre > code').each(function(i, block) {
+    $(this).addClass('codeblock');
+    hljs.highlightBlock(block);
+  });
+});
+</script>
+
+  
+    
+  
+
+
+
+
+
+    
+  </body>
+</html>
+

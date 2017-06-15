@@ -1,0 +1,20 @@
+---
+title: "socrata"
+author: "Mark Hagemann"
+date: "March 24, 2015"
+output: html_document
+---
+
+I'm currently watching [Socrata's](http://www.socrata.com/) introductory webinar. Thinking about how far the open data movement has to go to in the context of water science. 
+
+I found myself at the website after browsing the links from a [TED talk on NYC open data insights](http://www.ted.com/talks/ben_wellington_how_we_found_the_worst_place_to_park_in_new_york_city_using_big_data#t-26973). I had only vaguely been aware of Socrata in the past, but it looks to be catching on:
+
+<iframe scrolling="no" style="border:none;" width="640" height="330" src="http://www.google.com/trends/fetchComponent?hl=en-US&q=socrata &cmpt=q&content=1&cid=TIMESERIES_GRAPH_0&export=5&w=640&h=330"></iframe>
+
+I won't pretend to know more than I do about Socrata, but I think [this graphic](http://image.slidesharecdn.com/bigdatapresentationallthreespeakers-130303073958-phpapp01/95/big-data-session-presentations-6-1024.jpg?cb=1362337090) pretty well sums up their mission:
+
+![Socrata Data maturity levels](http://image.slidesharecdn.com/bigdatapresentationallthreespeakers-130303073958-phpapp01/95/big-data-session-presentations-6-1024.jpg?cb=1362337090)
+
+Alas, I am all too familiar with the levels 1 and 2 in my encounters with government databases. But looking at this I realize that while I see the potential for improvement, I don't have the data chops to get much past level 3. Here is where I admit humility and laud the efforts of real experts (and dream of one day joining them). 
+
+So that's Socrata, another thing I'll be keeping tabs on. 

@@ -1,0 +1,112 @@
+---
+output: 
+  html_document:
+    self_contained: true
+    lib_dir: libs
+    theme: null
+    css: null
+    hilight: null
+---
+
+Tonight I'm trying out the **DiagrammeR** R package, one of the [html widgets](http://www.htmlwidgets.org/) javascript bindings for R. I happen to be trying to make a copule flowcharts for research right now, and I figure this is a good way to procrastinate while feeling like I'm learning something.
+
+```{r, echo = FALSE}
+library(DiagrammeR)
+```
+
+```{r, eval = FALSE}
+install.packages("DiagrammeR")
+library(DiagrammeR)
+```
+
+What's inside?
+
+```{r}
+ls("package:DiagrammeR")
+```
+
+Following the video on the [website](http://rich-iannone.github.io/DiagrammeR/)
+
+```{r, eval = TRUE}
+grViz("
+  digraph boxes_and_circles{
+  
+  node [shape = box]
+  A; B; C; D
+  
+  
+  }
+      ")
+```
+
+
+The video is nice, but to really learn how to use the package check out the [docs](http://rich-iannone.github.io/DiagrammeR/docs.html) on the website. There are apparently two graphing engines the packages uses, `grViz` and `mermaid`. As an exercise to get familiar with the package, I'll try using both to diagram a hierarchical model from my Bayes homework.
+
+
+```{r}
+grViz("
+digraph bayesModel {
+graph [overlap = true, fontsize = 10]
+
+  # I'll make the data a triangle
+  node [shape = triangle,
+        fontname = Helvetica]
+  y
+  
+  # parameters will be boxes
+  node [shape = box,
+        fontname = Helvetica]
+  theta; sigma2; mu; tau2; lambda; phi2; psi; 
+  delta; gamma; omega2; c; d
+
+  # distributions will be circles.
+  node [shape = circle,
+        fixedsize = false,
+        width = 0.9] // sets as circles
+  normal1 normal2 normal3 normal4 invGamma1 invGamma2
+
+  # several 'edge' statements
+  {gamma omega2}->normal1->lambda 
+  {c d}->invGamma1->phi2
+  {lambda phi2}->normal2->mu
+  {psi delta}->invGamma2->tau2
+  {mu tau2}->normal3->theta
+  {theta sigma2}->normal4->y
+}
+")
+
+```
+
+
+Here's mermaid [*edit: this is a screenshot, since the auto-generated javascript was messing up the formatting of my RMarkdown rendering*]: 
+
+```{r, eval = FALSE}
+mermaid("
+graph TD
+  a[gamma]-->c(normal1)
+  b[omega2]-->c(normal1)
+  c-->d[lambda]
+  e[c]-->g(invGamma1)
+  f[d]-->g(invGamma1)
+  g-->h[phi2]
+  d-->k(normal2)
+  h-->k(normal2)
+  k-->l[mu]
+  m[psi]-->o(invGamma2)
+  n[delta]-->o(invGamma2)
+  o(invGamma2)-->p[tau2]
+  l-->q(normal3)
+  p-->q(normal3)
+  q-->r[theta]
+  r-->t(normal4)
+  s[sigma2]-->t(normal4)
+  t-->u>y]
+")
+```
+
+![Mermaid Diagram](blog_images/mermaidDiagram.png)
+
+I can't say I found this particularly efficient--mermaid felt especially cumbersome to code, despite straightforward syntax--but it's possible that with practice I could find it useful. Or that there are shortcuts that I'm missing. Also it was unclear whether important things like LaTeX math are supported. I do like the output though. 
+
+
+

@@ -1,0 +1,8 @@
+First post with Octopress!
+========================================================
+
+I've just managed to set up an Octopress blogging platform, after becoming frustrated with wordpress.com's limitations. I only learned about Octopress a couple of days ago, and I spent an awful lot of the intervening time wrestling with my macbook's unix shell trying to get it set up on my very own website. 
+
+Octopress is apparently an incarnation of Jekyll, which itself purports to be "a blogging platform for hackers." A hacker I am not, though I've been trying to get a deeper understanting of the machine I interact with more than any human being. So I'm well aware that there are easier ways to do this, but this is all in the name of education (and hacker street cred). 
+
+This post is mostly a test to see how uploading content works, but if all goes well I'll be migrating at least some of the (meager) content from my previous wordpress blog to this new site. 

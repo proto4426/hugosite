@@ -1,0 +1,37 @@
+---
+title: "API packages"
+author: "Mark Hagemann"
+date: "February 23, 2016"
+output: 
+  html_document:
+    self_contained: false
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+I'm taking a break from helping [DataFest](http://www.science.smith.edu/datafest/) participants untangle their R code to work on clearing my backlog of unfinished blog posts. 
+One thing I've been meaning to talk about is a series of R packages I've written, in various stages of development. This is something I've [done before](https://github.com/markwh), but still new enough to be excited about a working product. 
+
+All these packages are built to access data from US Federal agency APIs. The first two came out of my interest beginning several months back in environmental regulatory and oversight data, mostly related to the [water crisis in Flint](http://flintwaterstudy.org/). The APIs they access are [envirofacts](https://www3.epa.gov/enviro/) from the EPA and [regulations.gov](https://www.regulations.gov/#!home) from various Federal agencies. Both of these packages have working functions, but the data structures they return, and the structure of the APIs themselves, are complicated enough to keep me from doing anything very interesting with them. So far. The versions on github [here](https://github.com/markwh/envirofacts) and [here](https://github.com/markwh/regsgov) are functional but not elegant. And since I don't know particularly what to do with them, I probably won't be working on them further in the forseeable future. I'd love to hear ideas though. 
+
+The [final package](https://github.com/markwh/streamstats)--the one I'm most excited about--is one to access the [USGS Streamstats](http://water.usgs.gov/osw/streamstats/) API. I'ts probably the most professional-looking R package I've written to date (though that's not saying much). What's it do? Well the main function, `delineateWatershed`, takes a location (latitude and longitude), and returns a [geojson](http://geojson.org/) of that location's contributing watershed. It can also return watershed parameters like basin size and land-use composition as well as streamflow statistics. Of course, all of this is being computed or looked up on USGS servers; the package just makes the call to retrieve this info. But it's still a very handy way to get this data into R, and I'm already using this for my own research projects.
+
+Aside from the simple bindings to the API endpoints, I also have some minimal additional features for convenience. `combineWatersheds` creates a single watershed object with geojson data composed of multiple supplied watersheds. `writeGeoJSON` writes the geojson data to disk, for example to export into a different program like ArcGIS. And `leafletWatershed` makes a slick [leaflet](http://leafletjs.com/) map of a watershed object. Here's an example:
+
+```{r westfieldLeaflet}
+library(streamstats)
+library(leaflet)
+data(westfield)
+leafletWatershed(westfield) %>% 
+  setView(lng = -72.92488, 42.31705, zoom = 12)
+```
+
+I may add more functions for doing common analysis-type things with streamstats data, but I currently have none planned. 
+
+I would love to see people try these packages out and contribute on GitHub by opening an issue or submitting a pull request. 
+
+
+
+

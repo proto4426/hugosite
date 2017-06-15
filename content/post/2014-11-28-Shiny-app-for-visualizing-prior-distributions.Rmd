@@ -1,0 +1,39 @@
+---
+title: "Shiny app for visualizing prior distributions"
+author: "Mark Hagemann"
+date: "November 8, 2014"
+output: html_document
+---
+
+A friend of mine is collaborating on a project using a Bayesian hierarchical model. One of the parameters in her model is error precision (inverse variance), which she's giving a gamma-distributed prior. The other day she came to me with a question about the distribution, and how it could be interpreted. This struck me as less than intuitive, so I thought I'd make a simple interactive application to show how the prior parameters would translate into the precision distribtuion, as well as something more intuitive like standard deviation. 
+
+Here's what I came up with:
+
+
+## Gamma density for precisions
+
+<iframe src="http://markwh.shinyapps.io/gammaPriorsApp/" width="100%" height="600"></iframe>
+
+
+
+## Insights
+Before making these plots I recognized that selecting prior parameters that pushed precisions nearer to zero would lead to larger standard deviations, but I had no idea how that would look in terms of distribution. I was surprised by how hard it was to push the standard deviations far from zero (I was afraid they might blow up). 
+
+## Standard deviation density
+
+Just to show my math a little more clearly, here is how I obtained the standard deviation density:
+
+Let $X_1$ be precision, $X_2$ be standard deviation. Then
+
+$$ X_2 = g(X_1) = \frac{1}{\sqrt{X_1}} $$
+
+$$ X_1 = g^{-1}(X_2) = \frac{1}{X_2^2} $$
+
+$$ f_{X_2}(x) = f_{X_1}(g^{-1}(x)) * \big| \frac{d}{d x} g^{-1}(x) \big| $$
+
+In this case, this works out to be:
+
+$$ f_{X_2}(x) = f_{X_1}(x^{-2}) * \frac{2}{x^3} $$
+
+So if we get $f_{X_1}(x)$ via `dgamma(x1, shape = input$shape, rate = input$rate)`, we can get $f_{X_2}(x)$ via `dgamma(x2^-2, shape = input$shape, rate = input$rate) * 2 * x2^-3)`. 
+

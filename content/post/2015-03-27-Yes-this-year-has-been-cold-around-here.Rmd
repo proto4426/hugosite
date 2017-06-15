@@ -1,0 +1,253 @@
+---
+title: 'Yes this year has been cold (around here)'
+author: "Mark Hagemann"
+date: "March 26, 2015"
+output: html_document
+---
+
+```{r echo = FALSE, message = FALSE}
+library(ggplot2)
+library(lubridate)
+library(dplyr)
+library(knitr)
+
+opts_chunk$set(echo = FALSE)
+```
+
+
+It's become part of my daily ritual to check the updated extended forecast in hopes of seeing of bona fide warm spell on the horizon. And each day my hopes are dashed--30s, some 40s, and now finally some low 50s--but no real birds-a-chirpin' spring weather. As a son of the Lake Superior shoreline I'm somewhat ashamed to admit my impatience with the relatively mild New England winter, but this one just feels *relentless*. 
+
+So I thought I'd try and put some numbers behind my suspicions, and dig into some real historic data. I pulled some NOAA daily temerature data for Amherst (where I live)--luckily there's a (mostly) complete record going back to the late 19th century. 
+
+
+```{r, echo = FALSE}
+subset.ggplot <- function(gg, subset, select, drop = FALSE) {
+  # Subsets a ggplot object by applying subset.data.frame code to gg$data
+  x = gg[["data"]]
+  r <- if (missing(subset)) 
+    rep_len(TRUE, nrow(x))
+  else {
+    e <- substitute(subset)
+    r <- eval(e, x, parent.frame())
+    if (!is.logical(r)) 
+      stop("'subset' must be logical")
+    r & !is.na(r)
+  }
+  vars <- if (missing(select)) 
+    TRUE
+  else {
+    nl <- as.list(seq_along(x))
+    names(nl) <- names(x)
+    eval(substitute(select), nl, parent.frame())
+  }
+  gg[["data"]] = x[r, vars, drop = drop]
+  gg
+}
+
+dataIn = read.csv("data/504345.csv")
+dates = data.frame(Date = seq.Date(as.Date("1894-01-01"), as.Date("2015-03-23"), 1))
+temps = dataIn %>% 
+  mutate(Date = as.Date(ymd(DATE)), 
+         TMAX = ifelse(TMAX == -9999, NA, TMAX)) %>% 
+  right_join(dates, by = "Date") %>% 
+  transmute(Date = Date, jday = as.numeric(format(Date, "%j")), 
+            year = as.numeric(format(Date, "%Y")), highT = 1.8 * TMAX / 10 + 32)
+```
+
+```{r}
+goodyears = temps %>% 
+  mutate(year = as.numeric(format(Date, "%Y")),
+         jday = as.numeric(format(Date, "%j"))) %>% 
+  filter(jday < 83) %>% 
+  group_by(year) %>% 
+  summarize(nna = sum(is.na(highT))) %>% 
+  filter(nna < 10) %>% 
+  `[[`("year")
+
+temps = temps %>% 
+  filter(year %in% goodyears) %>% 
+  mutate(highT = zoo::na.approx(highT))
+```
+
+The tidied data looks a little something like this (last 6 rows of the dataset):
+
+```{r}
+kable(tail(temps))
+```
+
+*A note on tidying. I dealt with missing values as follows: any year missing 10 or more days' data from the first 82 days of the year was omitted from the dataset. Other missing values were interpolated linearly from adjacent days' data.*
+
+Variables:
+
+- `jday` is the Julian day of the year (counting from 1 to 365 [or 366] starting January 1 of each year). The data I got is current through March 23, 2015. That's Julian day 82.
+- `highT` is the daily maximum temperature, which I've converted to Fahrenheit. Other measurements came in the raw data, but I decided to look only at highs. 
+
+
+## Investigations
+
+I wanted to know how cold 2015 has been, compared to the average for the first 82 days of a year. So how about the average daily high, compared with the historic record? First a plot:
+
+```{r}
+meanTs = temps %>% 
+  filter(jday < 83) %>% 
+  group_by(year) %>% 
+  summarize(meanT = mean(highT))
+g1 = ggplot(meanTs, aes(x = year, y = meanT)) + 
+  geom_point(aes(size = (year == 2015))) + 
+  theme_minimal()
+g1
+```
+
+Well that puts my mind at ease. Definitely colder on average. Notice that this year is especially an outlier in the context of a pretty clear increasing temperature trend. Don't see it? Try now:
+
+```{r, echo = FALSE}
+g1 + stat_smooth(method = "lm")
+```
+
+Not only is 2015 an outlier, but it's an *influential outlier*--if we remove that point from the plot, the linear regression line shifts noticeably:
+
+```{r, echo = FALSE}
+subset(g1, year != 2015) + stat_smooth(method = "lm")
+```
+
+Here's a similar picture, but looking instead at medians:
+
+```{r}
+medianTs = temps %>% 
+  filter(jday < 83) %>% 
+  group_by(year) %>% 
+  summarize(medianT = median(highT))
+g2 = ggplot(medianTs, aes(x = year, y = medianT)) + 
+  geom_point(aes(size = (year == 2015))) + 
+  theme_minimal()
+g2
+```
+
+Here the difference is even more striking. The typical day in the first 85 days of 2015 has been colder than just about any year in the historic record. 
+
+Now the year-to-date high: even in an otherwise chilly season a 60-degree day can really pick up the spirits. (And this year we've had nothing over 55.)
+
+```{r}
+maxTs = temps %>% 
+  filter(jday < 83) %>% 
+  group_by(year) %>% 
+  summarize(maxT = max(highT))
+g3 = ggplot(maxTs, aes(x = year, y = maxT)) + 
+  geom_point(aes(size = (year == 2015))) + 
+  theme_minimal()
+g3
+```
+
+Again, clearly colder than average, especially given the upward trend. But not as drastic. Also notice that the year-to-date high is not symetrically distributed, but has a heavy upper tail with some values in the 70s. (1921 even had an 80-degree day!) 
+
+### Geting meta with ranks and order stats. 
+
+The maximum and the median are both *order statistics*--values corresponding to a given rank of the data. The maximum is the value of the highest-ranked point, and the median is the value of the middlest-ranked point. Now I want to look at the whole range of order stats, from the first (i.e. minimum) to the last (maximum). For 2015, these look thusly:
+
+```{r}
+rankTs = temps %>% 
+  filter(jday < 83) %>% 
+  group_by(year) %>% 
+  mutate(dayrank = rank(highT, ties = "first"))
+
+
+g4 = ggplot(filter(rankTs, year == 2015), aes(x = dayrank, y = highT)) +
+  geom_point() +
+  theme_minimal()
+g4
+```
+
+This is just taking all of the daily high temperatures so far this year and lining them up from coldest to warmest. 
+
+Let's compare that (the 2015 order statistics) to the median order statistics over all years. 
+
+```{r}
+rankTs_med = rankTs %>% 
+  group_by(dayrank) %>% 
+  summarize(medRankT = median(highT))
+
+g4 + geom_line(data = rankTs_med, aes(x = dayrank, y = medRankT))
+```
+
+We see that only the minimum is (marginally) higher than the median year-to-date minimum for this time of year. Otherwise all of the order stats are colder than average--by over 5 degrees in some cases. Note that here I'm comparing the temperature order statistics over the days in a single year to an order statistic (the median) of such order statistics taken over all years. 
+
+Now let's go a step further.
+
+I'm going to take actual temperature values out of the picture entirely, and only look at *ranks of order statistics* for the year 2015. For each of the 2015 order statistics I'm going to ask the question: "Of all years' order stats, where does this one line up?"
+
+```{r}
+rankRanks = rankTs %>% 
+  group_by(dayrank) %>% 
+  mutate(yearrank = rank(highT)) %>% 
+  filter(year == 2015) %>% 
+  ungroup() %>% 
+  arrange(desc(yearrank)) %>% 
+  plot(yearrank ~ dayrank, data = .)
+```
+
+This is really interesting. It shows that just about all the year-to-date order statistics--from the 3rd-lowest daily high tempearture all the way to the very highest daily high temperature--were well below average. And many of them--from around the 40th to the 70th--were among the all-time low of these order statistics over all years on record. The uptick at the left side of the plot says that the coldest days this year weren't extremely cold from a historical standpoint, but the consistent chill of the more typical days this year (those around the midde of the x-axis) is virtually without precedent. *That* is what's been wearing on me. 
+
+Perhaps it would be better to show the y-axis in terms of percentiles. Here's that:
+
+```{r}
+rankRanks = rankTs %>% 
+  group_by(dayrank) %>% 
+  mutate(yearrank = percent_rank(highT)) %>% 
+  filter(year == 2015) %>% 
+  ungroup() %>% 
+  arrange(desc(yearrank)) %>% 
+  plot(yearrank ~ dayrank, data = ., ylim = c(0, 1))
+```
+
+
+For the sake of comparison, let's look at the same plot for a range of years. 
+
+Here's last year:
+
+```{r}
+rankTs %>% 
+  group_by(dayrank) %>% 
+  mutate(yearrank = percent_rank(highT)) %>% 
+  filter(year == 2014) %>% 
+  ungroup() %>% 
+  arrange(desc(yearrank)) %>% 
+  plot(yearrank ~ dayrank, data = ., ylim = c(0, 1))
+```
+
+Not a warm year by any stretch, and the values around the median were still much colder than average, but at least the warm days were warmer. 
+
+2013 was exceptionally average:
+
+```{r}
+rankTs %>% 
+  group_by(dayrank) %>% 
+  mutate(yearrank = percent_rank(highT)) %>% 
+  filter(year == 2013) %>% 
+  ungroup() %>% 
+  arrange(desc(yearrank)) %>% 
+  plot(yearrank ~ dayrank, data = ., ylim = c(0, 1))
+```
+
+And 2012 was exceptionally warm:
+
+```{r}
+rankTs %>% 
+  group_by(dayrank) %>% 
+  mutate(yearrank = percent_rank(highT)) %>% 
+  filter(year == 2012) %>% 
+  ungroup() %>% 
+  arrange(desc(yearrank)) %>% 
+  plot(yearrank ~ dayrank, data = ., ylim = c(0, 1))
+```
+
+Curiously, this had sort of a mirrored shape from this year--the cold days were closer to average than the rest, which were very warm indeed.
+
+
+### But climate change!
+
+Before you start using the words "global warming" and "hoax" in the same sentence (OMG like I just did!) I should point out that this year's anomalous frigidity has been very spatially confined. According to Weather.com, this winter was the country's [19th warmest](http://www.weather.com/news/climate/news/warmest-winter-coldest-february-2015) despite what we felt out here. And if you want to be spatially selective and get the opposite extreme, look at [what's going on out west](http://www.weather.com/forecast/national/news/record-warm-march-west). And let's not forget that globally [last year was the warmest ever](http://climatenexus.org/2014-putting-hottest-year-ever-perspective). 
+
+To me the fact that we can still set cold records at the local scale speaks to the spatial and temporal variability of both *climate* and *climate change*. We've got enough of a signal to talk about warming climate with certainty, but the noise around that signal is large, palpable, and sometimes uncomfortably chilly. 
+
+
+*Like always, I did all of this analysis using R. You can find the code on [github](https://github.com/markwh/blog-code)*

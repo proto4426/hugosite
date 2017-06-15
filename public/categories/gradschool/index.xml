@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Gradschool on A Hugo website</title>
+    <link>/categories/gradschool/</link>
+    <description>Recent content in Gradschool on A Hugo website</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Sat, 29 Nov 2014 11:25:14 -0500</lastBuildDate>
+    
+	<atom:link href="/categories/gradschool/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Production Versus Consumption</title>
+      <link>/2014/11/29/production-versus-consumption/</link>
+      <pubDate>Sat, 29 Nov 2014 11:25:14 -0500</pubDate>
+      
+      <guid>/2014/11/29/production-versus-consumption/</guid>
+      <description>&amp;lt;!DOCTYPE html&amp;gt;   
+window.onload = function() { var imgs = document.getElementsByTagName(&#39;img&#39;), i, img; for (i = 0; i body, td { font-family: sans-serif; background-color: white; font-size: 13px; } body { max-width: 800px; margin: auto; padding: 1em; line-height: 20px; } tt, code, pre { font-family: &#39;DejaVu Sans Mono&#39;, &#39;Droid Sans Mono&#39;, &#39;Lucida Console&#39;, Consolas, Monaco, monospace; } h1 { font-size:2.2em; } h2 { font-size:1.8em; } h3 { font-size:1.4em; } h4 { font-size:1.</description>
+    </item>
+    
+  </channel>
+</rss>

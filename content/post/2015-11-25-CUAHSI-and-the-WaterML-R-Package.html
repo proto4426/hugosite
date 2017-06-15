@@ -1,0 +1,36 @@
+---
+title: "waterML"
+author: "Mark Hagemann"
+date: "11/23/2015"
+output: html_document
+---
+
+
+
+<p>I’ve been working with water data collected by other people for the past 3 years or so. Typically, I’ve gotten my hands on it in 3 different ways:</p>
+<ol style="list-style-type: decimal">
+<li>email, dropbox, etc. from collaborators. Usually in .xlsx or .csv format. Inconsistently formatted; seldom <a href="http://www.jstatsoft.org/article/view/v059i10">tidy</a>.</li>
+<li>Downloading manually from a website, e.g. USGS instantaneous flows pre-2007</li>
+<li>Using an API for web services such as the water quality portal (WQP) or NWIS. I’ve mostly done this using R functions in the dataRetrieval package put out by USGS.</li>
+</ol>
+<p>Of course, method 3 is the best way to do this. APIs are the best way for machines to talk to each other (e.g. my computer’s R application talking to a USGS data server) without error-prone humans getting involved. APIs are all over the place on the internet and their ubiquity is only increasing. But I’m not always happy with the formatting of the results I get from WQP, at least as dataRetrieval returns them.</p>
+<p>Today I’m exploring another service I’ve been aware of for a while, but that I haven’t bothered to look into, mostly because I didn’t feel the need. That service is the <a href="http://data.cuahsi.org/">CUAHSI HydroClient</a>, which gives web-based access to CUAHSI’s hydrologic information system.</p>
+<p>CUAHSI has been instrumental in developing the waterML (and waterML2) markup language for storing hydrologic data and relevant metadata. All I know at the moment is it’s an extension of xml (the x is for “extensible”, after all) and that it’s NOT what WQP uses (they use <a href="http://www.waterqualitydata.us/schemas/WQX-Outbound/2_0/docs/index.html">WQX-Outbound schema</a> [That’s the link I got at the website, and it appears to be broken, very much true to form for EPA web pages]). Also I dataRetrieval does interface with waterML in some capacity; at least it contains functions called <code>importWaterML1</code> and <code>importWaterML2</code>. CUAHSI also mentions an R package, WaterML in the same section as HydroClient. I’m going to check that out now.</p>
+<pre class="r"><code># install.packages(&quot;WaterML&quot;)
+library(WaterML)</code></pre>
+<p>Looking under the hood: what’s this package contain?</p>
+<pre class="r"><code># ??WaterML
+ls(&quot;package:WaterML&quot;)</code></pre>
+<pre><code>##  [1] &quot;AddMethods&quot;                  &quot;AddSites&quot;                   
+##  [3] &quot;AddSources&quot;                  &quot;AddValues&quot;                  
+##  [5] &quot;AddVariables&quot;                &quot;GetServices&quot;                
+##  [7] &quot;GetSiteInfo&quot;                 &quot;GetSites&quot;                   
+##  [9] &quot;GetValues&quot;                   &quot;GetVariables&quot;               
+## [11] &quot;HISCentral_GetSeriesCatalog&quot; &quot;HISCentral_GetSites&quot;        
+## [13] &quot;MakeSOAPEnvelope&quot;            &quot;WaterMLVersion&quot;             
+## [15] &quot;WaterOneFlowNamespace&quot;       &quot;WaterOneFlowVersion&quot;</code></pre>
+<p>Oh look, they have a vignette!</p>
+<pre class="r"><code>vignette(&quot;WaterML-Tutorial&quot;)</code></pre>
+<p>It references a recent article in Ecological Informatics. That’s promising.</p>
+<p>…</p>
+<p>So I just read the paper, and while it’s somewhat enlightening as to the various services CUAHSI has to offer, I’m still confused what this offers that dataRetrieval does not, aside from the ability to upload data. The paper talks about “simplifying access to HydroServer data through the WaterOneFlow web service from within the R environment.” So the next question I have is, how does the HydroServer data differ from the data available via NWIS and WQP? But that’s a question for another day.</p>

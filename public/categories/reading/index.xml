@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Reading on A Hugo website</title>
+    <link>/categories/reading/</link>
+    <description>Recent content in Reading on A Hugo website</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Sat, 23 Aug 2014 00:19:56 -0400</lastBuildDate>
+    
+	<atom:link href="/categories/reading/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Library Books</title>
+      <link>/2014/08/23/library-books/</link>
+      <pubDate>Sat, 23 Aug 2014 00:19:56 -0400</pubDate>
+      
+      <guid>/2014/08/23/library-books/</guid>
+      <description>One of my favorite things about being at a major research university is having access to a tremendous collection of library books. I’m overwhelmed not only by the number available to me, but also the generosity of the loan duration. I don’t know exactly how long the loans are, but it’s got to be at least six months. Which really encourages the kind of borrowing I’ve taken to doing–checking out books on the slightest whim and with only a vague idea of when or if I’ll get around to reading them.</description>
+    </item>
+    
+  </channel>
+</rss>

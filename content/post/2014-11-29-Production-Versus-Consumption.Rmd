@@ -1,0 +1,27 @@
+---
+title: "ProducingVsConsuming"
+author: "Mark Hagemann"
+date: "November 29, 2014"
+output: html_document
+---
+
+I had a thought.
+
+I've been doing a lot of *consuming* of academic material over the last couple years--since I started my graduate studies. That means reading (a LOT), taking classes, hearing lectures, and learning research "tools" (software, organization, etc). This sort of thing is slow, time-consuming work that yields a trickle of intellectual returns--i.e. *competence*. But all in all I *like* it. I like that apart from convincing myself and (to a much lesser extent) others that I'm digesting and understanding the things I consume, there is very little expectation or evaluation of my abilities. I especially like doing it poorly, running wild with unstructured academic wanderings that typically end with a browser full of [wikipedia tabs](http://xkcd.com/214/) and a downloads folder full of journal articles.
+
+I fully recognize that this is an unsustainable academic phase. My consumption/production ratio is not sustainable long-term. Probably the time plot should look something like this:
+
+```{r, echo = F}
+p = 1/2
+x = 1:1000 / 250
+y = 0.6/ (1 + exp((1.5-x)*2))
+plot(x, y, type = "l", xlab = "Time", ylab = "Producing/Consuming", 
+     ylim = c(0, 1), axes = F)
+axis(2)
+axis(1, at = c(0, 1, 2, 1000), labels = c("0", "a", "b", "c"))
+abline(h = 0.6, lty = 2)
+```
+
+Starting out, I produced next to nothing, and since then I've been gradually producing bits of research and other academic output, but not nearly as much as I'm taking in. Right about now, around the halfway point of my PhD, I'm coming up on the point labeled **a** on the x-axis. Ideally this should be when I really ramp up production, so that I can be around 50% by the time I hit point **b**, i.e. graduation. Of course, I'll never cut out consuming entirely, so the production/consumption ratio has some maximum value, which I've put at 0.6. Maybe this is too large. Probably the actual graph is not so tidy. Definitely I should stop wasting time on this and get to work.
+
+

@@ -1,0 +1,607 @@
+
+
+  
+    
+  
+
+
+  
+
+
+
+
+
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+    
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="generator" content="Hugo 0.22.1">
+    <meta name="theme" content="Tranquilpeak 0.3.1-BETA">
+    <title>API packages</title>
+    <meta name="author" content="">
+    <meta name="keywords" content="">
+
+    <link rel="icon" href="../../../../favicon.png">
+    
+
+    
+    <meta name="description" content="I’m taking a break from helping DataFest participants untangle their R code to work on clearing my backlog of unfinished blog posts. One thing I’ve been meaning to talk about is a series of R packages I’ve written, in various stages of development. This is something I’ve done before, but still new enough to be excited about a working product.
+All these packages are built to access data from US Federal agency APIs.">
+    <meta property="og:description" content="I’m taking a break from helping DataFest participants untangle their R code to work on clearing my backlog of unfinished blog posts. One thing I’ve been meaning to talk about is a series of R packages I’ve written, in various stages of development. This is something I’ve done before, but still new enough to be excited about a working product.
+All these packages are built to access data from US Federal agency APIs.">
+    <meta property="og:type" content="blog">
+    <meta property="og:title" content="API packages">
+    <meta property="og:url" content="/1/01/01/api-packages/">
+    <meta property="og:site_name" content="Mark Hagemann">
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:title" content="Mark Hagemann">
+    <meta name="twitter:description" content="I’m taking a break from helping DataFest participants untangle their R code to work on clearing my backlog of unfinished blog posts. One thing I’ve been meaning to talk about is a series of R packages I’ve written, in various stages of development. This is something I’ve done before, but still new enough to be excited about a working product.
+All these packages are built to access data from US Federal agency APIs.">
+    
+    
+
+    
+    
+
+    
+
+    
+    
+    
+
+    
+
+    
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.4/jquery.fancybox.css" />
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.4/helpers/jquery.fancybox-thumbs.min.css" />
+    
+    
+    <link rel="stylesheet" href="../../../../css/style-u6mk0ojoywresbx8iepslrmmhl4stuhrsxuwhkpwrkrx7mryjcaimasnk4pi.min.css" />
+    
+    
+
+    
+      
+    
+    
+  </head>
+
+  <body>
+    <div id="blog">
+      <header id="header" data-behavior="">
+  <i id="btn-open-sidebar" class="fa fa-lg fa-bars"></i>
+  <div class="header-title">
+    <a class="header-title-link" href="../../../../">Mark Hagemann</a>
+  </div>
+  
+</header>
+
+      <nav id="sidebar" data-behavior="">
+  <div class="sidebar-container">
+    
+    <ul class="sidebar-buttons">
+      
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="../../../../about/">
+    
+      
+      
+      <span class="sidebar-button-desc">About</span>
+    </a>
+  </li>
+
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="https://github.com/markwh">
+    
+      
+      
+      <span class="sidebar-button-desc">GitHub</span>
+    </a>
+  </li>
+
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="https://twitter.com/markwhagemann">
+    
+      
+      
+      <span class="sidebar-button-desc">Twitter</span>
+    </a>
+  </li>
+
+    </ul>
+    <ul class="sidebar-buttons">
+      
+    </ul>
+    <ul class="sidebar-buttons">
+      
+    </ul>
+  </div>
+</nav>
+
+      
+
+      <div id="main" data-behavior=""
+        class="
+               hasCoverMetaIn
+               ">
+        <article class="post" itemscope itemType="http://schema.org/BlogPosting">
+          
+          
+            <div class="post-header main-content-wrap text-left">
+  
+    <h1 class="post-title" itemprop="headline">
+      API packages
+    </h1>
+  
+  <div class="postShorten-meta post-meta">
+  
+    <time itemprop="datePublished" datetime="0001-01-01T00:00:00Z">
+      
+   1, 1
+
+    </time>
+  
+  
+
+</div>
+
+</div>
+          
+          <div class="post-content markdown" itemprop="articleBody">
+            <div class="main-content-wrap">
+              <script src="../../../../rmarkdown-libs/htmlwidgets/htmlwidgets.js"></script>
+<script src="../../../../rmarkdown-libs/jquery/jquery.min.js"></script>
+<link href="../../../../rmarkdown-libs/leaflet/leaflet.css" rel="stylesheet" />
+<script src="../../../../rmarkdown-libs/leaflet/leaflet.js"></script>
+<link href="../../../../rmarkdown-libs/leafletfix/leafletfix.css" rel="stylesheet" />
+<script src="../../../../rmarkdown-libs/leaflet-binding/leaflet.js"></script>
+
+
+<p>I’m taking a break from helping <a href="http://www.science.smith.edu/datafest/">DataFest</a> participants untangle their R code to work on clearing my backlog of unfinished blog posts. One thing I’ve been meaning to talk about is a series of R packages I’ve written, in various stages of development. This is something I’ve <a href="https://github.com/markwh">done before</a>, but still new enough to be excited about a working product.</p>
+<p>All these packages are built to access data from US Federal agency APIs. The first two came out of my interest beginning several months back in environmental regulatory and oversight data, mostly related to the <a href="http://flintwaterstudy.org/">water crisis in Flint</a>. The APIs they access are <a href="https://www3.epa.gov/enviro/">envirofacts</a> from the EPA and <a href="https://www.regulations.gov/#!home">regulations.gov</a> from various Federal agencies. Both of these packages have working functions, but the data structures they return, and the structure of the APIs themselves, are complicated enough to keep me from doing anything very interesting with them. So far. The versions on github <a href="https://github.com/markwh/envirofacts">here</a> and <a href="https://github.com/markwh/regsgov">here</a> are functional but not elegant. And since I don’t know particularly what to do with them, I probably won’t be working on them further in the forseeable future. I’d love to hear ideas though.</p>
+<p>The <a href="https://github.com/markwh/streamstats">final package</a>–the one I’m most excited about–is one to access the <a href="http://water.usgs.gov/osw/streamstats/">USGS Streamstats</a> API. I’ts probably the most professional-looking R package I’ve written to date (though that’s not saying much). What’s it do? Well the main function, <code>delineateWatershed</code>, takes a location (latitude and longitude), and returns a <a href="http://geojson.org/">geojson</a> of that location’s contributing watershed. It can also return watershed parameters like basin size and land-use composition as well as streamflow statistics. Of course, all of this is being computed or looked up on USGS servers; the package just makes the call to retrieve this info. But it’s still a very handy way to get this data into R, and I’m already using this for my own research projects.</p>
+<p>Aside from the simple bindings to the API endpoints, I also have some minimal additional features for convenience. <code>combineWatersheds</code> creates a single watershed object with geojson data composed of multiple supplied watersheds. <code>writeGeoJSON</code> writes the geojson data to disk, for example to export into a different program like ArcGIS. And <code>leafletWatershed</code> makes a slick <a href="http://leafletjs.com/">leaflet</a> map of a watershed object. Here’s an example:</p>
+<pre class="r"><code>library(streamstats)
+library(leaflet)
+data(westfield)
+leafletWatershed(westfield) %&gt;% 
+  setView(lng = -72.92488, 42.31705, zoom = 12)</code></pre>
+<pre><code>## Warning: Unknown or uninitialised column: &#39;ID&#39;.</code></pre>
+<div id="htmlwidget-1" style="width:672px;height:480px;" class="leaflet html-widget"></div>
+<script type="application/json" data-for="htmlwidget-1">{"x":{"calls":[{"method":"addTiles","args":["http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",null,null,{"minZoom":0,"maxZoom":18,"maxNativeZoom":null,"tileSize":256,"subdomains":"abc","errorTileUrl":"","tms":false,"continuousWorld":false,"noWrap":false,"zoomOffset":0,"zoomReverse":false,"opacity":1,"zIndex":null,"unloadInvisibleTiles":null,"updateWhenIdle":null,"detectRetina":false,"reuseTiles":false,"attribution":"&copy; <a href=\"http://openstreetmap.org\">OpenStreetMap<\/a> contributors, <a href=\"http://creativecommons.org/licenses/by-sa/2.0/\">CC-BY-SA<\/a>"}]},{"method":"addGeoJSON","args":[{"type":"FeatureCollection","crs":{"type":"ESPG","properties":{"code":4326}},"features":[{"properties":{"DRFTPERSTR":0.0187109433018,"D70":0,"ORIG_FID":1,"M7D2Y":0,"ACRSDFT":1.17668378032,"D75":0,"AUGD50":0,"BSLDEM250":7.802146,"MAREGION":1,"BSLDEM10M":13.35867,"MinSimpTol":0.000269796613823,"HydroID":2,"D50":0,"LAKEAREA":0.355180471155,"MaxSimpTol":0.000269796613823,"LC11DEV":3.20639344785,"Shape_Area":100315398.27,"D98":0,"D99":0,"OUTLETX":82544.9999932,"OUTLETY":897264.999993,"D95":0,"D90":0,"warningmsg":" ","BFFLOW":0,"RELATEDOID":" ","FOREST":89.9284455397,"ELEV":1564.3292401,"DRNAREA":38.7357667641,"M7D10Y":0,"edited":0,"Name":"ags101","OBJECTID":1,"STRMTOT":62.887464375,"CENTROIDX":77170.744321,"PROBPEREN":0,"BFWDTH":0,"Descript":"W01080206","GlobalWshd":1,"BFDPTH":0,"DrainID":2,"FID":0,"Shape_Leng":71160.045,"CENTROIDY":905814.344185,"D60":0,"BFAREA":0,"MAXTEMPC":12.28968,"ExcludeCod":0,"D85":0,"IMPNLCD11":0,"CRSDFT":3.0347345168,"HUCID":"71160.0449999794","D80":0,"LC11IMP":0.1881759,"PRECPRIS00":55.70748,"WETLAND":3.65478013302,"URBNLCD11":0,"numVert":4370},"type":"Feature","bbox":[-72.9173511984142,42.4772577139766,-73.0539365536689,42.3137626131855],"geometry":{"type":"Polygon","coordinates":[[[-73.0538128413323,42.4367114720972],[-73.0539365536689,42.4367998703953],[-73.0538150558746,42.4368015100993],[-73.0538128413323,42.4367114720972]],[[-72.9800999018781,42.4553304071041],[-72.9801020110723,42.4554204066912],[-72.9799804205097,42.455421969191],[-72.9800999018781,42.4553304071041]],[[-72.9800999018781,42.4553304071041],[-72.9799319075603,42.4533516799452],[-72.9787894836119,42.4512954791704],[-72.979003084537,42.4500321742116],[-72.9804215237891,42.4483031774034],[-72.9801193657382,42.4457859738253],[-72.9793395579892,42.4436350498686],[-72.9795151741164,42.4407515194865],[-72.9752743582221,42.4413461675714],[-72.9714546118642,42.4391440740763],[-72.9700717581038,42.4371808462576],[-72.9701241348436,42.434208878687],[-72.9669355009803,42.4329889850495],[-72.9665438056852,42.4318234754734],[-72.964671088268,42.4296863697784],[-72.9627041021123,42.428720931831],[-72.9613342372048,42.4272976718522],[-72.9612842753357,42.4251373597604],[-72.9629685687501,42.4243956383033],[-72.9643764418688,42.422216788461],[-72.9647726656735,42.4183400574187],[-72.9636480451746,42.4170037676995],[-72.9658956599254,42.4143640001495],[-72.9653909377735,42.4135600699905],[-72.9652256554969,42.4116713378029],[-72.9624762543019,42.4083748087817],[-72.9616995897882,42.4063137468107],[-72.9587387894022,42.4043704513184],[-72.9573529924243,42.4022270527251],[-72.957784809759,42.3998805324917],[-72.9599251347217,42.397872491689],[-72.9571890598985,42.3951159472068],[-72.9575222472029,42.3937611257706],[-72.9571258275982,42.387103166052],[-72.9584677304933,42.3873562824272],[-72.960245430476,42.3854428879714],[-72.9574153989941,42.3838580104876],[-72.9544931033923,42.3835348469388],[-72.9532499391232,42.3822899817884],[-72.9528008994556,42.3786039907643],[-72.9506895152435,42.3765597364417],[-72.949895051402,42.3736884515393],[-72.9485184218559,42.3719049762894],[-72.9484689414787,42.3697446305115],[-72.9465595545664,42.3658968981225],[-72.9465451436087,42.3652668087045],[-72.9472631348353,42.3648075609386],[-72.9457283772021,42.3614053129983],[-72.9432187170683,42.3578352287425],[-72.9425687503194,42.3559524940537],[-72.9409910370935,42.3559722758034],[-72.9384035005426,42.3542939148529],[-72.9370296623501,42.3526003362757],[-72.933206409821,42.3499467999918],[-72.9329229104077,42.3481495490485],[-72.9300870929848,42.3462039385164],[-72.9298098007934,42.34467668553],[-72.927494154205,42.3442552833764],[-72.9277002933957,42.3426319937986],[-72.9268305874619,42.3417423604406],[-72.9267493956473,42.3381417571346],[-72.9253721615832,42.3362679498597],[-72.9240376048288,42.3362844898659],[-72.923883833251,42.3348457561915],[-72.9230062444287,42.3335960425441],[-72.9217970916584,42.3337910991528],[-72.9210105393757,42.3311896326212],[-72.9209640506734,42.3291192590218],[-72.9190938383189,42.3268913592629],[-72.9188209853688,42.3255441175399],[-72.9173511984142,42.3249319414036],[-72.9175816777109,42.324388854507],[-72.9197591425177,42.3240918539587],[-72.9204728209919,42.3234527638666],[-72.9200725604403,42.3218369753896],[-72.9185725316272,42.3198745757845],[-72.9182977032556,42.3184373272693],[-72.9203576737723,42.3183218573782],[-72.920951976103,42.3177742651117],[-72.9239842905372,42.3177367316035],[-72.9257752704057,42.3164539380538],[-72.9283223293706,42.316422308751],[-72.9317826977034,42.3138580699365],[-72.9394235483522,42.3137626131855],[-72.9423507492773,42.3144462532901],[-72.9444844969611,42.3175709122875],[-72.9464498612048,42.3186266883231],[-72.9498769547097,42.3199341229635],[-72.9530388968448,42.3202543412288],[-72.955257394905,42.3217569893764],[-72.9567865992367,42.3196666472364],[-72.9592124965148,42.3196358706102],[-72.9616591775026,42.3205052207757],[-72.962723793734,42.3193211088793],[-72.9641730651709,42.3190325278617],[-72.9674813559664,42.3204310245798],[-72.9720926818853,42.3204620790867],[-72.9751733480199,42.3224935514402],[-72.981100123293,42.3216969764072],[-72.9826938925961,42.3223967747042],[-72.9861578719443,42.3252333901733],[-72.9867855547727,42.3261256786165],[-72.9868088169552,42.3271158515015],[-72.9857677679517,42.3292903191202],[-72.9895940941834,42.3320321198684],[-72.9914605217756,42.3339888262841],[-72.9956301333391,42.3358255317619],[-73.0024627580927,42.3373571871884],[-73.0053710747801,42.3422714760835],[-73.0088285713174,42.3447473143167],[-73.0109644717844,42.3477807179142],[-73.0107346577667,42.3483239896559],[-73.0112609380224,42.3500278566708],[-73.0104372357991,42.3511192226908],[-73.0102267982012,42.3524726144793],[-73.0107358483287,42.3534563623472],[-73.0119687680022,42.3542505331398],[-73.0121052255091,42.3548790587871],[-73.0104298071609,42.3558915510281],[-73.0103235056377,42.3565232274568],[-73.0113158827861,42.3574105938649],[-73.012887205715,42.3571198054068],[-73.0135005058919,42.3573818611049],[-73.0148721325318,42.358894523683],[-73.0143084270039,42.3607027973769],[-73.017496436296,42.3620113998831],[-73.0182657311483,42.3637120280814],[-73.0193754746294,42.3644177196365],[-73.0186925422733,42.3663176165895],[-73.0198044989722,42.3671133043628],[-73.0198412718994,42.3686435404644],[-73.0234069709959,42.3704872426578],[-73.0233267957141,42.3721991245367],[-73.0253276863533,42.374603733218],[-73.0266717693409,42.3749460552816],[-73.0278727388418,42.3743898584859],[-73.0295722638852,42.3743672708518],[-73.0301879800789,42.3747192355152],[-73.0309577717023,42.3764198118875],[-73.030433530739,42.3798483870564],[-73.0318693426006,42.3839711798807],[-73.0331315485283,42.3859353079708],[-73.033281328012,42.3871038389728],[-73.0337735470671,42.3873674034042],[-73.0336805278225,42.3885392096985],[-73.035651719142,42.3896834439739],[-73.0353071138643,42.3904984165689],[-73.0363135531897,42.3919256732839],[-73.0385102562556,42.3923465025633],[-73.0395080286391,42.3934136553799],[-73.0395540628448,42.3953039510228],[-73.0389687713313,42.3962121830153],[-73.0394830053065,42.3973758298566],[-73.0365432640152,42.4013769585216],[-73.0386232475114,42.4019794814779],[-73.0405949473857,42.4031236274666],[-73.0406695435226,42.4061840616252],[-73.0382109309611,42.4099986813628],[-73.0352224141844,42.4120194770558],[-73.0345241961715,42.41328937675],[-73.0346981111801,42.4154480430138],[-73.0380414871489,42.4180146193622],[-73.0380546317822,42.4185546884737],[-73.0364042029936,42.4206476861055],[-73.0356456929304,42.4244395250699],[-73.0368781214712,42.4251434178623],[-73.0372885925476,42.4270287940761],[-73.0399988806104,42.428523276629],[-73.0417086954598,42.4288605421109],[-73.0430275910191,42.4281225333018],[-73.0448588941073,42.4284581616831],[-73.0495576102488,42.4317265167995],[-73.0500679652479,42.432710109518],[-73.0525445529861,42.4345676002071],[-73.0538128413323,42.4367114720972],[-73.0513559719635,42.4356641126287],[-73.049535463516,42.4357786943752],[-73.0477281804746,42.4364332749847],[-73.0458323451466,42.4384396668397],[-73.0479731886652,42.4414722769878],[-73.0528233152203,42.4459090228721],[-73.0535857272822,42.4472493492727],[-73.053607867461,42.4481494835751],[-73.0523085859008,42.4496976697932],[-73.0490556678721,42.4509120234246],[-73.046436764977,42.4531982171309],[-73.046843295187,42.4549035522607],[-73.0496610817425,42.4557660639104],[-73.0482598172884,42.4581259719612],[-73.0498090745349,42.4617968015185],[-73.0493979209909,42.4648636877894],[-73.0489226429397,42.4653202930332],[-73.0512900278957,42.4676294938926],[-73.0517034190257,42.469604796555],[-73.0495746270653,42.4720645323222],[-73.0474081134952,42.4729940793068],[-73.0488892826034,42.4738745619069],[-73.0491478833732,42.4745013917161],[-73.0445803227386,42.4767236741645],[-73.0421484861872,42.4767562506302],[-73.0390537514593,42.4745466134941],[-73.0327550915663,42.4756210341956],[-73.0308984773734,42.4742951246221],[-73.0300451885328,42.474216434291],[-73.0269252126201,42.4759685649684],[-73.0259829128364,42.4772416155809],[-73.0247669801316,42.4772577139766],[-73.0236617632779,42.4768221258278],[-73.0222764623534,42.4748595834],[-73.0180493361075,42.471043637492],[-73.0163255357183,42.4701659582772],[-73.0154420755969,42.4688269923589],[-73.0128543547787,42.4674203477963],[-73.0120947188754,42.4661697560949],[-73.0118020411756,42.4641027164333],[-73.0099332892435,42.4622363596345],[-73.0048210034367,42.4620331423625],[-73.001135498272,42.4604605232278],[-72.9986572187189,42.4585119421076],[-72.9967122813527,42.4585372322742],[-72.995703544133,42.4570196546053],[-72.9911953282425,42.4566279005705],[-72.989092774019,42.4551244627048],[-72.9886920452814,42.4535989611544],[-72.9873380150901,42.452896127859],[-72.9864871878817,42.4529071126328],[-72.9850539950468,42.4540060729827],[-72.9827508241913,42.4543058660738],[-72.9800999018781,42.4553304071041]]]}}]},null,null,{"lineCap":null,"lineJoin":null,"clickable":true,"pointerEvents":null,"className":"","stroke":true,"color":"#03F","weight":5,"opacity":0.5,"fill":true,"fillColor":"#03F","fillOpacity":0.2,"dashArray":null,"smoothFactor":1,"noClip":false}]},{"method":"addMarkers","args":[42.3170503170802,-72.9248787646941,null,null,null,{"clickable":true,"draggable":false,"keyboard":true,"title":"","alt":"","zIndexOffset":0,"opacity":1,"riseOnHover":false,"riseOffset":250},null,null,null]}],"limits":{"lat":[42.3170503170802,42.3170503170802],"lng":[-72.9248787646941,-72.9248787646941]},"setView":[[42.31705,-72.92488],12,[]]},"evals":[],"jsHooks":[]}</script>
+<p>I may add more functions for doing common analysis-type things with streamstats data, but I currently have none planned.</p>
+<p>I would love to see people try these packages out and contribute on GitHub by opening an issue or submitting a pull request.</p>
+
+              
+            </div>
+          </div>
+          <div id="post-footer" class="post-footer main-content-wrap">
+            
+              
+            
+            <div class="post-actions-wrap">
+  <nav>
+    <ul class="post-actions post-action-nav">
+      
+        <li class="post-action">
+          
+            <a class="post-action-btn btn btn--default tooltip--top" href="../../../../1/01/01/" data-tooltip="">
+          
+            <i class="fa fa-angle-left"></i>
+            <span class="hide-xs hide-sm text-small icon-ml"></span>
+          </a>
+        </li>
+        <li class="post-action">
+          
+            <a class="post-action-btn btn btn--default tooltip--top" href="../../../../1/01/01/breaking-the-silence/" data-tooltip="Breaking the Silence">
+          
+            <span class="hide-xs hide-sm text-small icon-mr"></span>
+            <i class="fa fa-angle-right"></i>
+          </a>
+        </li>
+      
+    </ul>
+  </nav>
+  <ul class="post-actions post-action-share">
+    
+      <li class="post-action hide-lg hide-md hide-sm">
+        <a class="post-action-btn btn btn--default btn-open-shareoptions" href="#btn-open-shareoptions">
+          <i class="fa fa-share-alt"></i>
+        </a>
+      </li>
+      <li class="post-action hide-xs">
+        <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=%2f1%2f01%2f01%2fapi-packages%2f">
+          <i class="fa fa-google-plus"></i>
+        </a>
+      </li>
+      <li class="post-action hide-xs">
+        <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=%2f1%2f01%2f01%2fapi-packages%2f">
+          <i class="fa fa-facebook-official"></i>
+        </a>
+      </li>
+      <li class="post-action hide-xs">
+        <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=%2f1%2f01%2f01%2fapi-packages%2f">
+          <i class="fa fa-twitter"></i>
+        </a>
+      </li>
+    
+    
+    <li class="post-action">
+      
+        <a class="post-action-btn btn btn--default" href="#">
+      
+        <i class="fa fa-list"></i>
+      </a>
+    </li>
+  </ul>
+</div>
+
+
+            
+              
+            
+          </div>
+        </article>
+        <footer id="footer" class="main-content-wrap">
+  <span class="copyrights">
+    &copy; 2017 Mark Hagemann. 
+  </span>
+</footer>
+
+      </div>
+      <div id="bottom-bar" class="post-bottom-bar" data-behavior="">
+        <div class="post-actions-wrap">
+  <nav>
+    <ul class="post-actions post-action-nav">
+      
+        <li class="post-action">
+          
+            <a class="post-action-btn btn btn--default tooltip--top" href="../../../../1/01/01/" data-tooltip="">
+          
+            <i class="fa fa-angle-left"></i>
+            <span class="hide-xs hide-sm text-small icon-ml"></span>
+          </a>
+        </li>
+        <li class="post-action">
+          
+            <a class="post-action-btn btn btn--default tooltip--top" href="../../../../1/01/01/breaking-the-silence/" data-tooltip="Breaking the Silence">
+          
+            <span class="hide-xs hide-sm text-small icon-mr"></span>
+            <i class="fa fa-angle-right"></i>
+          </a>
+        </li>
+      
+    </ul>
+  </nav>
+  <ul class="post-actions post-action-share">
+    
+      <li class="post-action hide-lg hide-md hide-sm">
+        <a class="post-action-btn btn btn--default btn-open-shareoptions" href="#btn-open-shareoptions">
+          <i class="fa fa-share-alt"></i>
+        </a>
+      </li>
+      <li class="post-action hide-xs">
+        <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=%2f1%2f01%2f01%2fapi-packages%2f">
+          <i class="fa fa-google-plus"></i>
+        </a>
+      </li>
+      <li class="post-action hide-xs">
+        <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=%2f1%2f01%2f01%2fapi-packages%2f">
+          <i class="fa fa-facebook-official"></i>
+        </a>
+      </li>
+      <li class="post-action hide-xs">
+        <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=%2f1%2f01%2f01%2fapi-packages%2f">
+          <i class="fa fa-twitter"></i>
+        </a>
+      </li>
+    
+    
+    <li class="post-action">
+      
+        <a class="post-action-btn btn btn--default" href="#">
+      
+        <i class="fa fa-list"></i>
+      </a>
+    </li>
+  </ul>
+</div>
+
+
+      </div>
+      <div id="share-options-bar" class="share-options-bar" data-behavior="">
+  <ul class="share-options">
+    <li class="share-option">
+      <a class="share-option-btn" target="new" href="https://plus.google.com/share?url=%2f1%2f01%2f01%2fapi-packages%2f">
+        <i class="fa fa-google-plus"></i><span></span>
+      </a>
+    </li>
+    <li class="share-option">
+      <a class="share-option-btn" target="new" href="https://www.facebook.com/sharer/sharer.php?u=%2f1%2f01%2f01%2fapi-packages%2f">
+        <i class="fa fa-facebook-official"></i><span></span>
+      </a>
+    </li>
+    <li class="share-option">
+      <a class="share-option-btn" target="new" href="https://twitter.com/intent/tweet?text=%2f1%2f01%2f01%2fapi-packages%2f">
+        <i class="fa fa-twitter"></i><span></span>
+      </a>
+    </li>
+  </ul>
+</div>
+<div id="share-options-mask" class="share-options-mask"></div>
+    </div>
+    
+    <div id="about">
+  <div id="about-card">
+    <div id="about-btn-close">
+      <i class="fa fa-remove"></i>
+    </div>
+    
+    <h4 id="about-card-name"></h4>
+    
+    
+    
+  </div>
+</div>
+
+    <div id="algolia-search-modal" class="modal-container">
+  <div class="modal">
+    <div class="modal-header">
+      <span class="close-button"><i class="fa fa-close"></i></span>
+      <a href="https://algolia.com" target="_blank" class="searchby-algolia text-color-light link-unstyled">
+        <span class="searchby-algolia-text text-color-light text-small">by</span>
+        <img class="searchby-algolia-logo" src="https://www.algolia.com/static_assets/images/press/downloads/algolia-light.svg">
+      </a>
+      <i class="search-icon fa fa-search"></i>
+      <form id="algolia-search-form">
+        <input type="text" id="algolia-search-input" name="search"
+          class="form-control input--large search-input" placeholder="" />
+      </form>
+    </div>
+    <div class="modal-body">
+      <div class="no-result text-color-light text-center"></div>
+      <div class="results">
+        
+        
+          <div class="media">
+            
+            <div class="media-body">
+              <a class="link-unstyled" href="../../../../2016/12/30/a-plain-markdown-post/">
+                <h3 class="media-heading">A Plain Markdown Post</h3>
+              </a>
+              <span class="media-meta">
+                <span class="media-date text-small">
+                  Dec 12, 2016
+                </span>
+              </span>
+              <div class="media-content hide-xs font-merryweather">This is a post written in plain Markdown (*.md) instead of R Markdown (*.Rmd). The major differences are:
+You cannot run any R code in a plain Markdown document, whereas in an R Markdown document, you can embed R code chunks (```{r}); A plain Markdown post is rendered through Blackfriday, and an R Markdown document is compiled by rmarkdown and Pandoc.  There are many differences in syntax between Blackfriday’s Markdown and Pandoc’s Markdown.</div>
+            </div>
+            <div style="clear:both;"></div>
+            <hr>
+          </div>
+        
+          <div class="media">
+            
+            <div class="media-body">
+              <a class="link-unstyled" href="../../../../2015/01/01/lorem-ipsum/">
+                <h3 class="media-heading">Lorem Ipsum</h3>
+              </a>
+              <span class="media-meta">
+                <span class="media-date text-small">
+                  Jan 1, 2015
+                </span>
+              </span>
+              <div class="media-content hide-xs font-merryweather">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</div>
+            </div>
+            <div style="clear:both;"></div>
+            <hr>
+          </div>
+        
+          <div class="media">
+            
+            <div class="media-body">
+              <a class="link-unstyled" href="../../../../2014/09/07/r-function-to-make-octopress-posts/">
+                <h3 class="media-heading">R function to make Octopress posts</h3>
+              </a>
+              <span class="media-meta">
+                <span class="media-date text-small">
+                  Sep 9, 2014
+                </span>
+              </span>
+              <div class="media-content hide-xs font-merryweather">pre .operator, pre .paren { color: rgb(104, 118, 135) } pre .literal { color: #990073 } pre .number { color: #099; } pre .comment { color: #998; font-style: italic } pre .keyword { color: #900; font-weight: bold } pre .identifier { color: rgb(0, 0, 0); } pre .string { color: #d14; }  var hljs=new function(){function m(p){return p.replace(/&/gm,"&amp;").replace(/"}while(y.length||w.length){var v=u().splice(0,1)[0];z+=m(x.substr(q,v.offset-q));q=v.offset;if(v.event=="start"){z+=t(v.node);s.push(v.node)}else{if(v.event=="stop"){var p,r=s.length;do{r--;p=s[r];z+=("")}while(p!=v.node);s.splice(r,1);while(r'+M[0]+""}else{r+=M[0]}O=P.lR.lastIndex;M=P.lR.exec(L)}return r+L.substr(O,L.length-O)}function J(L,M){if(M.sL&&e[M.sL]){var r=d(M.sL,L);x+=r.keyword_count;return r.value}else{return F(L,M)}}function I(M,r){var L=M.</div>
+            </div>
+            <div style="clear:both;"></div>
+            <hr>
+          </div>
+        
+          <div class="media">
+            
+            <div class="media-body">
+              <a class="link-unstyled" href="../../../../2014/08/17/adding-content/">
+                <h3 class="media-heading">Adding Content</h3>
+              </a>
+              <span class="media-meta">
+                <span class="media-date text-small">
+                  Aug 8, 2014
+                </span>
+              </span>
+              <div class="media-content hide-xs font-merryweather">Real briefly: I’m finally comfortable enough with the inner workings of Octopress to start putting some content on this blog. A lot of my first moves are going to be notes from various courses and tutorials that I’ve written in markdown (rather RMarkdown), mainly so that I can keep track of them in a place that’s not my messy hard drive. These are just notes, so they are not in the least well-written or even sensible, necessarily.</div>
+            </div>
+            <div style="clear:both;"></div>
+            <hr>
+          </div>
+        
+          <div class="media">
+            
+            <div class="media-body">
+              <a class="link-unstyled" href="../../../../1/01/01/">
+                <h3 class="media-heading"></h3>
+              </a>
+              <span class="media-meta">
+                <span class="media-date text-small">
+                  Jan 1, 0001
+                </span>
+              </span>
+              <div class="media-content hide-xs font-merryweather">First post with Octopress! I’ve just managed to set up an Octopress blogging platform, after becoming frustrated with wordpress.com’s limitations. I only learned about Octopress a couple of days ago, and I spent an awful lot of the intervening time wrestling with my macbook’s unix shell trying to get it set up on my very own website.
+Octopress is apparently an incarnation of Jekyll, which itself purports to be “a blogging platform for hackers.</div>
+            </div>
+            <div style="clear:both;"></div>
+            <hr>
+          </div>
+        
+          <div class="media">
+            
+            <div class="media-body">
+              <a class="link-unstyled" href="../../../../1/01/01/">
+                <h3 class="media-heading"></h3>
+              </a>
+              <span class="media-meta">
+                <span class="media-date text-small">
+                  Jan 1, 0001
+                </span>
+              </span>
+              <div class="media-content hide-xs font-merryweather">Tonight I’m trying out the DiagrammeR R package, one of the html widgets javascript bindings for R. I happen to be trying to make a copule flowcharts for research right now, and I figure this is a good way to procrastinate while feeling like I’m learning something.
+install.packages(&quot;DiagrammeR&quot;) library(DiagrammeR) What’s inside?
+ls(&quot;package:DiagrammeR&quot;) ## [1] &quot;%&gt;%&quot; &quot;add_balanced_tree&quot; ## [3] &quot;add_cycle&quot; &quot;add_edge&quot; ## [5] &quot;add_edge_df&quot; &quot;add_edges_from_table&quot; ## [7] &quot;add_edges_w_string&quot; &quot;add_full_graph&quot; ## [9] &quot;add_global_graph_attrs&quot; &quot;add_n_nodes&quot; ## [11] &quot;add_n_nodes_ws&quot; &quot;add_node&quot; ## [13] &quot;add_node_df&quot; &quot;add_nodes_from_df_cols&quot; ## [15] &quot;add_nodes_from_table&quot; &quot;add_path&quot; ## [17] &quot;add_prism&quot; &quot;add_star&quot; ## [19] &quot;add_to_series&quot; &quot;cache_edge_attrs&quot; ## [21] &quot;cache_edge_attrs_ws&quot; &quot;cache_edge_count_ws&quot; ## [23] &quot;cache_node_attrs&quot; &quot;cache_node_attrs_ws&quot; ## [25] &quot;cache_node_count_ws&quot; &quot;clear_global_graph_attrs&quot; ## [27] &quot;clear_selection&quot; &quot;colorize_edge_attrs&quot; ## [29] &quot;colorize_node_attrs&quot; &quot;combine_edfs&quot; ## [31] &quot;combine_graphs&quot; &quot;combine_ndfs&quot; ## [33] &quot;copy_edge_attrs&quot; &quot;copy_node_attrs&quot; ## [35] &quot;create_complement_graph&quot; &quot;create_edge_df&quot; ## [37] &quot;create_graph&quot; &quot;create_node_df&quot; ## [39] &quot;create_random_graph&quot; &quot;create_series&quot; ## [41] &quot;create_subgraph_ws&quot; &quot;delete_edge&quot; ## [43] &quot;delete_edges_ws&quot; &quot;delete_global_graph_attrs&quot; ## [45] &quot;delete_node&quot; &quot;delete_nodes_ws&quot; ## [47] &quot;DiagrammeR&quot; &quot;DiagrammeROutput&quot; ## [49] &quot;do_bfs&quot; &quot;do_dfs&quot; ## [51] &quot;drop_edge_attrs&quot; &quot;drop_node_attrs&quot; ## [53] &quot;edge_count&quot; &quot;edge_info&quot; ## [55] &quot;edge_present&quot; &quot;edge_rel&quot; ## [57] &quot;export_csv&quot; &quot;export_graph&quot; ## [59] &quot;from_adj_matrix&quot; &quot;from_igraph&quot; ## [61] &quot;generate_dot&quot; &quot;get_all_connected_nodes&quot; ## [63] &quot;get_articulation_points&quot; &quot;get_betweenness&quot; ## [65] &quot;get_bridging&quot; &quot;get_cache&quot; ## [67] &quot;get_closeness&quot; &quot;get_cmty_edge_btwns&quot; ## [69] &quot;get_cmty_fast_greedy&quot; &quot;get_cmty_l_eigenvec&quot; ## [71] &quot;get_cmty_louvain&quot; &quot;get_cmty_walktrap&quot; ## [73] &quot;get_common_nbrs&quot; &quot;get_constraint&quot; ## [75] &quot;get_degree_distribution&quot; &quot;get_degree_histogram&quot; ## [77] &quot;get_dice_similarity&quot; &quot;get_eccentricity&quot; ## [79] &quot;get_edge_attrs&quot; &quot;get_edge_df&quot; ## [81] &quot;get_edge_ids&quot; &quot;get_edges&quot; ## [83] &quot;get_global_graph_attrs&quot; &quot;get_graph_diameter&quot; ## [85] &quot;get_graph_from_series&quot; &quot;get_graph_name&quot; ## [87] &quot;get_graph_time&quot; &quot;get_jaccard_similarity&quot; ## [89] &quot;get_min_spanning_tree&quot; &quot;get_nbrs&quot; ## [91] &quot;get_node_attrs&quot; &quot;get_node_df&quot; ## [93] &quot;get_node_ids&quot; &quot;get_non_nbrs&quot; ## [95] &quot;get_paths&quot; &quot;get_periphery&quot; ## [97] &quot;get_predecessors&quot; &quot;get_s_connected_cmpts&quot; ## [99] &quot;get_selection&quot; &quot;get_similar_nbrs&quot; ## [101] &quot;get_successors&quot; &quot;get_w_connected_cmpts&quot; ## [103] &quot;graph_count&quot; &quot;graph_info&quot; ## [105] &quot;grViz&quot; &quot;grVizOutput&quot; ## [107] &quot;image_icon&quot; &quot;import_graph&quot; ## [109] &quot;invert_selection&quot; &quot;is_graph_connected&quot; ## [111] &quot;is_graph_directed&quot; &quot;is_graph_empty&quot; ## [113] &quot;join_edge_attrs&quot; &quot;join_node_attrs&quot; ## [115] &quot;layout_nodes_w_string&quot; &quot;mermaid&quot; ## [117] &quot;mk_cond&quot; &quot;mutate_edge_attrs&quot; ## [119] &quot;mutate_node_attrs&quot; &quot;node_count&quot; ## [121] &quot;node_info&quot; &quot;node_present&quot; ## [123] &quot;node_type&quot; &quot;nudge_node_positions_ws&quot; ## [125] &quot;recode_edge_attrs&quot; &quot;recode_node_attrs&quot; ## [127] &quot;remove_from_series&quot; &quot;rename_edge_attrs&quot; ## [129] &quot;rename_node_attrs&quot; &quot;renderDiagrammeR&quot; ## [131] &quot;render_graph&quot; &quot;render_graph_from_series&quot; ## [133] &quot;renderGrViz&quot; &quot;replace_in_spec&quot; ## [135] &quot;rescale_edge_attrs&quot; &quot;rescale_node_attrs&quot; ## [137] &quot;rev_edge_dir&quot; &quot;rev_edge_dir_ws&quot; ## [139] &quot;select_edges&quot; &quot;select_edges_by_edge_id&quot; ## [141] &quot;select_edges_by_node_id&quot; &quot;select_last_edge&quot; ## [143] &quot;select_last_node&quot; &quot;select_nodes&quot; ## [145] &quot;select_nodes_by_degree&quot; &quot;select_nodes_by_id&quot; ## [147] &quot;select_nodes_in_neighborhood&quot; &quot;select_rev_edges_ws&quot; ## [149] &quot;series_info&quot; &quot;set_cache&quot; ## [151] &quot;set_edge_attrs&quot; &quot;set_edge_attrs_ws&quot; ## [153] &quot;set_global_graph_attrs&quot; &quot;set_graph_name&quot; ## [155] &quot;set_graph_time&quot; &quot;set_graph_undirected&quot; ## [157] &quot;set_node_attrs&quot; &quot;set_node_attrs_ws&quot; ## [159] &quot;set_node_attr_to_display&quot; &quot;set_node_position&quot; ## [161] &quot;subset_series&quot; &quot;to_igraph&quot; ## [163] &quot;trav_both&quot; &quot;trav_both_edge&quot; ## [165] &quot;trav_in&quot; &quot;trav_in_edge&quot; ## [167] &quot;trav_in_node&quot; &quot;trav_out&quot; ## [169] &quot;trav_out_edge&quot; &quot;trav_out_node&quot; ## [171] &quot;trigger_script&quot; &quot;visnetwork&quot; ## [173] &quot;vivagraph&quot; &quot;x11_hex&quot; Following the video on the website</div>
+            </div>
+            <div style="clear:both;"></div>
+            <hr>
+          </div>
+        
+          <div class="media">
+            
+            <div class="media-body">
+              <a class="link-unstyled" href="../../../../1/01/01/">
+                <h3 class="media-heading"></h3>
+              </a>
+              <span class="media-meta">
+                <span class="media-date text-small">
+                  Jan 1, 0001
+                </span>
+              </span>
+              <div class="media-content hide-xs font-merryweather">I’ve been daydreaming in the dark about longer daylight hours, so I drew some pictures to cheer myself up.
+Here’s one of day length (sunrise to sunset) for the next 2 months (here in Amherst, MA, that is):
+Ahh, things are ramping up. And more quicly every day.
+Now here’s a picture of the sunrise and sunset times:
+Yes, daylight savings is less than 2 months away!
+I also drew some pictures with a wider field of view.</div>
+            </div>
+            <div style="clear:both;"></div>
+            <hr>
+          </div>
+        
+          <div class="media">
+            
+            <div class="media-body">
+              <a class="link-unstyled" href="../../../../1/01/01/api-packages/">
+                <h3 class="media-heading">API packages</h3>
+              </a>
+              <span class="media-meta">
+                <span class="media-date text-small">
+                  Jan 1, 0001
+                </span>
+              </span>
+              <div class="media-content hide-xs font-merryweather">I’m taking a break from helping DataFest participants untangle their R code to work on clearing my backlog of unfinished blog posts. One thing I’ve been meaning to talk about is a series of R packages I’ve written, in various stages of development. This is something I’ve done before, but still new enough to be excited about a working product.
+All these packages are built to access data from US Federal agency APIs.</div>
+            </div>
+            <div style="clear:both;"></div>
+            <hr>
+          </div>
+        
+          <div class="media">
+            
+            <div class="media-body">
+              <a class="link-unstyled" href="../../../../1/01/01/breaking-the-silence/">
+                <h3 class="media-heading">Breaking the Silence</h3>
+              </a>
+              <span class="media-meta">
+                <span class="media-date text-small">
+                  Jan 1, 0001
+                </span>
+              </span>
+              <div class="media-content hide-xs font-merryweather">Haven’t updated this blog in a while. Time to start doing that again.
+Also, I changed the theme. The last one wasn’t doing it for me. I like this one. It’s called “mnml”</div>
+            </div>
+            <div style="clear:both;"></div>
+            <hr>
+          </div>
+        
+          <div class="media">
+            
+            <div class="media-body">
+              <a class="link-unstyled" href="../../../../1/01/01/concept-maps-parts-1-and-2/">
+                <h3 class="media-heading">Concept maps! (parts 1 and 2)</h3>
+              </a>
+              <span class="media-meta">
+                <span class="media-date text-small">
+                  Jan 1, 0001
+                </span>
+              </span>
+              <div class="media-content hide-xs font-merryweather">The following contains notes from the first two parts what turned into a fruitful search for something I simply wanted to exist. I’m still following this string, but I think I’ve stumbled onto something very useful. More updates will follow.
+I’ve been having a hard time lately getting everything on my daily task list accomplished. Not that I’ve become any less efficient recently, but rather I’ve been somewhat better about explicitly listing the things I want to accomplish in any given day.</div>
+            </div>
+            <div style="clear:both;"></div>
+            <hr>
+          </div>
+        
+      </div>
+    </div>
+    <div class="modal-footer">
+      <p class="results-count text-medium"
+         data-message-zero=""
+         data-message-one=""
+         data-message-other="">
+         23 posts found
+      </p>
+    </div>
+  </div>
+</div>
+    
+
+    
+<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.8.0/highlight.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.4/jquery.fancybox.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.4/helpers/jquery.fancybox-thumbs.min.js"></script>
+
+
+<script src="../../../../js/script-wl33z0n6ocaypepiqrazthtivfrliqijej4rq8ek8gvrv1awftmgjuv8k4zc.min.js"></script>
+
+<script>
+$(document).ready(function() {
+  hljs.configure({ classPrefix: '', useBR: false });
+  $('pre.code-highlight').each(function(i, block) {
+    var code = "";
+    hljs.highlightAuto(block.innerText).value.split(/\r\n|\r|\n/).forEach(function(line) {
+      code += "<span class=\"line\">" + line + "</span><br>";
+    });
+    if (code.length > 0) {
+      block.innerHTML = code;  
+    }
+  });
+  $('pre > code').each(function(i, block) {
+    $(this).addClass('codeblock');
+    hljs.highlightBlock(block);
+  });
+});
+</script>
+
+  
+    
+  
+
+
+
+
+
+    
+  </body>
+</html>
+

@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Data on A Hugo website</title>
+    <link>/categories/data/</link>
+    <description>Recent content in Data on A Hugo website</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Tue, 24 Mar 2015 23:02:58 -0400</lastBuildDate>
+    
+	<atom:link href="/categories/data/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Socrata and data maturity</title>
+      <link>/2015/03/24/socrata-and-data-maturity/</link>
+      <pubDate>Tue, 24 Mar 2015 23:02:58 -0400</pubDate>
+      
+      <guid>/2015/03/24/socrata-and-data-maturity/</guid>
+      <description>&amp;lt;!DOCTYPE html&amp;gt;   
+window.onload = function() { var imgs = document.getElementsByTagName(&#39;img&#39;), i, img; for (i = 0; i body, td { font-family: sans-serif; background-color: white; font-size: 13px; } body { max-width: 800px; margin: auto; padding: 1em; line-height: 20px; } tt, code, pre { font-family: &#39;DejaVu Sans Mono&#39;, &#39;Droid Sans Mono&#39;, &#39;Lucida Console&#39;, Consolas, Monaco, monospace; } h1 { font-size:2.2em; } h2 { font-size:1.8em; } h3 { font-size:1.4em; } h4 { font-size:1.</description>
+    </item>
+    
+  </channel>
+</rss>

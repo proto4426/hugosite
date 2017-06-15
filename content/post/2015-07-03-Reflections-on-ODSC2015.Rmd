@@ -1,0 +1,21 @@
+---
+title: "ODSC2015"
+output:
+  html_document:
+    toc: yes
+    toc_depth: 3
+---
+
+I'm on a train back from Boston after attending the 2015 Open Data Science Conference. Two days of serious nerding out among afficionados of open-source software like R and Python. Herein I give some highlights. Notes from talks and workshops I attended are [here](../Wiki/Events/ODSC2015.html)
+
+![Train from boston](blog_images/trainFromBoston.jpg)
+
+Some main points:
+
+- Data scientists do a lot of different things, and it's still not clear what the job title refers to. [Josh Wills](http://blog.cloudera.com/blog/2013/10/meet-the-project-founder-josh-wills/) of [Cloudera](http://www.cloudera.com) says it's a person who (1) knows more about statistics than any software developer, and (2) knows more about software development than any statistician. I have work to do on both fronts. 
+
+- Lots of people are advocating for open data--for governments of all levels, NGOs and development institutions, and the private sector. Several talks on this. [Here's one.](http://www.opendatascience.com/blog/keeping-governments-accountable-with-open-data-science-cezary-podkul/). I love this stuff because it feels like data science coming out into the world and making a difference that isn't just a marketing insight. 
+
+- Feature engineering is emerging as one of the most important tools in predictive modeling. This goes hand-in-hand with an emphasis on domain knowledge. To me this sounds a lot like the goal of traditional science, going back to [Aistotle](http://en.wikipedia.org/wiki/Four_causes): figure out the cause of the observed effect. So a cynic might say that the overinflated empiricism of the data-science community has let out a little air, recognizing that, *yes*, there is such a thing as causality, and *yes*, it is a useful thing to seek out (something you can't do with a learning algorithm). Of course this is totally compatible with the idea that data science is a useful complement to deduction-based science.
+
+Other stuff: I got an introduction to running Hadoop in the cloud with Amazon Web Services. Unclear if I'll ever have reason to use this, but I do like the nerd cred this gets me.

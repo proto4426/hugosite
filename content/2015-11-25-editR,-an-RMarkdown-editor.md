@@ -1,0 +1,41 @@
+---
+layout: post
+title: "editR, an RMarkdown editor"
+date: 2015-11-25
+comments: true
+categories: 
+---
+
+I've been writing a lot using both RMarkdown and Markdown lately. In the past I would typically default to RMarkdown because that's the default in RStudio, but more recently I've been writing some pretty math-heavy documents and wanted something that could render them in real-time. This led me to [Haroopad](http://pad.haroopress.com/), which has mostly worked really well (with the exception of crashing so hard once that it actually deleted a previously saved version of the document I was working on), but alas, it doesn't recognize the chunks of code I put in my Rmarkdown docs. 
+
+Enter [editR](https://github.com/swarm-lab/editR), which purports to bring real-time rendering to Rmarkdown documents. I'm about to give it a try. 
+
+
+## Installing
+
+```r
+devtools::install_github("trestletech/shinyAce")
+devtools::install_github("swarm-lab/editR")
+
+install.packages(c("shiny", "shinyFiles", "shinyBS", "rmarkdown", "knitr"))
+
+library(editR)
+```
+
+Now that that's installed and attached, I'm just supposed to call `editR()` on a .Rmd file. Here goes with my [cold winter stats](http://www.markhagemann.com/blog/2015/03/27/Yes-this-year-has-been-cold-(around-here)./) post from last spring.
+
+
+```r
+editR(file = "coldWinterStats.Rmd")
+```
+
+And it works! This opened a browser tab with two vertically delimited panes:
+
+{% img /images/editR.png 'editR screenshot' %}
+
+On the left is the editor pane, where text and code can be edited in-situ, and on the right is the rendered document--plots, tables and all. Like any shiny application, this wholly occupies the current R session while editR is open. 
+
+That's all the exploring I'll do for now. Bottom line: this appears to work, but it's still in beta and should probably not be relied upon too heavily. I wonder if this will ever be implemented in RStudio.
+
+*edit (some time later):* After playing around with editR for a little while, I find it likes to crash wayyy to often for me to consider it useful. Yihui Xie's [servr](https://github.com/yihui/servr) can apparently do real-time rendering as well. I can't speak to its functionality, but I may try it in the future. 
+

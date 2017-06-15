@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Library Books on A Hugo website</title>
+    <link>/categories/library-books/</link>
+    <description>Recent content in Library Books on A Hugo website</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Tue, 14 Oct 2014 23:42:18 -0400</lastBuildDate>
+    
+	<atom:link href="/categories/library-books/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Returning a library book: Republic Lost</title>
+      <link>/2014/10/14/returning-a-library-book-republic-lost/</link>
+      <pubDate>Tue, 14 Oct 2014 23:42:18 -0400</pubDate>
+      
+      <guid>/2014/10/14/returning-a-library-book-republic-lost/</guid>
+      <description>&amp;lt;!DOCTYPE html&amp;gt;   
+body, td { font-family: sans-serif; background-color: white; font-size: 13px; } body { max-width: 800px; margin: auto; padding: 1em; line-height: 20px; } tt, code, pre { font-family: &#39;DejaVu Sans Mono&#39;, &#39;Droid Sans Mono&#39;, &#39;Lucida Console&#39;, Consolas, Monaco, monospace; } h1 { font-size:2.2em; } h2 { font-size:1.8em; } h3 { font-size:1.4em; } h4 { font-size:1.0em; } h5 { font-size:0.9em; } h6 { font-size:0.8em; } a:visited { color: rgb(50%, 0%, 50%); } pre, img { max-width: 100%; } pre code { display: block; padding: 0.</description>
+    </item>
+    
+  </channel>
+</rss>
