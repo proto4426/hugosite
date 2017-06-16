@@ -3,8 +3,18 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   
   <url>
-    <loc>/2016/12/30/a-plain-markdown-post/</loc>
-    <lastmod>2016-12-30T21:49:57-07:00</lastmod>
+    <loc>/2017/06/15/migrating-to-blogdown-hugo/</loc>
+    <lastmod>2017-06-15T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/2017/06/15/quick-practice-exercise-with-sed/</loc>
+    <lastmod>2017-06-15T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/2017/06/12/flint-sentinel-tests----animated/</loc>
+    <lastmod>2017-06-12T00:00:00+00:00</lastmod>
   </url>
   
   <url>
@@ -13,7 +23,22 @@
   </url>
   
   <url>
+    <loc>/2016/04/03/api-packages/</loc>
+    <lastmod>2016-04-03T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/2016/01/03/mle-for-censored-data/</loc>
+    <lastmod>2016-01-03T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
     <loc>/2015-11-25-cuahsi-and-the-waterml-r-package/</loc>
+    <lastmod>2015-11-25T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/2015/11/25/editr/</loc>
     <lastmod>2015-11-25T00:00:00+00:00</lastmod>
   </url>
   
@@ -23,23 +48,73 @@
   </url>
   
   <url>
+    <loc>/2015/11/25/waterml/</loc>
+    <lastmod>2015-11-25T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/2015/11/24/breaking-the-silence/</loc>
+    <lastmod>2015-11-24T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
     <loc>/2015-11-24-breaking-the-silence/</loc>
     <lastmod>2015-11-24T00:00:00+00:00</lastmod>
   </url>
   
   <url>
-    <loc>/2015/01/01/lorem-ipsum/</loc>
-    <lastmod>2015-01-01T13:09:13-06:00</lastmod>
+    <loc>/2015/07/03/odsc2015/</loc>
+    <lastmod>2015-07-03T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/2015/03/27/yes-this-year-has-been-cold-around-here/</loc>
+    <lastmod>2015-03-27T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/2015/03/24/socrata/</loc>
+    <lastmod>2015-03-24T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/2014/12/24/reflections-on-agu-2014/</loc>
+    <lastmod>2014-12-24T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/2014/11/29/producingvsconsuming/</loc>
+    <lastmod>2014-11-29T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/2014/11/28/shiny-app-for-visualizing-prior-distributions/</loc>
+    <lastmod>2014-11-28T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/2014/10/14/library-book-republic-lost/</loc>
+    <lastmod>2014-10-14T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/2014/09/08/concept-maps-parts-1-and-2/</loc>
+    <lastmod>2014-09-08T00:00:00+00:00</lastmod>
   </url>
   
   <url>
     <loc>/2014/09/07/r-function-to-make-octopress-posts/</loc>
-    <lastmod>2014-09-07T13:59:21-04:00</lastmod>
+    <lastmod>2014-09-07T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/2014/08/23/library-books/</loc>
+    <lastmod>2014-08-23T00:00:00+00:00</lastmod>
   </url>
   
   <url>
     <loc>/2014/08/17/adding-content/</loc>
-    <lastmod>2014-08-17T21:06:50-04:00</lastmod>
+    <lastmod>2014-08-17T00:00:00+00:00</lastmod>
   </url>
   
   <url>
@@ -55,11 +130,14 @@
   </url>
   
   <url>
-    <loc>/1/01/01/api-packages/</loc>
+    <loc>/archives/</loc>
+    <priority>0</priority>
   </url>
   
   <url>
-    <loc>/1/01/01/breaking-the-silence/</loc>
+    <loc>/tags/blogdown/</loc>
+    <lastmod>2017-06-15T00:00:00+00:00</lastmod>
+    <priority>0</priority>
   </url>
   
   <url>
@@ -68,84 +146,99 @@
   </url>
   
   <url>
-    <loc>/1/01/01/concept-maps-parts-1-and-2/</loc>
+    <loc>/categories/datavis/</loc>
+    <lastmod>2017-06-12T00:00:00+00:00</lastmod>
+    <priority>0</priority>
   </url>
   
   <url>
-    <loc>/1/01/01/editr/</loc>
+    <loc>/tags/flint/</loc>
+    <lastmod>2017-06-12T00:00:00+00:00</lastmod>
+    <priority>0</priority>
   </url>
   
   <url>
-    <loc>/1/01/01/flint-sentinel-tests----animated/</loc>
+    <loc>/tags/gganimate/</loc>
+    <lastmod>2017-06-12T00:00:00+00:00</lastmod>
+    <priority>0</priority>
   </url>
   
   <url>
-    <loc>/1/01/01/library-book-republic-lost/</loc>
+    <loc>/tags/gnu-linux/</loc>
+    <lastmod>2017-06-15T00:00:00+00:00</lastmod>
+    <priority>0</priority>
   </url>
   
   <url>
-    <loc>/1/01/01/library-books/</loc>
+    <loc>/tags/hugo/</loc>
+    <lastmod>2017-06-15T00:00:00+00:00</lastmod>
+    <priority>0</priority>
   </url>
   
   <url>
-    <loc>/1/01/01/mle-for-censored-data/</loc>
+    <loc>/tags/leaflet/</loc>
+    <lastmod>2017-06-12T00:00:00+00:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>/tags/learnbyexample/</loc>
+    <lastmod>2017-06-15T00:00:00+00:00</lastmod>
+    <priority>0</priority>
   </url>
   
   <url>
     <loc>/</loc>
-    <lastmod>2016-12-30T21:49:57-07:00</lastmod>
+    <lastmod>2017-06-15T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
     <loc>/categories/meta/</loc>
-    <lastmod>2014-09-07T13:59:21-04:00</lastmod>
+    <lastmod>2017-06-15T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
-    <loc>/1/01/01/odsc2015/</loc>
+    <loc>/categories/notes/</loc>
+    <lastmod>2017-06-15T00:00:00+00:00</lastmod>
+    <priority>0</priority>
   </url>
   
   <url>
     <loc>/post/</loc>
-    <lastmod>2016-12-30T21:49:57-07:00</lastmod>
+    <lastmod>2017-06-15T00:00:00+00:00</lastmod>
     <priority>0</priority>
-  </url>
-  
-  <url>
-    <loc>/1/01/01/producingvsconsuming/</loc>
   </url>
   
   <url>
     <loc>/categories/r/</loc>
-    <lastmod>2014-09-07T13:59:21-04:00</lastmod>
+    <lastmod>2017-06-12T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
-    <loc>/1/01/01/reflections-on-agu-2014/</loc>
-  </url>
-  
-  <url>
-    <loc>/1/01/01/shiny-app-for-visualizing-prior-distributions/</loc>
+    <loc>/tags/sed/</loc>
+    <lastmod>2017-06-15T00:00:00+00:00</lastmod>
+    <priority>0</priority>
   </url>
   
   <url>
     <loc>/tags/</loc>
+    <lastmod>2017-06-15T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
-    <loc>/1/01/01/yes-this-year-has-been-cold-around-here/</loc>
+    <loc>/tags/tweenr/</loc>
+    <lastmod>2017-06-12T00:00:00+00:00</lastmod>
+    <priority>0</priority>
   </url>
   
   <url>
-    <loc>/1/01/01/socrata/</loc>
-  </url>
-  
-  <url>
-    <loc>/1/01/01/waterml/</loc>
+    <loc>/categories/water/</loc>
+    <lastmod>2017-06-12T00:00:00+00:00</lastmod>
+    <priority>0</priority>
   </url>
   
 </urlset>

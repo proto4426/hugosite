@@ -1,7 +1,7 @@
 ---
 title: "Reflections on AGU 2014"
 author: "Mark Hagemann"
-date: "December 20, 2014"
+date: "2014-12-24"
 output: html_document
 ---
 

@@ -6,15 +6,26 @@
     <description>Recent content in Meta on Mark Hagemann</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Sun, 07 Sep 2014 13:59:21 -0400</lastBuildDate>
+    <lastBuildDate>Thu, 15 Jun 2017 00:00:00 +0000</lastBuildDate>
     
 	<atom:link href="/categories/meta/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
+      <title>Migrating to Blogdown-Hugo</title>
+      <link>/2017/06/15/migrating-to-blogdown-hugo/</link>
+      <pubDate>Thu, 15 Jun 2017 00:00:00 +0000</pubDate>
+      
+      <guid>/2017/06/15/migrating-to-blogdown-hugo/</guid>
+      <description>Herein I’m documenting the steps I’m taking in migrating from Octopress/Jekyll to Blogdown/Hugo. Unfortunately I didn’t think to do this until some way into the process.
+doneyet?
+Consult the Blogdown readme  Install the package from github. Do the other things on the readme. Pick out a theme. I chose tranquilpeak.  Check the migration guide from the blogdown devs. Nothing there at the moment, but I get the sense that this guide is in pretty rapid development.</description>
+    </item>
+    
+    <item>
       <title>R function to make Octopress posts</title>
       <link>/2014/09/07/r-function-to-make-octopress-posts/</link>
-      <pubDate>Sun, 07 Sep 2014 13:59:21 -0400</pubDate>
+      <pubDate>Sun, 07 Sep 2014 00:00:00 +0000</pubDate>
       
       <guid>/2014/09/07/r-function-to-make-octopress-posts/</guid>
       <description>pre .operator, pre .paren { color: rgb(104, 118, 135) } pre .literal { color: #990073 } pre .number { color: #099; } pre .comment { color: #998; font-style: italic } pre .keyword { color: #900; font-weight: bold } pre .identifier { color: rgb(0, 0, 0); } pre .string { color: #d14; }  var hljs=new function(){function m(p){return p.replace(/&amp;/gm,&#34;&amp;amp;&#34;).replace(/&#34;}while(y.length||w.length){var v=u().splice(0,1)[0];z+=m(x.substr(q,v.offset-q));q=v.offset;if(v.event==&#34;start&#34;){z+=t(v.node);s.push(v.node)}else{if(v.event==&#34;stop&#34;){var p,r=s.length;do{r--;p=s[r];z+=(&#34;&#34;)}while(p!=v.node);s.splice(r,1);while(r&#39;+M[0]+&#34;&#34;}else{r+=M[0]}O=P.lR.lastIndex;M=P.lR.exec(L)}return r+L.substr(O,L.length-O)}function J(L,M){if(M.sL&amp;&amp;e[M.sL]){var r=d(M.sL,L);x+=r.keyword_count;return r.value}else{return F(L,M)}}function I(M,r){var L=M.</description>
@@ -23,7 +34,7 @@
     <item>
       <title>Adding Content</title>
       <link>/2014/08/17/adding-content/</link>
-      <pubDate>Sun, 17 Aug 2014 21:06:50 -0400</pubDate>
+      <pubDate>Sun, 17 Aug 2014 00:00:00 +0000</pubDate>
       
       <guid>/2014/08/17/adding-content/</guid>
       <description>Real briefly: I’m finally comfortable enough with the inner workings of Octopress to start putting some content on this blog. A lot of my first moves are going to be notes from various courses and tutorials that I’ve written in markdown (rather RMarkdown), mainly so that I can keep track of them in a place that’s not my messy hard drive. These are just notes, so they are not in the least well-written or even sensible, necessarily.</description>

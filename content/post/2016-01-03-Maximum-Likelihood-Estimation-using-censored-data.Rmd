@@ -1,7 +1,7 @@
 ---
 title: "MLE for Censored Data"
 author: "Mark Hagemann"
-date: "December 26, 2015"
+date: "2016-01-03"
 output: html_document
 ---
 

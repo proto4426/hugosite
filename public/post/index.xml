@@ -6,43 +6,190 @@
     <description>Recent content in Posts on Mark Hagemann</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Fri, 30 Dec 2016 21:49:57 -0700</lastBuildDate>
+    <lastBuildDate>Thu, 15 Jun 2017 00:00:00 +0000</lastBuildDate>
     
 	<atom:link href="/post/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
-      <title>A Plain Markdown Post</title>
-      <link>/2016/12/30/a-plain-markdown-post/</link>
-      <pubDate>Fri, 30 Dec 2016 21:49:57 -0700</pubDate>
+      <title>Migrating to Blogdown-Hugo</title>
+      <link>/2017/06/15/migrating-to-blogdown-hugo/</link>
+      <pubDate>Thu, 15 Jun 2017 00:00:00 +0000</pubDate>
       
-      <guid>/2016/12/30/a-plain-markdown-post/</guid>
-      <description>This is a post written in plain Markdown (*.md) instead of R Markdown (*.Rmd). The major differences are:
-You cannot run any R code in a plain Markdown document, whereas in an R Markdown document, you can embed R code chunks (```{r}); A plain Markdown post is rendered through Blackfriday, and an R Markdown document is compiled by rmarkdown and Pandoc.  There are many differences in syntax between Blackfriday’s Markdown and Pandoc’s Markdown.</description>
+      <guid>/2017/06/15/migrating-to-blogdown-hugo/</guid>
+      <description>Herein I’m documenting the steps I’m taking in migrating from Octopress/Jekyll to Blogdown/Hugo. Unfortunately I didn’t think to do this until some way into the process.
+doneyet?
+Consult the Blogdown readme  Install the package from github. Do the other things on the readme. Pick out a theme. I chose tranquilpeak.  Check the migration guide from the blogdown devs. Nothing there at the moment, but I get the sense that this guide is in pretty rapid development.</description>
     </item>
     
     <item>
-      <title>Lorem Ipsum</title>
-      <link>/2015/01/01/lorem-ipsum/</link>
-      <pubDate>Thu, 01 Jan 2015 13:09:13 -0600</pubDate>
+      <title>Quick practice exercise with sed</title>
+      <link>/2017/06/15/quick-practice-exercise-with-sed/</link>
+      <pubDate>Thu, 15 Jun 2017 00:00:00 +0000</pubDate>
       
-      <guid>/2015/01/01/lorem-ipsum/</guid>
-      <description>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</description>
+      <guid>/2017/06/15/quick-practice-exercise-with-sed/</guid>
+      <description>Problem Solution Coda Recap.   Problem As I try to get my blog up and running using the new Hugo/blogdown framework, I find myself needing to reformat a bunch of dates in the yaml front matter from mm/dd/yyyy to yyyy-mm-dd for all of the .Rmd files in a directory. For this I’m going to use sed, something I’ve been meaning to get more practice with. I’m going to try to come up with the syntax before consulting google, and then see how close I was.</description>
+    </item>
+    
+    <item>
+      <title>Flint sentinel tests -- animated!</title>
+      <link>/2017/06/12/flint-sentinel-tests----animated/</link>
+      <pubDate>Mon, 12 Jun 2017 00:00:00 +0000</pubDate>
+      
+      <guid>/2017/06/12/flint-sentinel-tests----animated/</guid>
+      <description>Motivation Flint maps (from winter 2016) Sentinel tests Animations   Motivation The tweenr R package looks really cool! I want 1) to try it, 2) to revisit some old interests that never made it to the blog, and 3) to keep one foot in the water sector, despite some uncertainty as to its part in my professional future.
+Early in 2016 I was playing around with Flint, Michigan lead data and wanted to see what trends I could pick out spatially.</description>
+    </item>
+    
+    <item>
+      <title>API packages</title>
+      <link>/2016/04/03/api-packages/</link>
+      <pubDate>Sun, 03 Apr 2016 00:00:00 +0000</pubDate>
+      
+      <guid>/2016/04/03/api-packages/</guid>
+      <description>I’m taking a break from helping DataFest participants untangle their R code to work on clearing my backlog of unfinished blog posts. One thing I’ve been meaning to talk about is a series of R packages I’ve written, in various stages of development. This is something I’ve done before, but still new enough to be excited about a working product.
+All these packages are built to access data from US Federal agency APIs.</description>
+    </item>
+    
+    <item>
+      <title>MLE for Censored Data</title>
+      <link>/2016/01/03/mle-for-censored-data/</link>
+      <pubDate>Sun, 03 Jan 2016 00:00:00 +0000</pubDate>
+      
+      <guid>/2016/01/03/mle-for-censored-data/</guid>
+      <description>Suppose you want to know something about a random variable that is only measurable when its value is above a certain threshold. For example, you have a dataset of the concentration of nitrate in a river (measured monthly for the last 100 months), but the analytical instrument has a detection limit below which it stops working. Such data are called censored in the statistical community. How can you do inference on such data?</description>
+    </item>
+    
+    <item>
+      <title>EditR</title>
+      <link>/2015/11/25/editr/</link>
+      <pubDate>Wed, 25 Nov 2015 00:00:00 +0000</pubDate>
+      
+      <guid>/2015/11/25/editr/</guid>
+      <description>I’ve been writing a lot using both RMarkdown and Markdown lately. In the past I would typically default to RMarkdown because that’s the default in RStudio, but more recently I’ve been writing some pretty math-heavy documents and wanted something that could render them in real-time. This led me to Haroopad, which has mostly worked really well (with the exception of crashing so hard once that it actually deleted a previously saved version of the document I was working on), but alas, it doesn’t recognize the chunks of code I put in my Rmarkdown docs.</description>
+    </item>
+    
+    <item>
+      <title>waterML</title>
+      <link>/2015/11/25/waterml/</link>
+      <pubDate>Wed, 25 Nov 2015 00:00:00 +0000</pubDate>
+      
+      <guid>/2015/11/25/waterml/</guid>
+      <description>I’ve been working with water data collected by other people for the past 3 years or so. Typically, I’ve gotten my hands on it in 3 different ways:
+email, dropbox, etc. from collaborators. Usually in .xlsx or .csv format. Inconsistently formatted; seldom tidy. Downloading manually from a website, e.g. USGS instantaneous flows pre-2007 Using an API for web services such as the water quality portal (WQP) or NWIS. I’ve mostly done this using R functions in the dataRetrieval package put out by USGS.</description>
+    </item>
+    
+    <item>
+      <title>Breaking the Silence</title>
+      <link>/2015/11/24/breaking-the-silence/</link>
+      <pubDate>Tue, 24 Nov 2015 00:00:00 +0000</pubDate>
+      
+      <guid>/2015/11/24/breaking-the-silence/</guid>
+      <description>Haven’t updated this blog in a while. Time to start doing that again.
+Also, I changed the theme. The last one wasn’t doing it for me. I like this one. It’s called “mnml”</description>
+    </item>
+    
+    <item>
+      <title>ODSC2015</title>
+      <link>/2015/07/03/odsc2015/</link>
+      <pubDate>Fri, 03 Jul 2015 00:00:00 +0000</pubDate>
+      
+      <guid>/2015/07/03/odsc2015/</guid>
+      <description>I’m on a train back from Boston after attending the 2015 Open Data Science Conference. Two days of serious nerding out among afficionados of open-source software like R and Python. Herein I give some highlights. Notes from talks and workshops I attended are here
+Train from boston
+ Some main points:
+ Data scientists do a lot of different things, and it’s still not clear what the job title refers to.</description>
+    </item>
+    
+    <item>
+      <title>Yes this year has been cold (around here)</title>
+      <link>/2015/03/27/yes-this-year-has-been-cold-around-here/</link>
+      <pubDate>Fri, 27 Mar 2015 00:00:00 +0000</pubDate>
+      
+      <guid>/2015/03/27/yes-this-year-has-been-cold-around-here/</guid>
+      <description>Investigations Geting meta with ranks and order stats. But climate change!    It’s become part of my daily ritual to check the updated extended forecast in hopes of seeing of bona fide warm spell on the horizon. And each day my hopes are dashed–30s, some 40s, and now finally some low 50s–but no real birds-a-chirpin’ spring weather. As a son of the Lake Superior shoreline I’m somewhat ashamed to admit my impatience with the relatively mild New England winter, but this one just feels relentless.</description>
+    </item>
+    
+    <item>
+      <title>socrata</title>
+      <link>/2015/03/24/socrata/</link>
+      <pubDate>Tue, 24 Mar 2015 00:00:00 +0000</pubDate>
+      
+      <guid>/2015/03/24/socrata/</guid>
+      <description>I’m currently watching Socrata’s introductory webinar. Thinking about how far the open data movement has to go to in the context of water science.
+I found myself at the website after browsing the links from a TED talk on NYC open data insights. I had only vaguely been aware of Socrata in the past, but it looks to be catching on:
+ I won’t pretend to know more than I do about Socrata, but I think this graphic pretty well sums up their mission:</description>
+    </item>
+    
+    <item>
+      <title>Reflections on AGU 2014</title>
+      <link>/2014/12/24/reflections-on-agu-2014/</link>
+      <pubDate>Wed, 24 Dec 2014 00:00:00 +0000</pubDate>
+      
+      <guid>/2014/12/24/reflections-on-agu-2014/</guid>
+      <description>It is Saturday morning, the first morning in a week that I’m not groggily shuffling off to the Moscone convention center in San Francisco to fill my mind with geosciencey knowledge. The past week was my first time attending the American Geophysical Union fall meeting–after wanting to go since I was an undergrad in geology. This year’s meeting continued the tradtion of exceeding the previous year’s attendance; 24 thousand of us descended upon the city this year.</description>
+    </item>
+    
+    <item>
+      <title>ProducingVsConsuming</title>
+      <link>/2014/11/29/producingvsconsuming/</link>
+      <pubDate>Sat, 29 Nov 2014 00:00:00 +0000</pubDate>
+      
+      <guid>/2014/11/29/producingvsconsuming/</guid>
+      <description>I had a thought.
+I’ve been doing a lot of consuming of academic material over the last couple years–since I started my graduate studies. That means reading (a LOT), taking classes, hearing lectures, and learning research “tools” (software, organization, etc). This sort of thing is slow, time-consuming work that yields a trickle of intellectual returns–i.e. competence. But all in all I like it. I like that apart from convincing myself and (to a much lesser extent) others that I’m digesting and understanding the things I consume, there is very little expectation or evaluation of my abilities.</description>
+    </item>
+    
+    <item>
+      <title>Shiny app for visualizing prior distributions</title>
+      <link>/2014/11/28/shiny-app-for-visualizing-prior-distributions/</link>
+      <pubDate>Fri, 28 Nov 2014 00:00:00 +0000</pubDate>
+      
+      <guid>/2014/11/28/shiny-app-for-visualizing-prior-distributions/</guid>
+      <description>A friend of mine is collaborating on a project using a Bayesian hierarchical model. One of the parameters in her model is error precision (inverse variance), which she’s giving a gamma-distributed prior. The other day she came to me with a question about the distribution, and how it could be interpreted. This struck me as less than intuitive, so I thought I’d make a simple interactive application to show how the prior parameters would translate into the precision distribtuion, as well as something more intuitive like standard deviation.</description>
+    </item>
+    
+    <item>
+      <title>Library book: Republic Lost</title>
+      <link>/2014/10/14/library-book-republic-lost/</link>
+      <pubDate>Tue, 14 Oct 2014 00:00:00 +0000</pubDate>
+      
+      <guid>/2014/10/14/library-book-republic-lost/</guid>
+      <description>I see that I haven’t posted since the semester started, and I assure you that is no coincidence. Add classes and the hubbub of a fully operational college town to an already full schedule and lo! my blogging energies disappear. I’ve got a few posts simmering on a backburner, but today I’m going to try and make good on an idea I had a couple months back to post about library books I’ve checked out as they’re recalled.</description>
+    </item>
+    
+    <item>
+      <title>Concept maps! (parts 1 and 2)</title>
+      <link>/2014/09/08/concept-maps-parts-1-and-2/</link>
+      <pubDate>Mon, 08 Sep 2014 00:00:00 +0000</pubDate>
+      
+      <guid>/2014/09/08/concept-maps-parts-1-and-2/</guid>
+      <description>The following contains notes from the first two parts what turned into a fruitful search for something I simply wanted to exist. I’m still following this string, but I think I’ve stumbled onto something very useful. More updates will follow.
+I’ve been having a hard time lately getting everything on my daily task list accomplished. Not that I’ve become any less efficient recently, but rather I’ve been somewhat better about explicitly listing the things I want to accomplish in any given day.</description>
     </item>
     
     <item>
       <title>R function to make Octopress posts</title>
       <link>/2014/09/07/r-function-to-make-octopress-posts/</link>
-      <pubDate>Sun, 07 Sep 2014 13:59:21 -0400</pubDate>
+      <pubDate>Sun, 07 Sep 2014 00:00:00 +0000</pubDate>
       
       <guid>/2014/09/07/r-function-to-make-octopress-posts/</guid>
       <description>pre .operator, pre .paren { color: rgb(104, 118, 135) } pre .literal { color: #990073 } pre .number { color: #099; } pre .comment { color: #998; font-style: italic } pre .keyword { color: #900; font-weight: bold } pre .identifier { color: rgb(0, 0, 0); } pre .string { color: #d14; }  var hljs=new function(){function m(p){return p.replace(/&amp;/gm,&#34;&amp;amp;&#34;).replace(/&#34;}while(y.length||w.length){var v=u().splice(0,1)[0];z+=m(x.substr(q,v.offset-q));q=v.offset;if(v.event==&#34;start&#34;){z+=t(v.node);s.push(v.node)}else{if(v.event==&#34;stop&#34;){var p,r=s.length;do{r--;p=s[r];z+=(&#34;&#34;)}while(p!=v.node);s.splice(r,1);while(r&#39;+M[0]+&#34;&#34;}else{r+=M[0]}O=P.lR.lastIndex;M=P.lR.exec(L)}return r+L.substr(O,L.length-O)}function J(L,M){if(M.sL&amp;&amp;e[M.sL]){var r=d(M.sL,L);x+=r.keyword_count;return r.value}else{return F(L,M)}}function I(M,r){var L=M.</description>
     </item>
     
     <item>
+      <title>Library books</title>
+      <link>/2014/08/23/library-books/</link>
+      <pubDate>Sat, 23 Aug 2014 00:00:00 +0000</pubDate>
+      
+      <guid>/2014/08/23/library-books/</guid>
+      <description>One of my favorite things about being at a major research university is having access to a tremendous collection of library books. I’m overwhelmed not only by the number available to me, but also the generosity of the loan duration. I don’t know exactly how long the loans are, but it’s got to be at least six months. Which really encourages the kind of borrowing I’ve taken to doing–checking out books on the slightest whim and with only a vague idea of when or if I’ll get around to reading them.</description>
+    </item>
+    
+    <item>
       <title>Adding Content</title>
       <link>/2014/08/17/adding-content/</link>
-      <pubDate>Sun, 17 Aug 2014 21:06:50 -0400</pubDate>
+      <pubDate>Sun, 17 Aug 2014 00:00:00 +0000</pubDate>
       
       <guid>/2014/08/17/adding-content/</guid>
       <description>Real briefly: I’m finally comfortable enough with the inner workings of Octopress to start putting some content on this blog. A lot of my first moves are going to be notes from various courses and tutorials that I’ve written in markdown (rather RMarkdown), mainly so that I can keep track of them in a place that’s not my messy hard drive. These are just notes, so they are not in the least well-written or even sensible, necessarily.</description>
@@ -81,152 +228,6 @@ Ahh, things are ramping up. And more quicly every day.
 Now here’s a picture of the sunrise and sunset times:
 Yes, daylight savings is less than 2 months away!
 I also drew some pictures with a wider field of view.</description>
-    </item>
-    
-    <item>
-      <title>API packages</title>
-      <link>/1/01/01/api-packages/</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-      
-      <guid>/1/01/01/api-packages/</guid>
-      <description>I’m taking a break from helping DataFest participants untangle their R code to work on clearing my backlog of unfinished blog posts. One thing I’ve been meaning to talk about is a series of R packages I’ve written, in various stages of development. This is something I’ve done before, but still new enough to be excited about a working product.
-All these packages are built to access data from US Federal agency APIs.</description>
-    </item>
-    
-    <item>
-      <title>Breaking the Silence</title>
-      <link>/1/01/01/breaking-the-silence/</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-      
-      <guid>/1/01/01/breaking-the-silence/</guid>
-      <description>Haven’t updated this blog in a while. Time to start doing that again.
-Also, I changed the theme. The last one wasn’t doing it for me. I like this one. It’s called “mnml”</description>
-    </item>
-    
-    <item>
-      <title>Concept maps! (parts 1 and 2)</title>
-      <link>/1/01/01/concept-maps-parts-1-and-2/</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-      
-      <guid>/1/01/01/concept-maps-parts-1-and-2/</guid>
-      <description>The following contains notes from the first two parts what turned into a fruitful search for something I simply wanted to exist. I’m still following this string, but I think I’ve stumbled onto something very useful. More updates will follow.
-I’ve been having a hard time lately getting everything on my daily task list accomplished. Not that I’ve become any less efficient recently, but rather I’ve been somewhat better about explicitly listing the things I want to accomplish in any given day.</description>
-    </item>
-    
-    <item>
-      <title>EditR</title>
-      <link>/1/01/01/editr/</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-      
-      <guid>/1/01/01/editr/</guid>
-      <description>I’ve been writing a lot using both RMarkdown and Markdown lately. In the past I would typically default to RMarkdown because that’s the default in RStudio, but more recently I’ve been writing some pretty math-heavy documents and wanted something that could render them in real-time. This led me to Haroopad, which has mostly worked really well (with the exception of crashing so hard once that it actually deleted a previously saved version of the document I was working on), but alas, it doesn’t recognize the chunks of code I put in my Rmarkdown docs.</description>
-    </item>
-    
-    <item>
-      <title>Flint sentinel tests -- animated!</title>
-      <link>/1/01/01/flint-sentinel-tests----animated/</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-      
-      <guid>/1/01/01/flint-sentinel-tests----animated/</guid>
-      <description>Motivation The tweenr R package looks really cool! I want 1) to try it, 2) to revisit some old interests that never made it to the blog, and 3) to keep one foot in the water sector, despite some uncertainty as to its part in my professional future.
-Early in 2016 I was playing around with Flint, Michigan lead data and wanted to see what trends I could pick out spatially.</description>
-    </item>
-    
-    <item>
-      <title>Library book: Republic Lost</title>
-      <link>/1/01/01/library-book-republic-lost/</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-      
-      <guid>/1/01/01/library-book-republic-lost/</guid>
-      <description>I see that I haven’t posted since the semester started, and I assure you that is no coincidence. Add classes and the hubbub of a fully operational college town to an already full schedule and lo! my blogging energies disappear. I’ve got a few posts simmering on a backburner, but today I’m going to try and make good on an idea I had a couple months back to post about library books I’ve checked out as they’re recalled.</description>
-    </item>
-    
-    <item>
-      <title>Library books</title>
-      <link>/1/01/01/library-books/</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-      
-      <guid>/1/01/01/library-books/</guid>
-      <description>One of my favorite things about being at a major research university is having access to a tremendous collection of library books. I’m overwhelmed not only by the number available to me, but also the generosity of the loan duration. I don’t know exactly how long the loans are, but it’s got to be at least six months. Which really encourages the kind of borrowing I’ve taken to doing–checking out books on the slightest whim and with only a vague idea of when or if I’ll get around to reading them.</description>
-    </item>
-    
-    <item>
-      <title>MLE for Censored Data</title>
-      <link>/1/01/01/mle-for-censored-data/</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-      
-      <guid>/1/01/01/mle-for-censored-data/</guid>
-      <description>Suppose you want to know something about a random variable that is only measurable when its value is above a certain threshold. For example, you have a dataset of the concentration of nitrate in a river (measured monthly for the last 100 months), but the analytical instrument has a detection limit below which it stops working. Such data are called censored in the statistical community. How can you do inference on such data?</description>
-    </item>
-    
-    <item>
-      <title>ODSC2015</title>
-      <link>/1/01/01/odsc2015/</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-      
-      <guid>/1/01/01/odsc2015/</guid>
-      <description>I’m on a train back from Boston after attending the 2015 Open Data Science Conference. Two days of serious nerding out among afficionados of open-source software like R and Python. Herein I give some highlights. Notes from talks and workshops I attended are here
-Train from boston
- Some main points:
- Data scientists do a lot of different things, and it’s still not clear what the job title refers to.</description>
-    </item>
-    
-    <item>
-      <title>ProducingVsConsuming</title>
-      <link>/1/01/01/producingvsconsuming/</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-      
-      <guid>/1/01/01/producingvsconsuming/</guid>
-      <description>I had a thought.
-I’ve been doing a lot of consuming of academic material over the last couple years–since I started my graduate studies. That means reading (a LOT), taking classes, hearing lectures, and learning research “tools” (software, organization, etc). This sort of thing is slow, time-consuming work that yields a trickle of intellectual returns–i.e. competence. But all in all I like it. I like that apart from convincing myself and (to a much lesser extent) others that I’m digesting and understanding the things I consume, there is very little expectation or evaluation of my abilities.</description>
-    </item>
-    
-    <item>
-      <title>Reflections on AGU 2014</title>
-      <link>/1/01/01/reflections-on-agu-2014/</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-      
-      <guid>/1/01/01/reflections-on-agu-2014/</guid>
-      <description>It is Saturday morning, the first morning in a week that I’m not groggily shuffling off to the Moscone convention center in San Francisco to fill my mind with geosciencey knowledge. The past week was my first time attending the American Geophysical Union fall meeting–after wanting to go since I was an undergrad in geology. This year’s meeting continued the tradtion of exceeding the previous year’s attendance; 24 thousand of us descended upon the city this year.</description>
-    </item>
-    
-    <item>
-      <title>Shiny app for visualizing prior distributions</title>
-      <link>/1/01/01/shiny-app-for-visualizing-prior-distributions/</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-      
-      <guid>/1/01/01/shiny-app-for-visualizing-prior-distributions/</guid>
-      <description>A friend of mine is collaborating on a project using a Bayesian hierarchical model. One of the parameters in her model is error precision (inverse variance), which she’s giving a gamma-distributed prior. The other day she came to me with a question about the distribution, and how it could be interpreted. This struck me as less than intuitive, so I thought I’d make a simple interactive application to show how the prior parameters would translate into the precision distribtuion, as well as something more intuitive like standard deviation.</description>
-    </item>
-    
-    <item>
-      <title>Yes this year has been cold (around here)</title>
-      <link>/1/01/01/yes-this-year-has-been-cold-around-here/</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-      
-      <guid>/1/01/01/yes-this-year-has-been-cold-around-here/</guid>
-      <description>It’s become part of my daily ritual to check the updated extended forecast in hopes of seeing of bona fide warm spell on the horizon. And each day my hopes are dashed–30s, some 40s, and now finally some low 50s–but no real birds-a-chirpin’ spring weather. As a son of the Lake Superior shoreline I’m somewhat ashamed to admit my impatience with the relatively mild New England winter, but this one just feels relentless.</description>
-    </item>
-    
-    <item>
-      <title>socrata</title>
-      <link>/1/01/01/socrata/</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-      
-      <guid>/1/01/01/socrata/</guid>
-      <description>I’m currently watching Socrata’s introductory webinar. Thinking about how far the open data movement has to go to in the context of water science.
-I found myself at the website after browsing the links from a TED talk on NYC open data insights. I had only vaguely been aware of Socrata in the past, but it looks to be catching on:
- I won’t pretend to know more than I do about Socrata, but I think this graphic pretty well sums up their mission:</description>
-    </item>
-    
-    <item>
-      <title>waterML</title>
-      <link>/1/01/01/waterml/</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-      
-      <guid>/1/01/01/waterml/</guid>
-      <description>I’ve been working with water data collected by other people for the past 3 years or so. Typically, I’ve gotten my hands on it in 3 different ways:
-email, dropbox, etc. from collaborators. Usually in .xlsx or .csv format. Inconsistently formatted; seldom tidy. Downloading manually from a website, e.g. USGS instantaneous flows pre-2007 Using an API for web services such as the water quality portal (WQP) or NWIS. I’ve mostly done this using R functions in the dataRetrieval package put out by USGS.</description>
     </item>
     
   </channel>

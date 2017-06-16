@@ -1,0 +1,59 @@
+---
+title: Migrating to Blogdown-Hugo
+author: Mark Hagemann
+date: '2017-06-15'
+categories:
+  - Meta
+  - notes
+tags:
+  - blogdown
+  - hugo
+slug: migrating-to-blogdown-hugo
+---
+
+
+
+<div id="intro" class="section level3">
+<h3>Intro</h3>
+<p>After 3 or so years with Octopress, I’m moving my blog/website over to <a href="https://gohugo.io/">Hugo</a> with the help of the new <a href="https://github.com/rstudio/blogdown">Blogdown</a> R package. It had gotten to be a little absurd how much work I had to do to twist rendered RMarkdown documents into Octopress posts. Thankfully, Yihui Xie was already on the job of making my ridiculous blogging workflow obsolete.</p>
+<p>Less than 48 hours after learning of Blogdown’s existence I’m well on my way to having my blog fully migrated and the words in my .Rmd files flowing effortlessly from my keyboard to the web.</p>
+<p>Most likely I’ll have more on this stuff later, but for now I’ll just post an in-progress list of things I’ve done in the course of the migration that I or others might find useful in the future.</p>
+</div>
+<div id="steps" class="section level3">
+<h3>Steps</h3>
+<p>Herein I’m documenting the steps I’m taking in migrating from Octopress/Jekyll to Blogdown/Hugo. Unfortunately I didn’t think to do this until some way into the process.</p>
+<ol style="list-style-type: decimal">
+<li>Consult the Blogdown <a href="https://github.com/rstudio/blogdown#readme">readme</a>
+<ul>
+<li>Install the package from github.</li>
+<li>Do the other things on the readme.</li>
+<li>Pick out a theme. I chose <a href="https://github.com/kakawait/hugo-tranquilpeak-theme">tranquilpeak</a>.</li>
+</ul></li>
+<li>Check the <a href="https://bookdown.org/yihui/blogdown/from-jekyll.html">migration guide</a> from the blogdown devs. Nothing there at the moment, but I get the sense that this guide is in pretty rapid development.</li>
+<li>Sign up for a <a href="https://gravatar.com/">gravatar</a>. Not at all necessary, but it looked like a cool thing so I did it.</li>
+<li>Various tweaks to the config.toml file.</li>
+<li>Modify workflow to do everything while server daemon is running. No more <code>knit</code>ting individual blog posts.
+<ul>
+<li>Add <code>options(servr_daemon = TRUE)</code> to project .Rprofile</li>
+<li>Use “Serve Site” addin, or <code>blogdown::serve_site()</code></li>
+</ul></li>
+<li>Use the “Update Meta” addin to update the yaml.
+<ul>
+<li>If you have a single category or tag, like <code>categories: [meta]</code>, make sure you have the square brackets or the site won’t generate.</li>
+</ul></li>
+<li>Include tables of contents in your post.
+<ul>
+<li>Just like with typical Rmarkdown specification in yaml front matter, but use <code>blogdown::html_page:</code> instead of <code>html_file:</code></li>
+<li>More info <a href="">here</a> and <a href="https://github.com/rstudio/blogdown/issues/58">here</a></li>
+</ul></li>
+<li>Get MathJax working, so that pages <a href="/2016/01/03/mle-for-censored-data/">like this</a> render properly.
+<ul>
+<li>See <a href="https://github.com/rstudio/blogdown/issues/36">this discussion</a></li>
+<li>Follow <a href="https://gohugo.io/tutorials/mathjax/#enabling-mathjax">this advice</a>
+<ul>
+<li>Edit footer.html in themes/[yourthemehere]/layouts/partials/ using either the html snippet linked in the parent bullet or the one provided by Lauler in the bullet above that.</li>
+<li>But apparently this approach <a href="https://github.com/rstudio/blogdown/issues/36#issuecomment-273695252">“has a potential problem”</a> whatever that means.</li>
+</ul></li>
+</ul></li>
+</ol>
+</div>

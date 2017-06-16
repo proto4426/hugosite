@@ -1,8 +1,15 @@
 ---
-title: 'Yes this year has been cold (around here)'
-author: "Mark Hagemann"
-date: "March 26, 2015"
-output: html_document
+title: Yes this year has been cold (around here)
+author: Mark Hagemann
+date: '2015-03-27'
+categories:
+  - R
+  - datavis
+tags: weather
+output:
+  blogdown::html_page:
+    toc: yes
+    toc_maxdepth: 3
 ---
 
 ```{r echo = FALSE, message = FALSE}
@@ -12,6 +19,7 @@ library(dplyr)
 library(knitr)
 
 opts_chunk$set(echo = FALSE)
+
 ```
 
 
@@ -43,7 +51,7 @@ subset.ggplot <- function(gg, subset, select, drop = FALSE) {
   gg[["data"]] = x[r, vars, drop = drop]
   gg
 }
-
+write.csv(list.files(), file = "/home/markwh/foo.csv")
 dataIn = read.csv("data/504345.csv")
 dates = data.frame(Date = seq.Date(as.Date("1894-01-01"), as.Date("2015-03-23"), 1))
 temps = dataIn %>% 

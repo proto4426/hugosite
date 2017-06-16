@@ -1,245 +1,37 @@
+---
+title: Flint sentinel tests -- animated!
+author: Mark Hagemann
+date: '2017-06-12'
+categories:
+  - R
+  - datavis
+  - water
+tags:
+  - flint
+  - leaflet
+  - gganimate
+  - tweenr
+output:
+  blogdown::html_page:
+    toc: yes
+    toc_maxdepth: 3
+---
 
+<script src="/rmarkdown-libs/htmlwidgets/htmlwidgets.js"></script>
+<script src="/rmarkdown-libs/jquery/jquery.min.js"></script>
+<link href="/rmarkdown-libs/leaflet/leaflet.css" rel="stylesheet" />
+<script src="/rmarkdown-libs/leaflet/leaflet.js"></script>
+<link href="/rmarkdown-libs/leafletfix/leafletfix.css" rel="stylesheet" />
+<script src="/rmarkdown-libs/leaflet-binding/leaflet.js"></script>
 
-  
-    
-  
-
-
-  
-
-
-
-
-  
-
-
-  
-
-<!DOCTYPE html>
-<html lang="en-us">
-  <head>
-    
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="generator" content="Hugo 0.22.1">
-    <meta name="theme" content="Tranquilpeak 0.3.1-BETA">
-    <title>Flint sentinel tests -- animated!</title>
-    <meta name="author" content="Mark Hagemann">
-    <meta name="keywords" content="">
-
-    <link rel="icon" href="../../../../favicon.png">
-    
-
-    
-    <meta name="description" content="Motivation The tweenr R package looks really cool! I want 1) to try it, 2) to revisit some old interests that never made it to the blog, and 3) to keep one foot in the water sector, despite some uncertainty as to its part in my professional future.
-Early in 2016 I was playing around with Flint, Michigan lead data and wanted to see what trends I could pick out spatially.">
-    <meta property="og:description" content="Motivation The tweenr R package looks really cool! I want 1) to try it, 2) to revisit some old interests that never made it to the blog, and 3) to keep one foot in the water sector, despite some uncertainty as to its part in my professional future.
-Early in 2016 I was playing around with Flint, Michigan lead data and wanted to see what trends I could pick out spatially.">
-    <meta property="og:type" content="blog">
-    <meta property="og:title" content="Flint sentinel tests -- animated!">
-    <meta property="og:url" content="/1/01/01/flint-sentinel-tests----animated/">
-    <meta property="og:site_name" content="Mark Hagemann">
-    <meta name="twitter:card" content="summary">
-    <meta name="twitter:title" content="Mark Hagemann">
-    <meta name="twitter:description" content="Motivation The tweenr R package looks really cool! I want 1) to try it, 2) to revisit some old interests that never made it to the blog, and 3) to keep one foot in the water sector, despite some uncertainty as to its part in my professional future.
-Early in 2016 I was playing around with Flint, Michigan lead data and wanted to see what trends I could pick out spatially.">
-    
-    
-
-    
-    
-
-    
-      <meta property="og:image" content="//www.gravatar.com/avatar/98c05ed545d45e189b35aefc75fb11b8?s=640">
-    
-
-    
-    
-    
-
-    
-
-    
-    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />
-    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.4/jquery.fancybox.css" />
-    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.4/helpers/jquery.fancybox-thumbs.min.css" />
-    
-    
-    <link rel="stylesheet" href="../../../../css/style-u6mk0ojoywresbx8iepslrmmhl4stuhrsxuwhkpwrkrx7mryjcaimasnk4pi.min.css" />
-    
-    
-
-    
-      
-    
-    
-  </head>
-
-  <body>
-    <div id="blog">
-      <header id="header" data-behavior="4">
-  <i id="btn-open-sidebar" class="fa fa-lg fa-bars"></i>
-  <div class="header-title">
-    <a class="header-title-link" href="../../../../">Mark Hagemann</a>
-  </div>
-  
-    
-      <a class="header-right-picture "
-         href="../../../../#about">
-    
-    
-    
-      
-        <img class="header-picture" src="//www.gravatar.com/avatar/98c05ed545d45e189b35aefc75fb11b8?s=90" alt="Author&#39;s picture" />
-      
-    
-    </a>
-  
-</header>
-
-      <nav id="sidebar" data-behavior="4">
-  <div class="sidebar-container">
-    
-      <div class="sidebar-profile">
-        <a href="../../../../#about">
-          <img class="sidebar-profile-picture" src="//www.gravatar.com/avatar/98c05ed545d45e189b35aefc75fb11b8?s=110" alt="Author&#39;s picture" />
-        </a>
-        <h4 class="sidebar-profile-name">Mark Hagemann</h4>
-        
-          <h5 class="sidebar-profile-bio">I think and sometimes write about water or data other things I often think about.</h5>
-        
-      </div>
-    
-    <ul class="sidebar-buttons">
-      
-  <li class="sidebar-button">
-    
-      <a class="sidebar-button-link " href="../../../../categories">
-    
-      <i class="sidebar-button-icon fa fa-lg fa-bookmark"></i>
-      
-      <span class="sidebar-button-desc">Categories</span>
-    </a>
-  </li>
-
-  <li class="sidebar-button">
-    
-      <a class="sidebar-button-link " href="../../../../tags">
-    
-      <i class="sidebar-button-icon fa fa-lg fa-tags"></i>
-      
-      <span class="sidebar-button-desc">Tags</span>
-    </a>
-  </li>
-
-  <li class="sidebar-button">
-    
-      <a class="sidebar-button-link " href="../../../../archives">
-    
-      <i class="sidebar-button-icon fa fa-lg fa-archive"></i>
-      
-      <span class="sidebar-button-desc">Archives</span>
-    </a>
-  </li>
-
-  <li class="sidebar-button">
-    
-      <a class="sidebar-button-link " href="../../../../#about">
-    
-      <i class="sidebar-button-icon fa fa-lg fa-question"></i>
-      
-      <span class="sidebar-button-desc">About</span>
-    </a>
-  </li>
-
-  <li class="sidebar-button">
-    
-      <a class="sidebar-button-link " href="../../../../">
-    
-      <i class="sidebar-button-icon fa fa-lg fa-home"></i>
-      
-      <span class="sidebar-button-desc">Home</span>
-    </a>
-  </li>
-
-    </ul>
-    <ul class="sidebar-buttons">
-      
-  <li class="sidebar-button">
-    
-      <a class="sidebar-button-link " href="https://stackoverflow.com/users/3700000/markh">
-    
-      <i class="sidebar-button-icon fa fa-lg fa-stack-overflow"></i>
-      
-      <span class="sidebar-button-desc">Stack Overflow</span>
-    </a>
-  </li>
-
-  <li class="sidebar-button">
-    
-      <a class="sidebar-button-link " href="https://github.com/markwh">
-    
-      <i class="sidebar-button-icon fa fa-lg fa-github"></i>
-      
-      <span class="sidebar-button-desc">GitHub</span>
-    </a>
-  </li>
-
-    </ul>
-    <ul class="sidebar-buttons">
-      
-  <li class="sidebar-button">
-    
-      <a class="sidebar-button-link " href="../../../../index.xml">
-    
-      <i class="sidebar-button-icon fa fa-lg fa-rss"></i>
-      
-      <span class="sidebar-button-desc">RSS</span>
-    </a>
-  </li>
-
-    </ul>
-  </div>
-</nav>
-
-      
-
-      <div id="main" data-behavior="4"
-        class="
-               hasCoverMetaIn
-               ">
-        <article class="post" itemscope itemType="http://schema.org/BlogPosting">
-          
-          
-            <div class="post-header main-content-wrap text-left">
-  
-    <h1 class="post-title" itemprop="headline">
-      Flint sentinel tests -- animated!
-    </h1>
-  
-  <div class="postShorten-meta post-meta">
-  
-    <time itemprop="datePublished" datetime="0001-01-01T00:00:00Z">
-      
-  January 1, 1
-
-    </time>
-  
-  
-
+<div id="TOC">
+<ul>
+<li><a href="#motivation">Motivation</a></li>
+<li><a href="#flint-maps-from-winter-2016">Flint maps (from winter 2016)</a></li>
+<li><a href="#sentinel-tests">Sentinel tests</a></li>
+<li><a href="#animations">Animations</a></li>
+</ul>
 </div>
-
-</div>
-          
-          <div class="post-content markdown" itemprop="articleBody">
-            <div class="main-content-wrap">
-              <script src="../../../../rmarkdown-libs/htmlwidgets/htmlwidgets.js"></script>
-<script src="../../../../rmarkdown-libs/jquery/jquery.min.js"></script>
-<link href="../../../../rmarkdown-libs/leaflet/leaflet.css" rel="stylesheet" />
-<script src="../../../../rmarkdown-libs/leaflet/leaflet.js"></script>
-<link href="../../../../rmarkdown-libs/leafletfix/leafletfix.css" rel="stylesheet" />
-<script src="../../../../rmarkdown-libs/leaflet-binding/leaflet.js"></script>
-
 
 <div id="motivation" class="section level3">
 <h3>Motivation</h3>
@@ -250,10 +42,6 @@ Early in 2016 I was playing around with Flint, Michigan lead data and wanted to 
 <h3>Flint maps (from winter 2016)</h3>
 <p>Here’s a quick mapping of lead and copper data in Flint, Michigan, using data from <a href="http://michigan.gov/flintwater">the State’s webpage</a>. For now, this is only the 2000 sample points with the highest lead concentration. (I’ll add the rest soon.)</p>
 <p>Lead:</p>
-<pre class="r"><code>cat(getwd())</code></pre>
-<pre><code>## /home/markwh/GoogleDrive/hugosite/content/post</code></pre>
-<pre class="r"><code>cat(file.exists(&quot;data/flint_top2000.csv&quot;))</code></pre>
-<pre><code>## TRUE</code></pre>
 <pre class="r"><code>flint2 &lt;- read.csv(&quot;data/flint_top2000.csv&quot;) # This I pre-cleaned externally.
 
 palBin &lt;- colorBin(palette = &quot;YlOrRd&quot;, domain = flint2$lead.ppb,
@@ -302,7 +90,7 @@ coppermap %&gt;%
 <div id="sentinel-tests" class="section level3">
 <h3>Sentinel tests</h3>
 <p>Since I made those maps the Michigan.gov website has made lots more data available. Some of it in the form of “Sentinel testing” results, in which the same sampling location is monitored routinely for Lead and Copper. After 5 rounds of Sentinel monitoring between February and May 2016, the project was extended under a smaller number of sites. To date 8 rounds of the “extended” sentinel data are available, in addition to the 5 origin sentinel rounds</p>
-<p>If you’re not interested in the data wrangling bit of this and just want to see the movies, feel free to <a href="#Animations">skip ahead</a></p>
+<p>If you’re not interested in the data wrangling bit of this and just want to see the movies, feel free to <a href="#animations">skip ahead</a></p>
 <p>Here I read in the data, which I obtained as excel files from the Michigan <a href="http://www.michigan.gov/flintwater/0,6092,7-345-76292_76294_76297---,00.html">government website</a>.</p>
 <pre class="r"><code>files &lt;- list.files(&quot;data/flint_sentinel/&quot;, full.names = TRUE)
 
@@ -384,7 +172,7 @@ dat2 %&gt;%
   scale_x_log10(limits = xlims) + 
   scale_y_log10(limits = ylims) +
   scale_size_continuous(trans = &quot;sqrt&quot;)</code></pre>
-<p><img src="../../../../post/2017-06-12-Flint-MI-Sentinel-Tests-Animated_files/figure-html/unnamed-chunk-8-1.png" width="672" /></p>
+<p><img src="/post/2017-06-12-Flint-MI-Sentinel-Tests-Animated_files/figure-html/unnamed-chunk-8-1.png" width="672" /></p>
 <pre class="r"><code>dat2 %&gt;% 
   filter(date &gt; &quot;2017-04-01&quot;) %&gt;% 
   ggplot(aes(x = lead.ppb, y = copper.ppb, size = lead.ppb,
@@ -393,7 +181,7 @@ dat2 %&gt;%
   scale_x_log10(limits = xlims) + 
   scale_y_log10(limits = ylims) +
   scale_size_continuous(trans = &quot;sqrt&quot;)</code></pre>
-<p><img src="../../../../post/2017-06-12-Flint-MI-Sentinel-Tests-Animated_files/figure-html/unnamed-chunk-8-2.png" width="672" /></p>
+<p><img src="/post/2017-06-12-Flint-MI-Sentinel-Tests-Animated_files/figure-html/unnamed-chunk-8-2.png" width="672" /></p>
 <p>Now let’s try animating them! This will use the tweenr package, available on GitHub.</p>
 <pre class="r"><code>devtools::install_github(&quot;thomasp85/tweenr&quot;)</code></pre>
 </div>
@@ -436,7 +224,7 @@ animation::ani.options(interval = 1/15)
 gganimate(p, &quot;flint.gif&quot;, title_frame = F, ani.width = 400, 
            ani.height = 400)</code></pre>
 <div class="figure">
-<img src="../../../../img/flint.gif" />
+<img src="/img/flint.gif" />
 
 </div>
 <p>That’s really cool! Size looks too small. And needs some transparency. And more points. Probably some annotation. I’ll do the first 2 of these then call it a night.</p>
@@ -473,7 +261,7 @@ animation::ani.options(interval = 1/15)
 gganimate(p, &quot;flint_all.gif&quot;, title_frame = F, ani.width = 400, 
            ani.height = 400)</code></pre>
 <div class="figure">
-<img src="../../../../img/flint_all.gif" />
+<img src="/img/flint_all.gif" />
 
 </div>
 <p>Still cool, but missing data means that points disappear and reappear all willy-nilly, and the reult looks less smooth than I’d like. Next I’ll try to interpolate missing points (and to ID these by color)</p>
@@ -509,7 +297,7 @@ animation::ani.options(interval = 1/15)
 gganimate(p, &quot;flint_all_interp.gif&quot;, title_frame = FALSE, ani.width = 400, 
            ani.height = 400)</code></pre>
 <div class="figure">
-<img src="../../../../img/flint_all_interp.gif" />
+<img src="/img/flint_all_interp.gif" />
 
 </div>
 <p>Looks better! Now change the color scale and legend. Also try adding in dates.</p>
@@ -569,451 +357,8 @@ animation::ani.options(interval = 1/15)
 gganimate(p, &quot;flint_all_annot.gif&quot;, title_frame = FALSE, ani.width = 400, 
            ani.height = 400)</code></pre>
 <div class="figure">
-<img src="../../../../img/flint_all_annot.gif" />
+<img src="/img/flint_all_annot.gif" />
 
 </div>
 <p>Now that looks darn good. Of course I’m tempted to keep going with this, but I need to move on.</p>
 </div>
-
-              
-            </div>
-          </div>
-          <div id="post-footer" class="post-footer main-content-wrap">
-            
-              
-            
-            <div class="post-actions-wrap">
-  <nav>
-    <ul class="post-actions post-action-nav">
-      
-        <li class="post-action">
-          
-            <a class="post-action-btn btn btn--default tooltip--top" href="../../../../1/01/01/editr/" data-tooltip="EditR">
-          
-            <i class="fa fa-angle-left"></i>
-            <span class="hide-xs hide-sm text-small icon-ml">NEXT</span>
-          </a>
-        </li>
-        <li class="post-action">
-          
-            <a class="post-action-btn btn btn--default tooltip--top" href="../../../../1/01/01/library-book-republic-lost/" data-tooltip="Library book: Republic Lost">
-          
-            <span class="hide-xs hide-sm text-small icon-mr">PREVIOUS</span>
-            <i class="fa fa-angle-right"></i>
-          </a>
-        </li>
-      
-    </ul>
-  </nav>
-  <ul class="post-actions post-action-share">
-    
-      <li class="post-action hide-lg hide-md hide-sm">
-        <a class="post-action-btn btn btn--default btn-open-shareoptions" href="#btn-open-shareoptions">
-          <i class="fa fa-share-alt"></i>
-        </a>
-      </li>
-      <li class="post-action hide-xs">
-        <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=%2f1%2f01%2f01%2fflint-sentinel-tests----animated%2f">
-          <i class="fa fa-google-plus"></i>
-        </a>
-      </li>
-      <li class="post-action hide-xs">
-        <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=%2f1%2f01%2f01%2fflint-sentinel-tests----animated%2f">
-          <i class="fa fa-facebook-official"></i>
-        </a>
-      </li>
-      <li class="post-action hide-xs">
-        <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=%2f1%2f01%2f01%2fflint-sentinel-tests----animated%2f">
-          <i class="fa fa-twitter"></i>
-        </a>
-      </li>
-    
-    
-    <li class="post-action">
-      
-        <a class="post-action-btn btn btn--default" href="#">
-      
-        <i class="fa fa-list"></i>
-      </a>
-    </li>
-  </ul>
-</div>
-
-
-            
-              
-            
-          </div>
-        </article>
-        <footer id="footer" class="main-content-wrap">
-  <span class="copyrights">
-    &copy; 2017 Mark Hagemann. All Rights Reserved
-  </span>
-</footer>
-
-      </div>
-      <div id="bottom-bar" class="post-bottom-bar" data-behavior="4">
-        <div class="post-actions-wrap">
-  <nav>
-    <ul class="post-actions post-action-nav">
-      
-        <li class="post-action">
-          
-            <a class="post-action-btn btn btn--default tooltip--top" href="../../../../1/01/01/editr/" data-tooltip="EditR">
-          
-            <i class="fa fa-angle-left"></i>
-            <span class="hide-xs hide-sm text-small icon-ml">NEXT</span>
-          </a>
-        </li>
-        <li class="post-action">
-          
-            <a class="post-action-btn btn btn--default tooltip--top" href="../../../../1/01/01/library-book-republic-lost/" data-tooltip="Library book: Republic Lost">
-          
-            <span class="hide-xs hide-sm text-small icon-mr">PREVIOUS</span>
-            <i class="fa fa-angle-right"></i>
-          </a>
-        </li>
-      
-    </ul>
-  </nav>
-  <ul class="post-actions post-action-share">
-    
-      <li class="post-action hide-lg hide-md hide-sm">
-        <a class="post-action-btn btn btn--default btn-open-shareoptions" href="#btn-open-shareoptions">
-          <i class="fa fa-share-alt"></i>
-        </a>
-      </li>
-      <li class="post-action hide-xs">
-        <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=%2f1%2f01%2f01%2fflint-sentinel-tests----animated%2f">
-          <i class="fa fa-google-plus"></i>
-        </a>
-      </li>
-      <li class="post-action hide-xs">
-        <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=%2f1%2f01%2f01%2fflint-sentinel-tests----animated%2f">
-          <i class="fa fa-facebook-official"></i>
-        </a>
-      </li>
-      <li class="post-action hide-xs">
-        <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=%2f1%2f01%2f01%2fflint-sentinel-tests----animated%2f">
-          <i class="fa fa-twitter"></i>
-        </a>
-      </li>
-    
-    
-    <li class="post-action">
-      
-        <a class="post-action-btn btn btn--default" href="#">
-      
-        <i class="fa fa-list"></i>
-      </a>
-    </li>
-  </ul>
-</div>
-
-
-      </div>
-      <div id="share-options-bar" class="share-options-bar" data-behavior="4">
-  <ul class="share-options">
-    <li class="share-option">
-      <a class="share-option-btn" target="new" href="https://plus.google.com/share?url=%2f1%2f01%2f01%2fflint-sentinel-tests----animated%2f">
-        <i class="fa fa-google-plus"></i><span>Share on Google Plus</span>
-      </a>
-    </li>
-    <li class="share-option">
-      <a class="share-option-btn" target="new" href="https://www.facebook.com/sharer/sharer.php?u=%2f1%2f01%2f01%2fflint-sentinel-tests----animated%2f">
-        <i class="fa fa-facebook-official"></i><span>Share on Facebook</span>
-      </a>
-    </li>
-    <li class="share-option">
-      <a class="share-option-btn" target="new" href="https://twitter.com/intent/tweet?text=%2f1%2f01%2f01%2fflint-sentinel-tests----animated%2f">
-        <i class="fa fa-twitter"></i><span>Share on Twitter</span>
-      </a>
-    </li>
-  </ul>
-</div>
-<div id="share-options-mask" class="share-options-mask"></div>
-    </div>
-    
-    <div id="about">
-  <div id="about-card">
-    <div id="about-btn-close">
-      <i class="fa fa-remove"></i>
-    </div>
-    
-      <img id="about-card-picture" src="//www.gravatar.com/avatar/98c05ed545d45e189b35aefc75fb11b8?s=110" alt="Author&#39;s picture" />
-    
-    <h4 id="about-card-name">Mark Hagemann</h4>
-    
-      <div id="about-card-bio">I think and sometimes write about water or data other things I often think about.</div>
-    
-    
-    
-      <div id="about-card-location">
-        <i class="fa fa-map-marker"></i>
-        <br/>
-        RVA
-      </div>
-    
-  </div>
-</div>
-
-    <div id="algolia-search-modal" class="modal-container">
-  <div class="modal">
-    <div class="modal-header">
-      <span class="close-button"><i class="fa fa-close"></i></span>
-      <a href="https://algolia.com" target="_blank" class="searchby-algolia text-color-light link-unstyled">
-        <span class="searchby-algolia-text text-color-light text-small">by</span>
-        <img class="searchby-algolia-logo" src="https://www.algolia.com/static_assets/images/press/downloads/algolia-light.svg">
-      </a>
-      <i class="search-icon fa fa-search"></i>
-      <form id="algolia-search-form">
-        <input type="text" id="algolia-search-input" name="search"
-          class="form-control input--large search-input" placeholder="Search" />
-      </form>
-    </div>
-    <div class="modal-body">
-      <div class="no-result text-color-light text-center">no post found</div>
-      <div class="results">
-        
-        
-          <div class="media">
-            
-            <div class="media-body">
-              <a class="link-unstyled" href="../../../../2016/12/30/a-plain-markdown-post/">
-                <h3 class="media-heading">A Plain Markdown Post</h3>
-              </a>
-              <span class="media-meta">
-                <span class="media-date text-small">
-                  Dec 12, 2016
-                </span>
-              </span>
-              <div class="media-content hide-xs font-merryweather">This is a post written in plain Markdown (*.md) instead of R Markdown (*.Rmd). The major differences are:
-You cannot run any R code in a plain Markdown document, whereas in an R Markdown document, you can embed R code chunks (```{r}); A plain Markdown post is rendered through Blackfriday, and an R Markdown document is compiled by rmarkdown and Pandoc.  There are many differences in syntax between Blackfriday’s Markdown and Pandoc’s Markdown.</div>
-            </div>
-            <div style="clear:both;"></div>
-            <hr>
-          </div>
-        
-          <div class="media">
-            
-            <div class="media-body">
-              <a class="link-unstyled" href="../../../../2015/11/22/breaking-the-silence/">
-                <h3 class="media-heading">Breaking the Silence</h3>
-              </a>
-              <span class="media-meta">
-                <span class="media-date text-small">
-                  Nov 11, 2015
-                </span>
-              </span>
-              <div class="media-content hide-xs font-merryweather">Haven’t updated this blog in a while. Time to start doing that again.
-Also, I changed the theme. The last one wasn’t doing it for me. I like this one. It’s called “mnml”</div>
-            </div>
-            <div style="clear:both;"></div>
-            <hr>
-          </div>
-        
-          <div class="media">
-            
-            <div class="media-body">
-              <a class="link-unstyled" href="../../../../2014/09/07/r-function-to-make-octopress-posts/">
-                <h3 class="media-heading">R function to make Octopress posts</h3>
-              </a>
-              <span class="media-meta">
-                <span class="media-date text-small">
-                  Sep 9, 2014
-                </span>
-              </span>
-              <div class="media-content hide-xs font-merryweather">pre .operator, pre .paren { color: rgb(104, 118, 135) } pre .literal { color: #990073 } pre .number { color: #099; } pre .comment { color: #998; font-style: italic } pre .keyword { color: #900; font-weight: bold } pre .identifier { color: rgb(0, 0, 0); } pre .string { color: #d14; }  var hljs=new function(){function m(p){return p.replace(/&/gm,"&amp;").replace(/"}while(y.length||w.length){var v=u().splice(0,1)[0];z+=m(x.substr(q,v.offset-q));q=v.offset;if(v.event=="start"){z+=t(v.node);s.push(v.node)}else{if(v.event=="stop"){var p,r=s.length;do{r--;p=s[r];z+=("")}while(p!=v.node);s.splice(r,1);while(r'+M[0]+""}else{r+=M[0]}O=P.lR.lastIndex;M=P.lR.exec(L)}return r+L.substr(O,L.length-O)}function J(L,M){if(M.sL&&e[M.sL]){var r=d(M.sL,L);x+=r.keyword_count;return r.value}else{return F(L,M)}}function I(M,r){var L=M.</div>
-            </div>
-            <div style="clear:both;"></div>
-            <hr>
-          </div>
-        
-          <div class="media">
-            
-            <div class="media-body">
-              <a class="link-unstyled" href="../../../../2014/08/17/adding-content/">
-                <h3 class="media-heading">Adding Content</h3>
-              </a>
-              <span class="media-meta">
-                <span class="media-date text-small">
-                  Aug 8, 2014
-                </span>
-              </span>
-              <div class="media-content hide-xs font-merryweather">Real briefly: I’m finally comfortable enough with the inner workings of Octopress to start putting some content on this blog. A lot of my first moves are going to be notes from various courses and tutorials that I’ve written in markdown (rather RMarkdown), mainly so that I can keep track of them in a place that’s not my messy hard drive. These are just notes, so they are not in the least well-written or even sensible, necessarily.</div>
-            </div>
-            <div style="clear:both;"></div>
-            <hr>
-          </div>
-        
-          <div class="media">
-            
-            <div class="media-body">
-              <a class="link-unstyled" href="../../../../1/01/01/">
-                <h3 class="media-heading"></h3>
-              </a>
-              <span class="media-meta">
-                <span class="media-date text-small">
-                  Jan 1, 0001
-                </span>
-              </span>
-              <div class="media-content hide-xs font-merryweather">First post with Octopress! I’ve just managed to set up an Octopress blogging platform, after becoming frustrated with wordpress.com’s limitations. I only learned about Octopress a couple of days ago, and I spent an awful lot of the intervening time wrestling with my macbook’s unix shell trying to get it set up on my very own website.
-Octopress is apparently an incarnation of Jekyll, which itself purports to be “a blogging platform for hackers.</div>
-            </div>
-            <div style="clear:both;"></div>
-            <hr>
-          </div>
-        
-          <div class="media">
-            
-            <div class="media-body">
-              <a class="link-unstyled" href="../../../../1/01/01/">
-                <h3 class="media-heading"></h3>
-              </a>
-              <span class="media-meta">
-                <span class="media-date text-small">
-                  Jan 1, 0001
-                </span>
-              </span>
-              <div class="media-content hide-xs font-merryweather">Tonight I’m trying out the DiagrammeR R package, one of the html widgets javascript bindings for R. I happen to be trying to make a copule flowcharts for research right now, and I figure this is a good way to procrastinate while feeling like I’m learning something.
-install.packages(&quot;DiagrammeR&quot;) library(DiagrammeR) What’s inside?
-ls(&quot;package:DiagrammeR&quot;) ## [1] &quot;%&gt;%&quot; &quot;add_balanced_tree&quot; ## [3] &quot;add_cycle&quot; &quot;add_edge&quot; ## [5] &quot;add_edge_df&quot; &quot;add_edges_from_table&quot; ## [7] &quot;add_edges_w_string&quot; &quot;add_full_graph&quot; ## [9] &quot;add_global_graph_attrs&quot; &quot;add_n_nodes&quot; ## [11] &quot;add_n_nodes_ws&quot; &quot;add_node&quot; ## [13] &quot;add_node_df&quot; &quot;add_nodes_from_df_cols&quot; ## [15] &quot;add_nodes_from_table&quot; &quot;add_path&quot; ## [17] &quot;add_prism&quot; &quot;add_star&quot; ## [19] &quot;add_to_series&quot; &quot;cache_edge_attrs&quot; ## [21] &quot;cache_edge_attrs_ws&quot; &quot;cache_edge_count_ws&quot; ## [23] &quot;cache_node_attrs&quot; &quot;cache_node_attrs_ws&quot; ## [25] &quot;cache_node_count_ws&quot; &quot;clear_global_graph_attrs&quot; ## [27] &quot;clear_selection&quot; &quot;colorize_edge_attrs&quot; ## [29] &quot;colorize_node_attrs&quot; &quot;combine_edfs&quot; ## [31] &quot;combine_graphs&quot; &quot;combine_ndfs&quot; ## [33] &quot;copy_edge_attrs&quot; &quot;copy_node_attrs&quot; ## [35] &quot;create_complement_graph&quot; &quot;create_edge_df&quot; ## [37] &quot;create_graph&quot; &quot;create_node_df&quot; ## [39] &quot;create_random_graph&quot; &quot;create_series&quot; ## [41] &quot;create_subgraph_ws&quot; &quot;delete_edge&quot; ## [43] &quot;delete_edges_ws&quot; &quot;delete_global_graph_attrs&quot; ## [45] &quot;delete_node&quot; &quot;delete_nodes_ws&quot; ## [47] &quot;DiagrammeR&quot; &quot;DiagrammeROutput&quot; ## [49] &quot;do_bfs&quot; &quot;do_dfs&quot; ## [51] &quot;drop_edge_attrs&quot; &quot;drop_node_attrs&quot; ## [53] &quot;edge_count&quot; &quot;edge_info&quot; ## [55] &quot;edge_present&quot; &quot;edge_rel&quot; ## [57] &quot;export_csv&quot; &quot;export_graph&quot; ## [59] &quot;from_adj_matrix&quot; &quot;from_igraph&quot; ## [61] &quot;generate_dot&quot; &quot;get_all_connected_nodes&quot; ## [63] &quot;get_articulation_points&quot; &quot;get_betweenness&quot; ## [65] &quot;get_bridging&quot; &quot;get_cache&quot; ## [67] &quot;get_closeness&quot; &quot;get_cmty_edge_btwns&quot; ## [69] &quot;get_cmty_fast_greedy&quot; &quot;get_cmty_l_eigenvec&quot; ## [71] &quot;get_cmty_louvain&quot; &quot;get_cmty_walktrap&quot; ## [73] &quot;get_common_nbrs&quot; &quot;get_constraint&quot; ## [75] &quot;get_degree_distribution&quot; &quot;get_degree_histogram&quot; ## [77] &quot;get_dice_similarity&quot; &quot;get_eccentricity&quot; ## [79] &quot;get_edge_attrs&quot; &quot;get_edge_df&quot; ## [81] &quot;get_edge_ids&quot; &quot;get_edges&quot; ## [83] &quot;get_global_graph_attrs&quot; &quot;get_graph_diameter&quot; ## [85] &quot;get_graph_from_series&quot; &quot;get_graph_name&quot; ## [87] &quot;get_graph_time&quot; &quot;get_jaccard_similarity&quot; ## [89] &quot;get_min_spanning_tree&quot; &quot;get_nbrs&quot; ## [91] &quot;get_node_attrs&quot; &quot;get_node_df&quot; ## [93] &quot;get_node_ids&quot; &quot;get_non_nbrs&quot; ## [95] &quot;get_paths&quot; &quot;get_periphery&quot; ## [97] &quot;get_predecessors&quot; &quot;get_s_connected_cmpts&quot; ## [99] &quot;get_selection&quot; &quot;get_similar_nbrs&quot; ## [101] &quot;get_successors&quot; &quot;get_w_connected_cmpts&quot; ## [103] &quot;graph_count&quot; &quot;graph_info&quot; ## [105] &quot;grViz&quot; &quot;grVizOutput&quot; ## [107] &quot;image_icon&quot; &quot;import_graph&quot; ## [109] &quot;invert_selection&quot; &quot;is_graph_connected&quot; ## [111] &quot;is_graph_directed&quot; &quot;is_graph_empty&quot; ## [113] &quot;join_edge_attrs&quot; &quot;join_node_attrs&quot; ## [115] &quot;layout_nodes_w_string&quot; &quot;mermaid&quot; ## [117] &quot;mk_cond&quot; &quot;mutate_edge_attrs&quot; ## [119] &quot;mutate_node_attrs&quot; &quot;node_count&quot; ## [121] &quot;node_info&quot; &quot;node_present&quot; ## [123] &quot;node_type&quot; &quot;nudge_node_positions_ws&quot; ## [125] &quot;recode_edge_attrs&quot; &quot;recode_node_attrs&quot; ## [127] &quot;remove_from_series&quot; &quot;rename_edge_attrs&quot; ## [129] &quot;rename_node_attrs&quot; &quot;renderDiagrammeR&quot; ## [131] &quot;render_graph&quot; &quot;render_graph_from_series&quot; ## [133] &quot;renderGrViz&quot; &quot;replace_in_spec&quot; ## [135] &quot;rescale_edge_attrs&quot; &quot;rescale_node_attrs&quot; ## [137] &quot;rev_edge_dir&quot; &quot;rev_edge_dir_ws&quot; ## [139] &quot;select_edges&quot; &quot;select_edges_by_edge_id&quot; ## [141] &quot;select_edges_by_node_id&quot; &quot;select_last_edge&quot; ## [143] &quot;select_last_node&quot; &quot;select_nodes&quot; ## [145] &quot;select_nodes_by_degree&quot; &quot;select_nodes_by_id&quot; ## [147] &quot;select_nodes_in_neighborhood&quot; &quot;select_rev_edges_ws&quot; ## [149] &quot;series_info&quot; &quot;set_cache&quot; ## [151] &quot;set_edge_attrs&quot; &quot;set_edge_attrs_ws&quot; ## [153] &quot;set_global_graph_attrs&quot; &quot;set_graph_name&quot; ## [155] &quot;set_graph_time&quot; &quot;set_graph_undirected&quot; ## [157] &quot;set_node_attrs&quot; &quot;set_node_attrs_ws&quot; ## [159] &quot;set_node_attr_to_display&quot; &quot;set_node_position&quot; ## [161] &quot;subset_series&quot; &quot;to_igraph&quot; ## [163] &quot;trav_both&quot; &quot;trav_both_edge&quot; ## [165] &quot;trav_in&quot; &quot;trav_in_edge&quot; ## [167] &quot;trav_in_node&quot; &quot;trav_out&quot; ## [169] &quot;trav_out_edge&quot; &quot;trav_out_node&quot; ## [171] &quot;trigger_script&quot; &quot;visnetwork&quot; ## [173] &quot;vivagraph&quot; &quot;x11_hex&quot; Following the video on the website</div>
-            </div>
-            <div style="clear:both;"></div>
-            <hr>
-          </div>
-        
-          <div class="media">
-            
-            <div class="media-body">
-              <a class="link-unstyled" href="../../../../1/01/01/">
-                <h3 class="media-heading"></h3>
-              </a>
-              <span class="media-meta">
-                <span class="media-date text-small">
-                  Jan 1, 0001
-                </span>
-              </span>
-              <div class="media-content hide-xs font-merryweather">I’ve been daydreaming in the dark about longer daylight hours, so I drew some pictures to cheer myself up.
-Here’s one of day length (sunrise to sunset) for the next 2 months (here in Amherst, MA, that is):
-Ahh, things are ramping up. And more quicly every day.
-Now here’s a picture of the sunrise and sunset times:
-Yes, daylight savings is less than 2 months away!
-I also drew some pictures with a wider field of view.</div>
-            </div>
-            <div style="clear:both;"></div>
-            <hr>
-          </div>
-        
-          <div class="media">
-            
-            <div class="media-body">
-              <a class="link-unstyled" href="../../../../1/01/01/api-packages/">
-                <h3 class="media-heading">API packages</h3>
-              </a>
-              <span class="media-meta">
-                <span class="media-date text-small">
-                  Jan 1, 0001
-                </span>
-              </span>
-              <div class="media-content hide-xs font-merryweather">I’m taking a break from helping DataFest participants untangle their R code to work on clearing my backlog of unfinished blog posts. One thing I’ve been meaning to talk about is a series of R packages I’ve written, in various stages of development. This is something I’ve done before, but still new enough to be excited about a working product.
-All these packages are built to access data from US Federal agency APIs.</div>
-            </div>
-            <div style="clear:both;"></div>
-            <hr>
-          </div>
-        
-          <div class="media">
-            
-            <div class="media-body">
-              <a class="link-unstyled" href="../../../../1/01/01/concept-maps-parts-1-and-2/">
-                <h3 class="media-heading">Concept maps! (parts 1 and 2)</h3>
-              </a>
-              <span class="media-meta">
-                <span class="media-date text-small">
-                  Jan 1, 0001
-                </span>
-              </span>
-              <div class="media-content hide-xs font-merryweather">The following contains notes from the first two parts what turned into a fruitful search for something I simply wanted to exist. I’m still following this string, but I think I’ve stumbled onto something very useful. More updates will follow.
-I’ve been having a hard time lately getting everything on my daily task list accomplished. Not that I’ve become any less efficient recently, but rather I’ve been somewhat better about explicitly listing the things I want to accomplish in any given day.</div>
-            </div>
-            <div style="clear:both;"></div>
-            <hr>
-          </div>
-        
-          <div class="media">
-            
-            <div class="media-body">
-              <a class="link-unstyled" href="../../../../1/01/01/editr/">
-                <h3 class="media-heading">EditR</h3>
-              </a>
-              <span class="media-meta">
-                <span class="media-date text-small">
-                  Jan 1, 0001
-                </span>
-              </span>
-              <div class="media-content hide-xs font-merryweather">I’ve been writing a lot using both RMarkdown and Markdown lately. In the past I would typically default to RMarkdown because that’s the default in RStudio, but more recently I’ve been writing some pretty math-heavy documents and wanted something that could render them in real-time. This led me to Haroopad, which has mostly worked really well (with the exception of crashing so hard once that it actually deleted a previously saved version of the document I was working on), but alas, it doesn’t recognize the chunks of code I put in my Rmarkdown docs.</div>
-            </div>
-            <div style="clear:both;"></div>
-            <hr>
-          </div>
-        
-      </div>
-    </div>
-    <div class="modal-footer">
-      <p class="results-count text-medium"
-         data-message-zero="no post found"
-         data-message-one="1 post found"
-         data-message-other="{n} posts found">
-         22 posts found
-      </p>
-    </div>
-  </div>
-</div>
-    
-  
-    
-    <div id="cover" style="background-image:url('/images/cover.jpg');"></div>
-  
-
-
-    
-<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
-<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.8.0/highlight.min.js"></script>
-<script src="//cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.4/jquery.fancybox.min.js"></script>
-<script src="//cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.4/helpers/jquery.fancybox-thumbs.min.js"></script>
-
-
-<script src="../../../../js/script-wl33z0n6ocaypepiqrazthtivfrliqijej4rq8ek8gvrv1awftmgjuv8k4zc.min.js"></script>
-
-<script>
-$(document).ready(function() {
-  hljs.configure({ classPrefix: '', useBR: false });
-  $('pre.code-highlight').each(function(i, block) {
-    var code = "";
-    hljs.highlightAuto(block.innerText).value.split(/\r\n|\r|\n/).forEach(function(line) {
-      code += "<span class=\"line\">" + line + "</span><br>";
-    });
-    if (code.length > 0) {
-      block.innerHTML = code;  
-    }
-  });
-  $('pre > code').each(function(i, block) {
-    $(this).addClass('codeblock');
-    hljs.highlightBlock(block);
-  });
-});
-</script>
-
-  
-    
-  
-
-
-
-
-
-    
-  </body>
-</html>
-

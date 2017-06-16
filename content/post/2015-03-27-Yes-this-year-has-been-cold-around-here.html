@@ -1,0 +1,138 @@
+---
+title: Yes this year has been cold (around here)
+author: Mark Hagemann
+date: '2015-03-27'
+categories:
+  - R
+  - datavis
+tags: weather
+output:
+  blogdown::html_page:
+    toc: yes
+    toc_maxdepth: 3
+---
+
+
+<div id="TOC">
+<ul>
+<li><a href="#investigations">Investigations</a><ul>
+<li><a href="#geting-meta-with-ranks-and-order-stats.">Geting meta with ranks and order stats.</a></li>
+<li><a href="#but-climate-change">But climate change!</a></li>
+</ul></li>
+</ul>
+</div>
+
+<p>It’s become part of my daily ritual to check the updated extended forecast in hopes of seeing of bona fide warm spell on the horizon. And each day my hopes are dashed–30s, some 40s, and now finally some low 50s–but no real birds-a-chirpin’ spring weather. As a son of the Lake Superior shoreline I’m somewhat ashamed to admit my impatience with the relatively mild New England winter, but this one just feels <em>relentless</em>.</p>
+<p>So I thought I’d try and put some numbers behind my suspicions, and dig into some real historic data. I pulled some NOAA daily temerature data for Amherst (where I live)–luckily there’s a (mostly) complete record going back to the late 19th century.</p>
+<p>The tidied data looks a little something like this (last 6 rows of the dataset):</p>
+<table>
+<thead>
+<tr class="header">
+<th></th>
+<th align="left">Date</th>
+<th align="right">jday</th>
+<th align="right">year</th>
+<th align="right">highT</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>42810</td>
+<td align="left">2015-03-18</td>
+<td align="right">77</td>
+<td align="right">2015</td>
+<td align="right">48.92</td>
+</tr>
+<tr class="even">
+<td>42811</td>
+<td align="left">2015-03-19</td>
+<td align="right">78</td>
+<td align="right">2015</td>
+<td align="right">30.02</td>
+</tr>
+<tr class="odd">
+<td>42812</td>
+<td align="left">2015-03-20</td>
+<td align="right">79</td>
+<td align="right">2015</td>
+<td align="right">35.06</td>
+</tr>
+<tr class="even">
+<td>42813</td>
+<td align="left">2015-03-21</td>
+<td align="right">80</td>
+<td align="right">2015</td>
+<td align="right">30.02</td>
+</tr>
+<tr class="odd">
+<td>42814</td>
+<td align="left">2015-03-22</td>
+<td align="right">81</td>
+<td align="right">2015</td>
+<td align="right">44.06</td>
+</tr>
+<tr class="even">
+<td>42815</td>
+<td align="left">2015-03-23</td>
+<td align="right">82</td>
+<td align="right">2015</td>
+<td align="right">30.02</td>
+</tr>
+</tbody>
+</table>
+<p><em>A note on tidying. I dealt with missing values as follows: any year missing 10 or more days’ data from the first 82 days of the year was omitted from the dataset. Other missing values were interpolated linearly from adjacent days’ data.</em></p>
+<p>Variables:</p>
+<ul>
+<li><code>jday</code> is the Julian day of the year (counting from 1 to 365 [or 366] starting January 1 of each year). The data I got is current through March 23, 2015. That’s Julian day 82.</li>
+<li><code>highT</code> is the daily maximum temperature, which I’ve converted to Fahrenheit. Other measurements came in the raw data, but I decided to look only at highs.</li>
+</ul>
+<div id="investigations" class="section level2">
+<h2>Investigations</h2>
+<p>I wanted to know how cold 2015 has been, compared to the average for the first 82 days of a year. So how about the average daily high, compared with the historic record? First a plot:</p>
+<pre><code>## Warning: Using size for a discrete variable is not advised.</code></pre>
+<p><img src="/post/2015-03-27-Yes-this-year-has-been-cold-around-here_files/figure-html/unnamed-chunk-5-1.png" width="672" /></p>
+<p>Well that puts my mind at ease. Definitely colder on average. Notice that this year is especially an outlier in the context of a pretty clear increasing temperature trend. Don’t see it? Try now:</p>
+<pre><code>## Warning: Using size for a discrete variable is not advised.</code></pre>
+<p><img src="/post/2015-03-27-Yes-this-year-has-been-cold-around-here_files/figure-html/unnamed-chunk-6-1.png" width="672" /></p>
+<p>Not only is 2015 an outlier, but it’s an <em>influential outlier</em>–if we remove that point from the plot, the linear regression line shifts noticeably:</p>
+<pre><code>## Warning: Using size for a discrete variable is not advised.</code></pre>
+<p><img src="/post/2015-03-27-Yes-this-year-has-been-cold-around-here_files/figure-html/unnamed-chunk-7-1.png" width="672" /></p>
+<p>Here’s a similar picture, but looking instead at medians:</p>
+<pre><code>## Warning: Using size for a discrete variable is not advised.</code></pre>
+<p><img src="/post/2015-03-27-Yes-this-year-has-been-cold-around-here_files/figure-html/unnamed-chunk-8-1.png" width="672" /></p>
+<p>Here the difference is even more striking. The typical day in the first 85 days of 2015 has been colder than just about any year in the historic record.</p>
+<p>Now the year-to-date high: even in an otherwise chilly season a 60-degree day can really pick up the spirits. (And this year we’ve had nothing over 55.)</p>
+<pre><code>## Warning: Using size for a discrete variable is not advised.</code></pre>
+<p><img src="/post/2015-03-27-Yes-this-year-has-been-cold-around-here_files/figure-html/unnamed-chunk-9-1.png" width="672" /></p>
+<p>Again, clearly colder than average, especially given the upward trend. But not as drastic. Also notice that the year-to-date high is not symetrically distributed, but has a heavy upper tail with some values in the 70s. (1921 even had an 80-degree day!)</p>
+<div id="geting-meta-with-ranks-and-order-stats." class="section level3">
+<h3>Geting meta with ranks and order stats.</h3>
+<p>The maximum and the median are both <em>order statistics</em>–values corresponding to a given rank of the data. The maximum is the value of the highest-ranked point, and the median is the value of the middlest-ranked point. Now I want to look at the whole range of order stats, from the first (i.e. minimum) to the last (maximum). For 2015, these look thusly:</p>
+<p><img src="/post/2015-03-27-Yes-this-year-has-been-cold-around-here_files/figure-html/unnamed-chunk-10-1.png" width="672" /></p>
+<p>This is just taking all of the daily high temperatures so far this year and lining them up from coldest to warmest.</p>
+<p>Let’s compare that (the 2015 order statistics) to the median order statistics over all years.</p>
+<p><img src="/post/2015-03-27-Yes-this-year-has-been-cold-around-here_files/figure-html/unnamed-chunk-11-1.png" width="672" /></p>
+<p>We see that only the minimum is (marginally) higher than the median year-to-date minimum for this time of year. Otherwise all of the order stats are colder than average–by over 5 degrees in some cases. Note that here I’m comparing the temperature order statistics over the days in a single year to an order statistic (the median) of such order statistics taken over all years.</p>
+<p>Now let’s go a step further.</p>
+<p>I’m going to take actual temperature values out of the picture entirely, and only look at <em>ranks of order statistics</em> for the year 2015. For each of the 2015 order statistics I’m going to ask the question: “Of all years’ order stats, where does this one line up?”</p>
+<p><img src="/post/2015-03-27-Yes-this-year-has-been-cold-around-here_files/figure-html/unnamed-chunk-12-1.png" width="672" /></p>
+<p>This is really interesting. It shows that just about all the year-to-date order statistics–from the 3rd-lowest daily high tempearture all the way to the very highest daily high temperature–were well below average. And many of them–from around the 40th to the 70th–were among the all-time low of these order statistics over all years on record. The uptick at the left side of the plot says that the coldest days this year weren’t extremely cold from a historical standpoint, but the consistent chill of the more typical days this year (those around the midde of the x-axis) is virtually without precedent. <em>That</em> is what’s been wearing on me.</p>
+<p>Perhaps it would be better to show the y-axis in terms of percentiles. Here’s that:</p>
+<p><img src="/post/2015-03-27-Yes-this-year-has-been-cold-around-here_files/figure-html/unnamed-chunk-13-1.png" width="672" /></p>
+<p>For the sake of comparison, let’s look at the same plot for a range of years.</p>
+<p>Here’s last year:</p>
+<p><img src="/post/2015-03-27-Yes-this-year-has-been-cold-around-here_files/figure-html/unnamed-chunk-14-1.png" width="672" /></p>
+<p>Not a warm year by any stretch, and the values around the median were still much colder than average, but at least the warm days were warmer.</p>
+<p>2013 was exceptionally average:</p>
+<p><img src="/post/2015-03-27-Yes-this-year-has-been-cold-around-here_files/figure-html/unnamed-chunk-15-1.png" width="672" /></p>
+<p>And 2012 was exceptionally warm:</p>
+<p><img src="/post/2015-03-27-Yes-this-year-has-been-cold-around-here_files/figure-html/unnamed-chunk-16-1.png" width="672" /></p>
+<p>Curiously, this had sort of a mirrored shape from this year–the cold days were closer to average than the rest, which were very warm indeed.</p>
+</div>
+<div id="but-climate-change" class="section level3">
+<h3>But climate change!</h3>
+<p>Before you start using the words “global warming” and “hoax” in the same sentence (OMG like I just did!) I should point out that this year’s anomalous frigidity has been very spatially confined. According to Weather.com, this winter was the country’s <a href="http://www.weather.com/news/climate/news/warmest-winter-coldest-february-2015">19th warmest</a> despite what we felt out here. And if you want to be spatially selective and get the opposite extreme, look at <a href="http://www.weather.com/forecast/national/news/record-warm-march-west">what’s going on out west</a>. And let’s not forget that globally <a href="http://climatenexus.org/2014-putting-hottest-year-ever-perspective">last year was the warmest ever</a>.</p>
+<p>To me the fact that we can still set cold records at the local scale speaks to the spatial and temporal variability of both <em>climate</em> and <em>climate change</em>. We’ve got enough of a signal to talk about warming climate with certainty, but the noise around that signal is large, palpable, and sometimes uncomfortably chilly.</p>
+<p><em>Like always, I did all of this analysis using R. You can find the code on <a href="https://github.com/markwh/blog-code">github</a></em></p>
+</div>
+</div>

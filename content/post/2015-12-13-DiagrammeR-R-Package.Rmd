@@ -1,11 +1,17 @@
 ---
-output: 
-  html_document:
-    self_contained: true
-    lib_dir: libs
-    theme: null
-    css: null
-    hilight: null
+title: Trying out DiagrammeR
+author: Mark Hagemann
+date: '2015-12-13'
+categories:
+  - R
+  - notes
+tags:
+  - learnbyexample
+  - DiagrammeR
+output:
+  blogdown::html_page:
+    toc: yes
+    toc_maxdepth: 3
 ---
 
 Tonight I'm trying out the **DiagrammeR** R package, one of the [html widgets](http://www.htmlwidgets.org/) javascript bindings for R. I happen to be trying to make a copule flowcharts for research right now, and I figure this is a good way to procrastinate while feeling like I'm learning something.

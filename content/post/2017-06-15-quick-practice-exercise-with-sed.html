@@ -1,0 +1,83 @@
+---
+title: Quick practice exercise with sed
+author: Mark Hagemann
+date: "2017-06-15"
+slug: quick-practice-exercise-with-sed
+categories: [notes]
+tags:
+  - gnu-linux
+  - sed
+  - learnbyexample
+output: 
+  blogdown::html_page:
+    toc: true
+    toc_maxdepth: 3
+---
+
+
+<div id="TOC">
+<ul>
+<li><a href="#problem">Problem</a></li>
+<li><a href="#solution">Solution</a></li>
+<li><a href="#coda">Coda</a></li>
+<li><a href="#recap.">Recap.</a></li>
+</ul>
+</div>
+
+<div id="problem" class="section level3">
+<h3>Problem</h3>
+<p>As I try to get my blog up and running using the new <a href="https://gohugo.io/">Hugo</a>/<a href="https://github.com/rstudio/blogdown">blogdown</a> framework, I find myself needing to reformat a bunch of dates in the yaml front matter from <code>mm/dd/yyyy</code> to <code>yyyy-mm-dd</code> for all of the .Rmd files in a directory. For this I’m going to use <code>sed</code>, something I’ve been meaning to get more practice with. I’m going to try to come up with the syntax before consulting google, and then see how close I was.</p>
+<p>OK, it should be someting like:</p>
+<pre class="bash"><code>sed &#39;s_^date: \([0:1][0:9]\)/\([0:3][0:9]\)/\(1[4:7]\)_20\3-\1-\2_ &#39;</code></pre>
+<p>Wow, I realize I’m guessing for <em>way</em> too much of this. First of all, I have no idea how to do this for all files in a directory. Second, I forget what to put at the end to make it do the replacement and write that to the file. I could go on. But first I’m going to copy everything to a new folder and try it.</p>
+<pre><code>mkdir sedtestfolder
+cp post/*.Rmd sedtestfolder/
+cd sedtestfolder</code></pre>
+<p>Try for a single file. I renamed it to file1.Rmd. I’m going to try:</p>
+<pre><code>sed s_&#39;^date: \([0:1][0:9]\)/\([0:3][0:9]\)/\(1[4:7]\)_20\3-\1-\2_ &#39; file1.Rmd &gt; better.Rmd</code></pre>
+<p>That did nothing except create a copy of file1.Rmd in better.Rmd Time to consult <a href="http://www.grymoire.com/Unix/Sed.html">the guidebook</a>.</p>
+<p>Starting more simply.</p>
+<pre class="bash"><code>echo &quot;11/23/2015&quot; | sed &#39;s_11/23/(2015)_\1_&#39;</code></pre>
+<p>Nope! Escape those parens.</p>
+<pre class="bash"><code>echo &quot;11/23/2015&quot; | sed &#39;s_11/23/\(2015\)_\1_&#39;</code></pre>
+<pre><code>## 2015</code></pre>
+<p>Good. Now put into the correct order:</p>
+<pre class="bash"><code>echo &quot;11/23/2015&quot; | sed &#39;s_\(11\)/\(23\)/\(2015\)_\3-\1-\2_&#39;</code></pre>
+<pre><code>## 2015-11-23</code></pre>
+<p>That’s it. Next with wildcards.</p>
+<pre class="bash"><code>echo &quot;date: 11/23/2015&quot; | sed &#39;s_\([0-1][0-9]\)/\([0-3][0-9]\)/\(20[0-3][0-9]\)_\3-\1-\2_&#39;</code></pre>
+<pre><code>## date: 2015-11-23</code></pre>
+<p>Hypens not colons. Hyphens not colons. Hyphens not colons. Got it.</p>
+<p>Next step: get from file.</p>
+<pre class="bash"><code>sed &#39;s_\([0-1][0-9]\)/\([0-3][0-9]\)/\(20[0-3][0-9]\)_\3-\1-\2_&#39; &lt; file1.Rmd</code></pre>
+<p>Yup. And put into a new file.</p>
+<pre class="bash"><code>sed &#39;s_\([0-1][0-9]\)/\([0-3][0-9]\)/\(20[0-3][0-9]\)_\3-\1-\2_&#39; &lt; file1.Rmd &gt; file2.Rmd</code></pre>
+<p>Now the hard part. Doing it for every file in the folder. Well, not really <em>hard</em>, but will require more than guessing and checking.</p>
+</div>
+<div id="solution" class="section level3">
+<h3>Solution</h3>
+<p>And the sulution is… use <code>find | xargs sed</code> as seen in <a href="https://stackoverflow.com/questions/905144/sed-beginner-changing-all-occurrences-in-a-folder">this post</a>.</p>
+<pre class="bash"><code>find ./ -type f -name &quot;*.Rmd&quot; | xargs sed -i &#39;s_\([0-1][0-9]\)/\([0-3][0-9]\)/\(20[0-3][0-9]\)_\3-\1-\2_&#39;</code></pre>
+</div>
+<div id="coda" class="section level3">
+<h3>Coda</h3>
+<p>Now suppose I want to get the date from the file name. (Turns out the existing yaml front matter didn’t have consistent <code>mm/dd/yyyy</code> format, but all the file <em>names</em> already include the <code>yyyy-mm-dd</code> string.) I think I’ll need to do this in a loop.</p>
+<pre class="bash"><code>for FILE in $(find ./ -type f -name &quot;*.Rmd&quot;); do
+  DATESTRING=$(echo $FILE | grep -o &#39;[0-9]\{4\}-[0-9]\{2\}-[0-9]\{2\}&#39;)
+  $FILE | sed -i &#39;s/^date: .*\n/date: $DATESTRING\n/&#39;
+done</code></pre>
+<p>Hooray! That did it!</p>
+</div>
+<div id="recap." class="section level3">
+<h3>Recap.</h3>
+<p>My first (<strong>WRONG</strong>) try looked like this:</p>
+<pre class="bash"><code>sed &#39;s_^date: \([0:1][0:9]\)/\([0:3][0:9]\)/\(1[4:7]\)_20\3-\1-\2_ &#39;</code></pre>
+<p>In the course of getting it right, learned a few things about <code>sed</code>.</p>
+<ul>
+<li>Character ranges are like this <code>[0-9]</code>, not this <code>[0:9]</code>. (This is a regex thing, not a <code>sed</code> thing.)</li>
+<li>Use the <code>-i</code> flag to do the <code>sed</code> edits in the same file the data are coming from.</li>
+<li>Escape your parens (<code>\(</code>, etc.) for storing and later referencing. (I did this in my first try but lost it partway through)</li>
+<li>Specify number of occurrences with <code>\{3\}</code>, etc. (regex, not <code>sed</code>)</li>
+<li>Double quotes allow for variable expansion; single quotes do not.</li>
+</ul>
+</div>

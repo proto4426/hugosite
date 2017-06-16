@@ -1,0 +1,124 @@
+---
+title: Quick practice exercise with sed
+author: Mark Hagemann
+date: "2017-06-15"
+slug: quick-practice-exercise-with-sed
+categories: [notes]
+tags:
+  - gnu-linux
+  - sed
+  - learnbyexample
+output: 
+  blogdown::html_page:
+    toc: true
+    toc_maxdepth: 3
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(eval = FALSE)
+```
+
+### Problem
+
+As I try to get my blog up and running using the new [Hugo](https://gohugo.io/)/[blogdown](https://github.com/rstudio/blogdown) framework, I find myself needing to reformat a bunch of dates in the yaml front matter from `mm/dd/yyyy` to `yyyy-mm-dd` for all of the .Rmd files in a directory. For this I'm going to use `sed`, something I've been meaning to get more practice with. I'm going to try to come up with the syntax before consulting google, and then see how close I was. 
+
+OK, it should be someting like:
+
+```{bash}
+sed 's_^date: \([0:1][0:9]\)/\([0:3][0:9]\)/\(1[4:7]\)_20\3-\1-\2_ '
+```
+
+Wow, I realize I'm guessing for *way* too much of this. First of all, I have no idea how to do this for all files in a directory. Second, I forget what to put at the end to make it do the replacement and write that to the file. I could go on. But first I'm going to copy everything to a new folder and try it. 
+
+```
+mkdir sedtestfolder
+cp post/*.Rmd sedtestfolder/
+cd sedtestfolder
+```
+
+Try for a single file. I renamed it to file1.Rmd. I'm going to try:
+
+
+```
+sed s_'^date: \([0:1][0:9]\)/\([0:3][0:9]\)/\(1[4:7]\)_20\3-\1-\2_ ' file1.Rmd > better.Rmd
+```
+
+That did nothing except create a copy of file1.Rmd in better.Rmd Time to consult [the guidebook](http://www.grymoire.com/Unix/Sed.html). 
+
+Starting more simply.
+
+```{bash, eval = FALSE}
+echo "11/23/2015" | sed 's_11/23/(2015)_\1_'
+```
+
+Nope! Escape those parens.
+
+```{bash, eval = TRUE}
+echo "11/23/2015" | sed 's_11/23/\(2015\)_\1_'
+```
+
+Good. Now put into the correct order:
+
+```{bash, eval = TRUE}
+echo "11/23/2015" | sed 's_\(11\)/\(23\)/\(2015\)_\3-\1-\2_'
+```
+
+That's it. Next with wildcards.
+
+```{bash, eval = TRUE}
+echo "date: 11/23/2015" | sed 's_\([0-1][0-9]\)/\([0-3][0-9]\)/\(20[0-3][0-9]\)_\3-\1-\2_'
+```
+
+Hypens not colons. Hyphens not colons. Hyphens not colons. Got it.
+
+Next step: get from file.
+
+```{bash, eval = FALSE}
+sed 's_\([0-1][0-9]\)/\([0-3][0-9]\)/\(20[0-3][0-9]\)_\3-\1-\2_' < file1.Rmd
+```
+
+Yup. And put into a new file. 
+
+```{bash, eval = FALSE}
+sed 's_\([0-1][0-9]\)/\([0-3][0-9]\)/\(20[0-3][0-9]\)_\3-\1-\2_' < file1.Rmd > file2.Rmd
+```
+
+Now the hard part. Doing it for every file in the folder. Well, not really *hard*, but will require more than guessing and checking. 
+
+### Solution
+
+And the sulution is... use `find | xargs sed` as seen in [this post](https://stackoverflow.com/questions/905144/sed-beginner-changing-all-occurrences-in-a-folder).
+
+
+```{bash, eval = FALSE}
+find ./ -type f -name "*.Rmd" | xargs sed -i 's_\([0-1][0-9]\)/\([0-3][0-9]\)/\(20[0-3][0-9]\)_\3-\1-\2_'
+```
+
+### Coda
+
+Now suppose I want to get the date from the file name. (Turns out the existing yaml front matter didn't have consistent `mm/dd/yyyy` format, but all the file *names* already include the `yyyy-mm-dd` string.) I think I'll need to do this in a loop. 
+
+```{bash}
+for FILE in $(find ./ -type f -name "*.Rmd"); do
+  DATESTRING=$(echo $FILE | grep -o '[0-9]\{4\}-[0-9]\{2\}-[0-9]\{2\}')
+  $FILE | sed -i 's/^date: .*\n/date: $DATESTRING\n/'
+done
+```
+
+Hooray! That did it!
+
+### Recap.
+
+My first (**WRONG**) try looked like this:
+
+```{bash}
+sed 's_^date: \([0:1][0:9]\)/\([0:3][0:9]\)/\(1[4:7]\)_20\3-\1-\2_ '
+```
+
+In the course of getting it right, learned a few things about `sed`.
+
+- Character ranges are like this `[0-9]`, not this `[0:9]`. (This is a regex thing, not a `sed` thing.)
+- Use the `-i` flag to do the `sed` edits in the same file the data are coming from. 
+- Escape your parens (`\(`, etc.) for storing and later referencing. (I did this in my first try but lost it partway through)
+- Specify number of occurrences with `\{3\}`, etc. (regex, not `sed`)
+- Double quotes allow for variable expansion; single quotes do not. 

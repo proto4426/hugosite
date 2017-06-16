@@ -1,10 +1,19 @@
 ---
-title: "Flint sentinel tests -- animated!"
-author: "Mark Hagemann"
-date: "June 11, 2017"
-output: 
-  html_document:
-    toc: true
+title: Flint sentinel tests -- animated!
+author: Mark Hagemann
+date: '2017-06-12'
+categories:
+  - R
+  - datavis
+  - water
+tags:
+  - flint
+  - leaflet
+  - gganimate
+  - tweenr
+output:
+  blogdown::html_page:
+    toc: yes
     toc_maxdepth: 3
 ---
 
@@ -36,8 +45,6 @@ Lead:
 
 ```{r, eval = TRUE}
 
-cat(getwd())
-cat(file.exists("data/flint_top2000.csv"))
 flint2 <- read.csv("data/flint_top2000.csv") # This I pre-cleaned externally.
 
 palBin <- colorBin(palette = "YlOrRd", domain = flint2$lead.ppb,
@@ -89,7 +96,7 @@ coppermap %>%
 
 Since I made those maps the Michigan.gov website has made lots more data available. Some of it in the form of "Sentinel testing" results, in which the same sampling location is monitored routinely for Lead and Copper. After 5 rounds of Sentinel monitoring between February and May 2016, the project was extended under a smaller number of sites. To date 8 rounds of the "extended" sentinel data are available, in addition to the 5 origin sentinel rounds
 
-If you're not interested in the data wrangling bit of this and just want to see the movies, feel free to [skip ahead](#Animations)
+If you're not interested in the data wrangling bit of this and just want to see the movies, feel free to [skip ahead](#animations)
 
 Here I read in the data, which I obtained as excel files from the Michigan [government website](http://www.michigan.gov/flintwater/0,6092,7-345-76292_76294_76297---,00.html). 
 
