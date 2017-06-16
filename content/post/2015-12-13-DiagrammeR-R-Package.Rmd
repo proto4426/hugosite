@@ -110,7 +110,7 @@ graph TD
 ")
 ```
 
-![Mermaid Diagram](blog_images/mermaidDiagram.png)
+![Mermaid Diagram](/blog_images/mermaidDiagram.png)
 
 I can't say I found this particularly efficient--mermaid felt especially cumbersome to code, despite straightforward syntax--but it's possible that with practice I could find it useful. Or that there are shortcuts that I'm missing. Also it was unclear whether important things like LaTeX math are supported. I do like the output though. 
 

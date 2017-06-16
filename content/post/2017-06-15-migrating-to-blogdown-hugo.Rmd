@@ -43,3 +43,4 @@ Herein I'm documenting the steps I'm taking in migrating from Octopress/Jekyll t
     - Follow [this advice](https://gohugo.io/tutorials/mathjax/#enabling-mathjax)
         - Edit footer.html in themes/[yourthemehere]/layouts/partials/ using either the html snippet linked in the parent bullet or the one provided by Lauler in the bullet above that.
         - But apparently this approach ["has a potential problem"](https://github.com/rstudio/blogdown/issues/36#issuecomment-273695252) whatever that means. 
+1. Deploying: Must deploy to root on remote, otherwise links will fail (e.g. images). 

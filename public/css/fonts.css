@@ -1,22 +1,27 @@
 @font-face {
-  font-family: 'Merriweather';
+  font-family: 'IM Fell English';
   font-style: normal;
   font-weight: 400;
-  src: local('Merriweather'), local('Merriweather-Regular'),
-       url('../fonts/merriweather-v13-latin-regular.woff2') format('woff2'),
-       url('../fonts/merriweather-v13-latin-regular.woff') format('woff');
+  src: local('IMFeENrm28P'),
+       url('../fonts/IMFeENrm28P.ttf') format('truetype');
 }
 @font-face {
-  font-family: 'Lato';
+  font-family: 'Old Standard TT';
   font-style: normal;
   font-weight: 400;
-  src: local('Lato Regular'), local('Lato-Regular'),
-       url('../fonts/lato-v11-latin-regular.woff2') format('woff2'),
-       url('../fonts/lato-v11-latin-regular.woff') format('woff');
+  src: local('OldStandard-Regular'),
+       url('../fonts/OldStandard-Regular.ttf') format('truetype');
+}
+@font-face {
+  font-family: 'Cutive Mono';
+  font-style: normal;
+  font-weight: 400;
+  src: local('CutiveMono'),
+       url('../fonts/CutiveMono-Regular.ttf') format('truetype');
 }
 body {
-  font-family: 'Merriweather', serif;
+  font-family: 'IM Fell English', serif;
 }
 h1, h2, h3, h4, h5, h6, .nav, .article-duration, .archive-item-link, .footer {
-  font-family: 'Lato', sans-serif;
+  font-family: 'Old Standard TT', sans-serif;
 }

@@ -28,8 +28,18 @@
   </url>
   
   <url>
+    <loc>/etc/rguide/</loc>
+    <lastmod>2016-02-10T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
     <loc>/2016/01/03/mle-for-censored-data/</loc>
     <lastmod>2016-01-03T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/2015/12/13/trying-out-diagrammer/</loc>
+    <lastmod>2015-12-13T00:00:00+00:00</lastmod>
   </url>
   
   <url>
@@ -60,6 +70,16 @@
   <url>
     <loc>/2015-11-24-breaking-the-silence/</loc>
     <lastmod>2015-11-24T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/etc/</loc>
+    <lastmod>2015-11-12T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/etc/endorsements/</loc>
+    <lastmod>2015-11-12T00:00:00+00:00</lastmod>
   </url>
   
   <url>
@@ -104,7 +124,7 @@
   
   <url>
     <loc>/2014/09/07/r-function-to-make-octopress-posts/</loc>
-    <lastmod>2014-09-07T00:00:00+00:00</lastmod>
+    <lastmod>2014-09-07T13:59:21-04:00</lastmod>
   </url>
   
   <url>
@@ -115,10 +135,6 @@
   <url>
     <loc>/2014/08/17/adding-content/</loc>
     <lastmod>2014-08-17T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>/1/01/01/</loc>
   </url>
   
   <url>
@@ -148,6 +164,18 @@
   <url>
     <loc>/categories/datavis/</loc>
     <lastmod>2017-06-12T00:00:00+00:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>/tags/diagrammer/</loc>
+    <lastmod>2015-12-13T00:00:00+00:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>/etc/</loc>
+    <lastmod>2016-02-10T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -238,6 +266,12 @@
   <url>
     <loc>/categories/water/</loc>
     <lastmod>2017-06-12T00:00:00+00:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>/tags/weather/</loc>
+    <lastmod>2015-03-27T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
   

@@ -17,18 +17,17 @@
       <pubDate>Thu, 15 Jun 2017 00:00:00 +0000</pubDate>
       
       <guid>/2017/06/15/migrating-to-blogdown-hugo/</guid>
-      <description>Herein I’m documenting the steps I’m taking in migrating from Octopress/Jekyll to Blogdown/Hugo. Unfortunately I didn’t think to do this until some way into the process.
-doneyet?
-Consult the Blogdown readme  Install the package from github. Do the other things on the readme. Pick out a theme. I chose tranquilpeak.  Check the migration guide from the blogdown devs. Nothing there at the moment, but I get the sense that this guide is in pretty rapid development.</description>
+      <description>Intro After 3 or so years with Octopress, I’m moving my blog/website over to Hugo with the help of the new Blogdown R package. It had gotten to be a little absurd how much work I had to do to twist rendered RMarkdown documents into Octopress posts. Thankfully, Yihui Xie was already on the job of making my ridiculous blogging workflow obsolete.
+Less than 48 hours after learning of Blogdown’s existence I’m well on my way to having my blog fully migrated and the words in my .</description>
     </item>
     
     <item>
       <title>R function to make Octopress posts</title>
       <link>/2014/09/07/r-function-to-make-octopress-posts/</link>
-      <pubDate>Sun, 07 Sep 2014 00:00:00 +0000</pubDate>
+      <pubDate>Sun, 07 Sep 2014 13:59:21 -0400</pubDate>
       
       <guid>/2014/09/07/r-function-to-make-octopress-posts/</guid>
-      <description>pre .operator, pre .paren { color: rgb(104, 118, 135) } pre .literal { color: #990073 } pre .number { color: #099; } pre .comment { color: #998; font-style: italic } pre .keyword { color: #900; font-weight: bold } pre .identifier { color: rgb(0, 0, 0); } pre .string { color: #d14; }  var hljs=new function(){function m(p){return p.replace(/&amp;/gm,&#34;&amp;amp;&#34;).replace(/&#34;}while(y.length||w.length){var v=u().splice(0,1)[0];z+=m(x.substr(q,v.offset-q));q=v.offset;if(v.event==&#34;start&#34;){z+=t(v.node);s.push(v.node)}else{if(v.event==&#34;stop&#34;){var p,r=s.length;do{r--;p=s[r];z+=(&#34;&#34;)}while(p!=v.node);s.splice(r,1);while(r&#39;+M[0]+&#34;&#34;}else{r+=M[0]}O=P.lR.lastIndex;M=P.lR.exec(L)}return r+L.substr(O,L.length-O)}function J(L,M){if(M.sL&amp;&amp;e[M.sL]){var r=d(M.sL,L);x+=r.keyword_count;return r.value}else{return F(L,M)}}function I(M,r){var L=M.</description>
+      <description>pre .operator, pre .paren { color: rgb(104, 118, 135) } pre .literal { color: #990073 } pre .number { color: #099; } pre .comment { color: #998; font-style: italic } pre .keyword { color: #900; font-weight: bold } pre .identifier { color: rgb(0, 0, 0); } pre .string { color: #d14; }  var hljs=new function(){function m(p){return p.replace(/&amp;/gm,&#34;&amp;amp;&#34;).replace(/&#34;}while(y.length||w.length){var v=u().splice(0,1)[0];z+=m(x.substr(q,v.offset-q));q=v.offset;if(v.event==&#34;start&#34;){z+=t(v.node);s.push(v.node)}else{if(v.event==&#34;stop&#34;){var p,r=s.length;do{r--;p=s[r];z+=(&#34;&#34;)}while(p!=v.node);s.splice(r,1);while(r&#39;+M[0]+&#34;&#34;}else{r+=M[0]}O=P.lR.lastIndex;M=P.lR.exec(L)}return r+L.substr(O,L.length-O)}function J(L,M){if(M.sL&amp;&amp;e[M.sL]){var r=d(M.sL,L);x+=r.keyword_count;return r.value}else{return F(L,M)}}function I(M,r){var L=M.cN?&#39;&#39;:&#34;&#34;;if(M.rB){y+=L;M.buffer=&#34;&#34;}else{if(M.eB){y+=m(r)+L;M.buffer=&#34;&#34;}else{y+=L;M.buffer=r}}D.push(M);A+=M.r}function G(N,M,Q){var R=D[D.</description>
     </item>
     
     <item>

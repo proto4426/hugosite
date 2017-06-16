@@ -29,7 +29,7 @@ output:
 <p>As I try to get my blog up and running using the new <a href="https://gohugo.io/">Hugo</a>/<a href="https://github.com/rstudio/blogdown">blogdown</a> framework, I find myself needing to reformat a bunch of dates in the yaml front matter from <code>mm/dd/yyyy</code> to <code>yyyy-mm-dd</code> for all of the .Rmd files in a directory. For this I’m going to use <code>sed</code>, something I’ve been meaning to get more practice with. I’m going to try to come up with the syntax before consulting google, and then see how close I was.</p>
 <p>OK, it should be someting like:</p>
 <pre class="bash"><code>sed &#39;s_^date: \([0:1][0:9]\)/\([0:3][0:9]\)/\(1[4:7]\)_20\3-\1-\2_ &#39;</code></pre>
-<p>Wow, I realize I’m guessing for <em>way</em> too much of this. First of all, I have no idea how to do this for all files in a directory. Second, I forget what to put at the end to make it do the replacement and write that to the file. I could go on. But first I’m going to copy everything to a new folder and try it.</p>
+<p>I realize I’m guessing for <em>way</em> too much of this. First of all, I have no idea how to do this for all files in a directory. Second, I forget what to put at the end to make it do the replacement and write that to the file. I could go on. But first I’m going to copy everything to a new folder and try it.</p>
 <pre><code>mkdir sedtestfolder
 cp post/*.Rmd sedtestfolder/
 cd sedtestfolder</code></pre>

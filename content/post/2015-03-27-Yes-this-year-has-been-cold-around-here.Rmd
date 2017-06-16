@@ -5,7 +5,7 @@ date: '2015-03-27'
 categories:
   - R
   - datavis
-tags: weather
+tags: [weather]
 output:
   blogdown::html_page:
     toc: yes

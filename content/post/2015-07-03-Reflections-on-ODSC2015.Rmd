@@ -12,7 +12,7 @@ output:
 
 I'm on a train back from Boston after attending the 2015 Open Data Science Conference. Two days of serious nerding out among afficionados of open-source software like R and Python. Herein I give some highlights. Notes from talks and workshops I attended are [here](../Wiki/Events/ODSC2015.html)
 
-![Train from boston](blog_images/trainFromBoston.jpg)
+![Train from boston](/blog_images/trainFromBoston.jpg)
 
 Some main points:
 
