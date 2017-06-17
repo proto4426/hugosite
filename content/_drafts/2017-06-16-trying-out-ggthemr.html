@@ -1,0 +1,57 @@
+---
+title: Trying out ggthemr
+author: Mark Hagemann
+date: '2017-06-16'
+slug: trying-out-ggthemr
+categories:
+  - R
+tags:
+  - learnbyexample
+draft: true
+---
+
+
+
+<p>I want my ggplots to looke like the color palette I’ve chosen as my own (big shoutout to <a href="http://paletton.com">Paletton</a> for helping me with this). I’m going to use the ggthemr package to do this.</p>
+<pre class="r"><code>devtools::install_github(&quot;cttobin/ggthemr&quot;)
+library(ggthemr)
+
+?ggthemr::define_palette
+?ggthemr_palette
+?ggthemr</code></pre>
+<p>OK I think I’m getting this. My colors are as follows:</p>
+<pre class="r"><code>mypal &lt;- read.csv(&quot;~/Pictures/brand/palette_lighter.csv&quot;, 
+                  stringsAsFactors = FALSE)
+
+
+difs &lt;- cumsum(rep(c(120, 150, 150), 4))
+angs &lt;- (210 + c(0, difs)) %% 360
+angs
+# angs &lt;- seq(from = 210, by = 120, length.out = 13) %% 360
+ords &lt;- match(angs, mypal$angle)
+
+myswatch &lt;- c(&quot;#7d7d7d&quot;, mypal$darkest[ords])
+barplot(rep(1, 12), col = myswatch)
+
+ggpal1 &lt;- ggthemr_palette(swatch = myswatch, 
+                          gradient = mypal$darkest[c(1, 3)], 
+                          background = mypal$lightest[1],
+                          # background = &quot;#ffffff&quot;,
+                          line = c(&quot;#6e6e6e&quot;, &quot;#6e6e6e&quot;), gridline = &quot;#c3c3c3&quot;)</code></pre>
+<pre class="r"><code>?ggthemr
+mytheme &lt;- ggthemr(ggpal1, set_theme = FALSE)
+# ggthemr(ggpal1)
+
+dat2 %&gt;%
+  filter(date &gt; &quot;2017-04-01&quot;) %&gt;%
+  ggplot(aes(x = lead.ppb, y = copper.ppb, size = lead.ppb,
+             colour = as.factor(pblow), fill = as.factor(culow))) +
+  mytheme$theme +
+  mytheme$scales$scale_colour_discrete() +
+  mytheme$scales$scale_fill_discrete() +
+  geom_point(shape = 21, stroke = 2) +
+  scale_x_log10(limits = xlims) + 
+  scale_y_log10(limits = ylims) +
+  scale_size_continuous(trans = &quot;sqrt&quot;)
+
+mytheme$scales$scale_colour_discrete()</code></pre>
