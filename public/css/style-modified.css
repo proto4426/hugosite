@@ -62,7 +62,7 @@ body.pushed {
   overflow-x:hidden
 }
 h1,h2,h3,h4,h5,h6 {
-  letter-spacing:-.04em;
+  letter-spacing:.01em;
   font-weight:700;
   line-height:1.45em;
   color:#4a4a4a
@@ -1602,7 +1602,7 @@ transform:translate3d(75px,0,0)
 }
 .caption {
   display:block;
-  font-family:"Lato",sans-serif;
+  font-family:"Roboto",sans-serif;
   font-size:1.3rem;
   color:#81929d;
     text-align:center;
@@ -2082,7 +2082,7 @@ a.fancybox {
 .post .post-content {
   text-rendering:optimizelegibility;
   letter-spacing:-.3px;
-  font-family:"Lato",sans-serif;
+  font-family:"Roboto",sans-serif;
   color:#5d686f;
     margin-top:20px;
   font-weight:400;
@@ -2390,7 +2390,7 @@ a.fancybox {
 .postShorten .postShorten-content,.postShorten .postShorten-excerpt {
   text-rendering:optimizelegibility;
   letter-spacing:-.3px;
-  font-family:"Lato",sans-serif;
+  font-family:"Roboto",sans-serif;
   color:#5d686f;
     font-weight:400;
   overflow:hidden;
@@ -2655,7 +2655,7 @@ a.fancybox {
   color:#1155A0!important
 }
 .font-merryweather {
-  font-family:"Lato",sans-serif
+  font-family:"Roboto",sans-serif
 }
 .tooltip,[data-tooltip] {
   position:relative;
@@ -3179,7 +3179,7 @@ code {
   color:#0086b3
 }
 .codeblock.yml .line .attr,figure.highlight.yml .line .attr {
-  color:#63a35c
+  color:#63a35c 
 }
 .codeblock.yml .line,.codeblock.yml .literal,.codeblock.yml .meta,.codeblock.yml .string,.codeblock.yml .type,figure.highlight.yml .line,figure.highlight.yml .literal,figure.highlight.yml .meta,figure.highlight.yml .string,figure.highlight.yml .type {
   color:#183691
@@ -3189,11 +3189,18 @@ code {
 }
 
 @font-face {
-  font-family: 'Old Standard TT';
+  font-family: 'Domine';
   font-style: normal;
   font-weight: 400;
-  src: local('OldStandard-Regular.ttf'),
-       url('../fonts/OldStandard-Regular.ttf') format('truetype');
+  src: local('Domine-Regular'),
+       url('../fonts/Domine-Regular.ttf') format('truetype');
+}
+@font-face {
+  font-family: 'Montserrat';
+  font-style: normal;
+  font-weight: 400;
+  src: local('Montserrat-Regular'),
+       url('../fonts/Montserrat-Regular.ttf') format('truetype');
 }
 @font-face {
   font-family: 'Cutive Mono';
@@ -3201,6 +3208,13 @@ code {
   font-weight: 400;
   src: local('CutiveMono'),
        url('../fonts/CutiveMono-Regular.ttf') format('truetype');
+}
+@font-face {
+  font-family: 'Roboto';
+  font-style: normal;
+  font-weight: 400;
+  src: local('Roboto-Regular'),
+       url('../fonts/Roboto-Regular.ttf') format('truetype');
 }
 @font-face {
   font-family: 'Lato';
@@ -3211,9 +3225,9 @@ code {
        url('../fonts/lato-v11-latin-regular.woff') format('woff');
 }
 body {
-  font-family: 'Lato', sans-serif;
+  font-family: 'Roboto', sans-serif;
 }
 h1, h2, h3, h4, h5, h6, .nav, .article-duration, .archive-item-link, .footer {
-  font-family: 'Old Standard TT', serif;
+  font-family: 'Domine', serif;
 }
 

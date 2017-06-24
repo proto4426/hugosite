@@ -1,0 +1,94 @@
+---
+title: Trying out ggthemr
+author: Mark Hagemann
+date: '2017-06-16'
+slug: trying-out-ggthemr
+categories:
+  - R
+tags:
+  - learnbyexample
+draft: true
+---
+
+```{r setup, include=FALSE}
+library(knitr)
+opts_chunk$set(eval = FALSE)
+```
+
+I want my ggplots to looke like the color palette I've chosen as my own (big shoutout to [Paletton](http://paletton.com) for helping me with this). I'm going to use the ggthemr package to do this.
+
+```{r}
+devtools::install_github("cttobin/ggthemr")
+library(ggthemr)
+
+?ggthemr::define_palette
+?ggthemr_palette
+?ggthemr
+
+
+```
+
+OK I think I'm getting this. My colors are as follows:
+
+```{r}
+mypal <- read.csv("~/Pictures/brand/palette_lighter.csv", 
+                  stringsAsFactors = FALSE)
+
+
+difs <- cumsum(rep(c(120, 150, 150), 4))
+angs <- (210 + c(0, difs)) %% 360
+angs <- unique(angs)
+# angs <- seq(from = 210, by = 120, length.out = 13) %% 360
+ords <- match(angs, mypal$angle)
+
+myswatch <- c("#7d7d7d", mypal$darkest[ords])
+barplot(rep(1, length(myswatch)), col = myswatch)
+barplot(rep(1, 2), col = mypal$darkest[c(1, 3)])
+
+ggpal1 <- ggthemr_palette(swatch = myswatch,
+                          gradient = mypal$darkest[c(1, 3)],
+                          # background = mypal$lightest[1],
+                          background = "#ffffff",
+                          line = c("#6e6e6e", "#6e6e6e"), gridline = "#c3c3c3")
+```
+
+
+```{r}
+?ggthemr
+mytheme <- ggthemr(ggpal1, set_theme = FALSE)
+# ggthemr(ggpal1)
+
+ggplot(diamonds, aes(x=carat, y=price, color=clarity)) + 
+  geom_point() +
+  mytheme$theme +
+  mytheme$scales$scale_colour_discrete()
+
+```
+
+Actually I think I need to be more deliberate about choosing a color scale (swatch). 
+
+I'm going to try using the colorspace package to do this. 
+
+I want my workflow to be:
+
+1. Choose a color, possibly as a 6-digit hex. 
+2. Convert to hsl/hsv
+3. Select colors from different angles (hues) of the current saturation and lightness. 
+4. Return a swatch with these colors.
+
+
+
+```{r}
+library(colorspace)
+
+colorspace::choose_palette()
+myrgb <- colorspace::hex2RGB(mypal$darkest[1])
+as(myrgb, "polarLUV")
+
+
+```
+
+Actually, after reading some on SO about this, it seems that
+
+- [colors should actually be relatively close to each other in color space](https://stackoverflow.com/a/1168411/3700000)
+- 
