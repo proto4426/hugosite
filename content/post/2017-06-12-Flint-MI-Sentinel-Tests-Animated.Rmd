@@ -15,7 +15,7 @@ output:
   blogdown::html_page:
     toc: yes
     toc_maxdepth: 3
-thumbnail: /img/flint_thumb.gif
+thumbnailImage: '/img/flint_thumb.gif'
 ---
 
 ```{r, echo=FALSE, message = FALSE, warning = FALSE}
