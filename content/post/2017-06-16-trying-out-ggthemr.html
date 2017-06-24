@@ -1,0 +1,183 @@
+---
+title: Trying out ggthemr
+author: Mark Hagemann
+date: '2017-06-16'
+slug: trying-out-ggthemr
+categories:
+  - R
+tags:
+  - learnbyexample
+draft: true
+---
+
+
+
+<p>I want my ggplots to looke like the color palette I’ve chosen as my own (big shoutout to <a href="http://paletton.com">Paletton</a> for helping me with this). I’m going to use the ggthemr package to do this.</p>
+<pre class="r"><code>devtools::install_github(&quot;cttobin/ggthemr&quot;)
+library(ggthemr)
+
+?ggthemr::define_palette
+?ggthemr_palette
+?ggthemr</code></pre>
+<p>OK I think I’m getting this. My colors are as follows:</p>
+<pre class="r"><code>mypal &lt;- read.csv(&quot;data/palette_lighter.csv&quot;, 
+                  stringsAsFactors = FALSE)
+
+
+difs &lt;- cumsum(rep(c(120, 150, 150), 4))
+angs &lt;- (210 + c(0, difs)) %% 360
+angs &lt;- unique(angs)
+# angs &lt;- seq(from = 210, by = 120, length.out = 13) %% 360
+ords &lt;- match(angs, mypal$angle)
+
+myswatch &lt;- c(&quot;#7d7d7d&quot;, mypal$darkest[ords])
+barplot(rep(1, length(myswatch)), col = myswatch)</code></pre>
+<p><img src="/post/2017-06-16-trying-out-ggthemr_files/figure-html/unnamed-chunk-2-1.png" width="672" /></p>
+<pre class="r"><code>barplot(rep(1, 2), col = mypal$darkest[c(1, 3)])</code></pre>
+<p><img src="/post/2017-06-16-trying-out-ggthemr_files/figure-html/unnamed-chunk-2-2.png" width="672" /></p>
+<pre class="r"><code>ggpal1 &lt;- ggthemr_palette(swatch = myswatch,
+                          gradient = mypal$darkest[c(1, 3)],
+                          # background = mypal$lightest[1],
+                          background = &quot;#ffffff&quot;,
+                          line = c(&quot;#6e6e6e&quot;, &quot;#6e6e6e&quot;), gridline = &quot;#c3c3c3&quot;)</code></pre>
+<pre class="r"><code>?ggthemr
+mytheme &lt;- ggthemr(ggpal1, set_theme = FALSE)
+# ggthemr(ggpal1)
+
+ggplot(diamonds, aes(x=carat, y=price, color=clarity)) + 
+  geom_point() +
+  mytheme$theme +
+  # mytheme$scales$scale_colour_discrete()
+  mytheme$scales$scale_colour_discrete()</code></pre>
+<p><img src="/post/2017-06-16-trying-out-ggthemr_files/figure-html/unnamed-chunk-3-1.png" width="672" /></p>
+<pre class="r"><code>ggplot(diamonds, aes(x=carat, y=price, color=as.numeric(as.factor(clarity)))) + 
+  geom_point() +
+  mytheme$theme +
+  # mytheme$scales$scale_colour_discrete()
+  mytheme$scales$scale_colour_gradient()</code></pre>
+<p><img src="/post/2017-06-16-trying-out-ggthemr_files/figure-html/unnamed-chunk-3-2.png" width="672" /></p>
+<p>Actually I think I need to be more deliberate about choosing a color scale (swatch).</p>
+<p>I’m going to try using the colorspace package to do this.</p>
+<p>I want my workflow to be:</p>
+<ol style="list-style-type: decimal">
+<li>Choose a color, possibly as a 6-digit hex.</li>
+<li>Convert to hsl/hsv</li>
+<li>Select colors from different angles (hues) of the current saturation and lightness.</li>
+</ol>
+<pre class="r"><code>library(colorspace)</code></pre>
+<pre><code>## Loading required package: methods</code></pre>
+<pre class="r"><code>myrgb &lt;- colorspace::hex2RGB(mypal$darkest[1])
+mylch &lt;- as(myrgb, &quot;polarLUV&quot;)
+mylch</code></pre>
+<pre><code>##             L        C        H
+## [1,] 58.73868 137.3408 20.87726</code></pre>
+<p>Unfortunately, there doesn’t seem to be a good way to go from hex to hsv/hsl in R. Instead, I can go from hex to LCH, which according to <a href="https://en.wikipedia.org/wiki/List_of_color_spaces_and_their_uses#CIELChab_and_CIELChuv">Wikipedia</a> is similar, but uses <strong>C</strong>hroma (“relative saturation”) instead of <strong>S</strong>aturation. I’m fine with this, but I do begrudge the difference in acronym ordering. What does it look like when I take different H values with the same L and C?</p>
+<pre class="r"><code>class(mylch)</code></pre>
+<pre><code>## [1] &quot;polarLUV&quot;
+## attr(,&quot;package&quot;)
+## [1] &quot;colorspace&quot;</code></pre>
+<pre class="r"><code>?polarLUV</code></pre>
+<ul>
+<li>A <a href="https://stackoverflow.com/a/1168411/3700000">different SO thread</a> pointsout that it might be best to use colors that are <em>closer</em> together in color space.</li>
+<li>A <a href="http://tools.medialab.sciences-po.fr/iwanthue/">nice applet</a> implements this idea, specially geared toward data scientists.</li>
+</ul>
+<p>I’m going to try just using my original palette and selecting different shades, including gray, to get enough.</p>
+<pre class="r"><code>myswatch2 &lt;- c(mypal$darkest[1:4], &quot;#7d7d7d&quot;, mypal$lighter[1:4])
+barplot(rep(1, length(myswatch2)), col = myswatch2)</code></pre>
+<p><img src="/post/2017-06-16-trying-out-ggthemr_files/figure-html/unnamed-chunk-6-1.png" width="672" /></p>
+<pre class="r"><code>barplot(rep(1, 2), col = mypal$darkest[c(1, 3)])</code></pre>
+<p><img src="/post/2017-06-16-trying-out-ggthemr_files/figure-html/unnamed-chunk-6-2.png" width="672" /></p>
+<pre class="r"><code>ggpal2 &lt;- ggthemr_palette(swatch = myswatch2,
+                          gradient = mypal$darkest[c(1, 3)],
+                          # background = mypal$lightest[1],
+                          background = &quot;#dddddd&quot;,
+                          line = c(&quot;#6e6e6e&quot;, &quot;#6e6e6e&quot;), gridline = &quot;#c3c3c3&quot;)</code></pre>
+<p>How’s it look?</p>
+<pre class="r"><code>mytheme2 &lt;- ggthemr(ggpal2, set_theme = FALSE)
+# ggthemr(ggpal1)
+
+ggplot(diamonds, aes(x=carat, y=price, color=clarity)) + 
+  geom_point() +
+  mytheme2$theme +
+  # mytheme$scales$scale_colour_discrete()
+  mytheme2$scales$scale_colour_discrete()</code></pre>
+<p><img src="/post/2017-06-16-trying-out-ggthemr_files/figure-html/unnamed-chunk-7-1.png" width="672" /></p>
+<p>Let’s try a darker one.</p>
+<pre class="r"><code>myswatch3 &lt;- c(mypal$lightest[1:4], &quot;#000000&quot;, mypal$mid[1:4])
+barplot(rep(1, length(myswatch3)), col = myswatch3)</code></pre>
+<p><img src="/post/2017-06-16-trying-out-ggthemr_files/figure-html/unnamed-chunk-8-1.png" width="672" /></p>
+<pre class="r"><code>barplot(rep(1, 2), col = mypal$lightest[c(1, 3)])</code></pre>
+<p><img src="/post/2017-06-16-trying-out-ggthemr_files/figure-html/unnamed-chunk-8-2.png" width="672" /></p>
+<pre class="r"><code>ggpal3 &lt;- ggthemr_palette(swatch = myswatch3,
+                          gradient = mypal$darkest[c(1, 3)],
+                          # background = mypal$lightest[1],
+                          background = &quot;#555555&quot;,
+                          line = c(&quot;#6e6e6e&quot;, &quot;#6e6e6e&quot;), gridline = &quot;#c3c3c3&quot;)
+mytheme3 &lt;- ggthemr(ggpal3, set_theme = FALSE)
+# ggthemr(ggpal1)
+
+ggplot(diamonds, aes(x=carat, y=price, color=clarity)) + 
+  geom_point() +
+  mytheme3$theme +
+  # mytheme$scales$scale_colour_discrete()
+  mytheme3$scales$scale_colour_discrete()</code></pre>
+<p><img src="/post/2017-06-16-trying-out-ggthemr_files/figure-html/unnamed-chunk-8-3.png" width="672" /></p>
+<p>I’m not crazy about the light on dark. I think it needs to be darker on dark. I’m going to play around and see what comes out.</p>
+<p>But for now I need to see why the background only applies to the plot. … OK, I need to set <code>type=&quot;outer&quot;</code> for this to happen.</p>
+<pre class="r"><code>myswatch3 &lt;- c(mypal$lightest[1:4], &quot;#000000&quot;, mypal$mid[1:4])
+barplot(rep(1, length(myswatch3)), col = myswatch3)</code></pre>
+<p><img src="/post/2017-06-16-trying-out-ggthemr_files/figure-html/unnamed-chunk-9-1.png" width="672" /></p>
+<pre class="r"><code>barplot(rep(1, 2), col = mypal$lightest[c(1, 3)])</code></pre>
+<p><img src="/post/2017-06-16-trying-out-ggthemr_files/figure-html/unnamed-chunk-9-2.png" width="672" /></p>
+<pre class="r"><code>ggpal3 &lt;- ggthemr_palette(swatch = myswatch3,
+                          gradient = mypal$darkest[c(1, 3)],
+                          # background = mypal$lightest[1],
+                          background = &quot;#555555&quot;,
+                          line = c(&quot;#6e6e6e&quot;, &quot;#6e6e6e&quot;), 
+                          gridline = &quot;#c3c3c3&quot;, text = &quot;#c3c3c3&quot;)</code></pre>
+<pre><code>## Warning: You should supply a vector of length two for the text colour. The
+## first element being the colour used for plots of type &quot;inner&quot;. The second
+## when for plots of type &quot;outer&quot;.</code></pre>
+<pre class="r"><code>mytheme3 &lt;- ggthemr(ggpal3, set_theme = FALSE, type = &quot;outer&quot;)
+# ggthemr(ggpal1)
+
+ggplot(diamonds, aes(x=carat, y=price, color=clarity)) + 
+  geom_point() +
+  mytheme3$theme +
+  # mytheme$scales$scale_colour_discrete()
+  mytheme3$scales$scale_colour_discrete()</code></pre>
+<p><img src="/post/2017-06-16-trying-out-ggthemr_files/figure-html/unnamed-chunk-9-3.png" width="672" /></p>
+<p>That’s fine for now.</p>
+<p>The next thing that’s missing is <em>font</em>. I had tried to mess with this before, and what I remember is:</p>
+<ul>
+<li>It’s fairly easy to change in raster (png, etc.) devices with ggplot.</li>
+<li>It’s absurdly difficult to change with the postscript device.</li>
+</ul>
+<p>Here goes!</p>
+<ul>
+<li><a href="http://www.cookbook-r.com/Graphs/Fonts/">This resource is good</a></li>
+</ul>
+<pre class="r"><code>ggplot(diamonds, aes(x=carat, y=price, color=clarity)) + 
+  geom_point() +
+  mytheme3$theme +
+  # mytheme$scales$scale_colour_discrete()
+  mytheme3$scales$scale_colour_discrete() +
+  ggtitle(&quot;This is the plot title. Lorem ipsum et cetera&quot;) +
+  theme(text = element_text(family = &quot;CutiveMono&quot;), 
+        plot.title=element_text(family = &quot;Lato&quot;, face = &quot;plain&quot;, size = 20))</code></pre>
+<p><img src="/post/2017-06-16-trying-out-ggthemr_files/figure-html/unnamed-chunk-10-1.png" width="672" /></p>
+<p>Cool! Next I want to play around with a different package, <a href="https://github.com/leeper/colourlovers">colourlovers</a>, which provides access to the <a href="http://www.colourlovers.com/">COLOURlovers</a> API.</p>
+<pre class="r"><code>devtools::install_github(&quot;leeper/colourlovers&quot;)
+
+library(colourlovers)</code></pre>
+<p>This makes picking colors a lot more fun, since it just requires picking a palette you like from the colourlovers website.</p>
+<p>I’m going with one from Adventure Time.</p>
+<pre class="r"><code>1 + 2</code></pre>
+<pre><code>## [1] 3</code></pre>
+<pre class="r"><code>ggplot(mtcars, aes(x = disp, y = mpg)) + 
+  geom_point() +
+  mytheme3$theme +
+  ggtitle(&quot;This is the plot title. Lorem ipsum et cetera&quot;) +
+  theme(text = element_text(family = &quot;CutiveMono&quot;), 
+        plot.title=element_text(family = &quot;Pieces Of Eight&quot;, face = &quot;plain&quot;, size = 20))</code></pre>
+<p><img src="/post/2017-06-16-trying-out-ggthemr_files/figure-html/unnamed-chunk-12-1.png" width="672" /></p>

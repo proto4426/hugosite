@@ -459,6 +459,25 @@
           <div class="media">
             
             <div class="media-body">
+              <a class="link-unstyled" href="../2017/06/16/trying-out-ggthemr/">
+                <h3 class="media-heading">Trying out ggthemr</h3>
+              </a>
+              <span class="media-meta">
+                <span class="media-date text-small">
+                  Jun 6, 2017
+                </span>
+              </span>
+              <div class="media-content hide-xs font-merryweather">I want my ggplots to looke like the color palette I’ve chosen as my own (big shoutout to Paletton for helping me with this). I’m going to use the ggthemr package to do this.
+devtools::install_github(&quot;cttobin/ggthemr&quot;) library(ggthemr) ?ggthemr::define_palette ?ggthemr_palette ?ggthemr OK I think I’m getting this. My colors are as follows:
+mypal &lt;- read.csv(&quot;data/palette_lighter.csv&quot;, stringsAsFactors = FALSE) difs &lt;- cumsum(rep(c(120, 150, 150), 4)) angs &lt;- (210 + c(0, difs)) %% 360 angs &lt;- unique(angs) # angs &lt;- seq(from = 210, by = 120, length.</div>
+            </div>
+            <div style="clear:both;"></div>
+            <hr>
+          </div>
+        
+          <div class="media">
+            
+            <div class="media-body">
               <a class="link-unstyled" href="../2017/06/15/migrating-to-blogdown-hugo/">
                 <h3 class="media-heading">Migrating to Blogdown-Hugo</h3>
               </a>
@@ -616,26 +635,6 @@ Also, I changed the theme. The last one wasn’t doing it for me. I like this on
             <hr>
           </div>
         
-          <div class="media">
-            
-            <div class="media-body">
-              <a class="link-unstyled" href="../2015/07/03/odsc2015/">
-                <h3 class="media-heading">ODSC2015</h3>
-              </a>
-              <span class="media-meta">
-                <span class="media-date text-small">
-                  Jul 7, 2015
-                </span>
-              </span>
-              <div class="media-content hide-xs font-merryweather">I’m on a train back from Boston after attending the 2015 Open Data Science Conference. Two days of serious nerding out among afficionados of open-source software like R and Python. Herein I give some highlights. Notes from talks and workshops I attended are here
-Train from boston
- Some main points:
- Data scientists do a lot of different things, and it’s still not clear what the job title refers to.</div>
-            </div>
-            <div style="clear:both;"></div>
-            <hr>
-          </div>
-        
       </div>
     </div>
     <div class="modal-footer">
@@ -643,7 +642,7 @@ Train from boston
          data-message-zero="no post found"
          data-message-one="1 post found"
          data-message-other="{n} posts found">
-         23 posts found
+         24 posts found
       </p>
     </div>
   </div>
