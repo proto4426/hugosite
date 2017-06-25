@@ -6,21 +6,10 @@
     <description>Recent content in Posts on Mark Hagemann</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Fri, 16 Jun 2017 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Thu, 15 Jun 2017 00:00:00 +0000</lastBuildDate>
     
 	<atom:link href="/post/index.xml" rel="self" type="application/rss+xml" />
     
-    
-    <item>
-      <title>Trying out ggthemr</title>
-      <link>/2017/06/16/trying-out-ggthemr/</link>
-      <pubDate>Fri, 16 Jun 2017 00:00:00 +0000</pubDate>
-      
-      <guid>/2017/06/16/trying-out-ggthemr/</guid>
-      <description>I want my ggplots to looke like the color palette I’ve chosen as my own (big shoutout to Paletton for helping me with this). I’m going to use the ggthemr package to do this.
-devtools::install_github(&amp;quot;cttobin/ggthemr&amp;quot;) library(ggthemr) ?ggthemr::define_palette ?ggthemr_palette ?ggthemr OK I think I’m getting this. My colors are as follows:
-mypal &amp;lt;- read.csv(&amp;quot;data/palette_lighter.csv&amp;quot;, stringsAsFactors = FALSE) difs &amp;lt;- cumsum(rep(c(120, 150, 150), 4)) angs &amp;lt;- (210 + c(0, difs)) %% 360 angs &amp;lt;- unique(angs) # angs &amp;lt;- seq(from = 210, by = 120, length.</description>
-    </item>
     
     <item>
       <title>Migrating to Blogdown-Hugo</title>

@@ -30,6 +30,7 @@ library(tweenr)
 library(dplyr)
 
 opts_chunk$set(echo = TRUE, eval = TRUE, message = FALSE, warning = FALSE)
+
 ```
 
 ### Motivation
